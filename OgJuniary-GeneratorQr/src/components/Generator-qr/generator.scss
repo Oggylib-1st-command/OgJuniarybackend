@@ -1,0 +1,16 @@
+.container__generator {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 260px;
+  margin: 0 auto;
+}
+.form {
+  &__qr {
+    margin-top: 35px;
+  }
+  &__download-qr {
+    padding: 5px;
+    width: 100%;
+  }
+}

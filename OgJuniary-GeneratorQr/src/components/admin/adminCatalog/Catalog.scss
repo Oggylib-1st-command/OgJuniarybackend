@@ -1,0 +1,13 @@
+.admin-catalog {
+  &__inner {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+    background-color: white;
+    max-height: 1890px;
+    width: 95vw;
+    height: 1890px;
+    margin: 40px auto;
+  }
+}

@@ -1,0 +1,82 @@
+.card {
+  hr {
+    width: 100%;
+    border: 1px solid #fff;
+  }
+  &__inner {
+    display: flex;
+    padding: 21px 10px 12px 19px;
+    justify-content: space-between;
+  }
+  &__img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: auto;
+    margin-left: 10px;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 19px;
+    margin-right: auto;
+    max-width: 298px;
+    width: 100%;
+  }
+  &__list-item {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &-title {
+    color: #000000;
+  }
+  &-author {
+    color: #646464;
+  }
+  &__list-item + .card__list-item {
+    margin-top: 30px;
+  }
+  &__response {
+    display: flex;
+    align-items: center;
+    margin: 20px 0 10px;
+  }
+  &__heart {
+    background-image: url("./../../assets/icons/main/Card/Heart-Card.svg");
+    background-size: contain;
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+    transition: all 0.3s;
+    &:hover {
+      background-image: url("./../../assets/icons/main/Card/Heart-Card-active.svg");
+      background-size: contain;
+    }
+  }
+  &__btn {
+    padding: 8px 26px;
+    background: #fff343;
+    border-radius: 5px;
+    border-color: transparent;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    cursor: pointer;
+  }
+}

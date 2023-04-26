@@ -1,0 +1,189 @@
+.search {
+  &__content {
+    max-width: 1050px;
+    width: 100%;
+    margin: 0 0 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  &__add-books {
+    margin-left: 60px;
+  }
+}
+
+.add {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 34px 25px 0 25px;
+    min-height: 100vh;
+  }
+  &__info {
+    margin-top: 34px;
+    background-color: #fff;
+    max-width: 1400px;
+    width: 100%;
+    min-height: 100vh;
+  }
+  &__wrap {
+    background: #ffffff;
+    max-width: 1200px;
+    width: 100%;
+    height: 600px;
+    margin: 0 auto;
+    height: auto;
+    padding: 48px 0 75px 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__download {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__download-canvas,
+  &__download-img {
+    background: #d9d9d9;
+    max-width: 400px;
+    width: 100%;
+    height: 600px;
+    margin-bottom: 14px;
+  }
+  &__download-img {
+    background-color: transparent;
+    object-fit: contain;
+  }
+  &__download-btn,
+  &__save,
+  &__cancel {
+    background: #d9d9d9;
+    border-radius: 5px;
+    padding: 5px 58px;
+    outline: none;
+    border-color: transparent;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    cursor: pointer;
+    &:hover {
+      transition: all 0.3s;
+      background-color: #9c9c9c;
+    }
+  }
+  &__download-btn {
+    position: relative;
+  }
+  &__save,
+  &__cancel {
+    padding: 5px 75px;
+    margin-right: 10px;
+  }
+}
+
+.input__file {
+  content: "";
+  display: block;
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.add__creation {
+  margin-left: 40px;
+  margin-right: auto;
+  max-width: 700px;
+  width: 100%;
+  &-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  &-title {
+    max-width: 573px;
+    width: 100%;
+    height: 40px;
+    background: #ffffff;
+    border: 1px solid #9d9d9d;
+    border-radius: 10px;
+    outline: none;
+    padding: 5px;
+    margin-bottom: 12px;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+  }
+  &-author,
+  &-year {
+    margin-bottom: 13px;
+    margin-left: 2px;
+    max-width: 150px;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #9d9d9d;
+    border-radius: 5px;
+    outline: none;
+  }
+  &-year {
+    max-width: 45px;
+    margin-bottom: 21px;
+  }
+  &-rating {
+    margin-bottom: 18px;
+  }
+  &-description {
+    background: #ffffff;
+    border: 1px solid #9d9d9d;
+    border-radius: 10px;
+    max-width: 100%;
+    width: 100%;
+    height: 346px;
+    margin-bottom: 14px;
+    outline: none;
+    padding: 10px;
+    resize: none;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+  }
+  & label {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+.label__year,
+.label__author {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 20px;
+}
+.label__genre {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.multiselect {
+  margin-left: 10px;
+}

@@ -1,0 +1,211 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fcfeff;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.25));
+    backdrop-filter: blur(10px);
+    padding: 16px 13px 13px 10px;
+    min-width: 100%;
+  }
+}
+
+.form {
+  &__inner {
+    min-width: 303px;
+    max-width: 412px;
+    width: 90%;
+    margin: 90px 0 50px;
+    background: rgba(106, 106, 106, 0.8);
+    border-radius: 10px;
+    padding: 25px 20px;
+  }
+  &__signin {
+    display: flex;
+    flex-direction: column;
+  }
+  &__title {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 23px;
+    text-align: center;
+    margin-bottom: 37px;
+    color: #ffffff;
+  }
+  &__text {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: #000000;
+    max-width: 220px;
+  }
+  &__label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: #000000;
+    & img {
+      content: "";
+      position: absolute;
+      top: 10px;
+      z-index: 10;
+      left: 17px;
+      width: 25px;
+      height: 25px;
+    }
+  }
+  &__error {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 16px;
+    color: #ffffff;
+    margin: -15px auto 20px;
+    display: none;
+    &--active {
+      display: block;
+    }
+  }
+  &__input {
+    background: #d9d9d9;
+    border-radius: 10px;
+    background-blend-mode: overlay, normal;
+    outline: none;
+    padding: 10px 20px 10px 48px;
+    border-color: transparent;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #3c3c3c;
+    &::placeholder {
+      color: #3c3c3c;
+    }
+    &:focus {
+      border: 2px solid #fff343;
+      box-shadow: #fff343;
+    }
+  }
+  &__forgot {
+    margin-right: 0;
+    margin-left: auto;
+    margin-bottom: 24px;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      background: #000000;
+      bottom: -2px;
+      left: 0;
+    }
+    &:hover::after {
+      transition: all 0.3s;
+      width: 110px;
+    }
+  }
+  &--active {
+    animation: border-pulsate 4s ease-in-out;
+  }
+
+  &__singin-btn {
+    background: #fff343;
+    border-radius: 15px;
+    outline: none;
+    border-color: transparent;
+    padding: 7px 0;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 27px;
+    color: #000000;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  &__subtext {
+    max-width: 303px;
+    margin: 15px auto;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: #ffffff;
+  }
+  &__google-btn {
+    margin: 0 auto;
+    outline: none;
+    padding: 9px 0 9px 30px;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 27px;
+    border-color: transparent;
+    border-radius: 5px;
+    color: #3b3b3b;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    position: relative;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.google-icon {
+  content: "";
+  position: absolute;
+  left: 8px;
+  width: 29px;
+  height: 29px;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes border-pulsate {
+  0% {
+    border-color: #ed3737;
+  }
+  50% {
+    border-color: #e35555;
+  }
+  100% {
+    border-color: #df3f3f;
+  }
+}

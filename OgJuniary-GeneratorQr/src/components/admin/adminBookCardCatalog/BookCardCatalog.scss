@@ -1,0 +1,41 @@
+.book-card {
+  &__inner {
+    width: 250px;
+    height: 450px;
+    background-color: grey;
+  }
+  &__image-block {
+    margin: 13px 25px 0 25px;
+    width: 200px;
+    height: 300px;
+  }
+  &__image{
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+  }
+  &__title {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    margin: 13px 25px 0 25px;
+  }
+  &__author {
+    margin: 13px 25px 0 25px;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+  }
+  &__holder {
+    margin: 13px 25px 0 25px;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+  }
+}

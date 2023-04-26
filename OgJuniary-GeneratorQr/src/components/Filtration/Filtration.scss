@@ -1,0 +1,21 @@
+.filter {
+  &__list-item {
+    display: grid;
+    align-items: start;
+  }
+  &__checkbox {
+    display: grid;
+    align-items: start;
+    width: 100%;
+  }
+}
+
+.show__btn {
+  font-size: 1.2rem;
+  line-height: 2rem;
+  font-weight: 500;
+  transition: color 0.3s;
+  cursor: pointer;
+  color: #007aff;
+  margin-top: -5px;
+}

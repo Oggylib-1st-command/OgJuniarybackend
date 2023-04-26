@@ -1,21 +1,16 @@
 #from rest_framework import serializers
 
 from rest_framework import serializers
-from .models import Genre, Author, Book
+from .models import Genre, Book     
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ("id", "name")
-        
-class AuthorSerializer(serializers.ModelSerializer):  # Возможно пригодится позже
-    class Meta:
-        model = Author
-        fields = ("id", "name")
+        fields = "__all__"
         
 class BookSerializer(serializers.ModelSerializer):
-    genres = serializers.StringRelatedField(many=True)
+    genres = serializers.SlugRelatedField(many=True, slug_field='name', queryset = Genre.objects.all())
     class Meta:
         model = Book
-        fields = ("id", "title", "image", "author", "genres", "description", "language", "year")
+        fields = "__all__"

@@ -1,0 +1,17 @@
+.container{
+  display: flex;
+  justify-content: flex-start;
+  &__btn{
+    background-color: #000;
+    border-radius: 25px;
+    border-color: transparent;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+    padding: 15px;
+    transition: all .3s;
+    &:hover{
+      background-color: rgb(1, 134, 134);
+  }
+}
+}
