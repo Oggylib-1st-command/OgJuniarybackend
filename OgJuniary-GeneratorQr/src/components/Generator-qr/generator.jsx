@@ -20,7 +20,7 @@ function GeneratorQr() {
     <div className="container__generator">
       <QRCode
         size={256}
-        style={{ height: "260px", maxWidth: "260px", width: "100%" }}
+        style={{ height: "300px", maxWidth: "300px", width: "100%" }}
         fgColor={"#000000"}
         value={textQr}
         viewBox={`0 0 256 256`}
@@ -40,7 +40,7 @@ function GeneratorQr() {
           onClick={(e) => saveQr(e)}
           type="submit"
         >
-          Download
+          Сохранить
         </button>
       </form>
     </div>

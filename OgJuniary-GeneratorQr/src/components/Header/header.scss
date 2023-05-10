@@ -14,7 +14,6 @@
   }
   &__logo-link {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
@@ -34,12 +33,13 @@
     justify-content: space-between;
     justify-content: flex-end;
     margin-left: auto;
+    margin-right: 0;
     margin-right: 8px;
-    max-width: 500px;
+    max-width: 400px;
     position: relative;
   }
   &__form-input {
-    padding: 8px 35px 8px 6px;
+    padding: 8px 38px 8px 6px;
     outline: none;
     font-family: "Montserrat", sans-serif;
     font-style: normal;
@@ -55,7 +55,7 @@
     pointer-events: none;
     &--active {
       pointer-events: all;
-      width: 100%;
+      width: 198px;
       border: 2px solid #f8d90e;
       border-radius: 5px;
       background: #d9d9d9;
@@ -79,9 +79,4 @@
     background-color: transparent;
     cursor: pointer;
   }
-  /*&__admin-books{
-    margin-right: 70px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-  }*/
 }

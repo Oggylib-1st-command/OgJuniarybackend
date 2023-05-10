@@ -5,7 +5,7 @@ function Card(props) {
   return (
     <div className="card">
       <div className="card__inner">
-        <Link to={`/catalog/${props.titleLink}`}>
+        <Link to={`/catalog/${props.id}`}>
           <img
             className="card__img"
             src={props.image}
@@ -16,12 +16,11 @@ function Card(props) {
           <ul className="card__list">
             <Link
               className="card__list-item card-title"
-              to={`/catalog/${props.titleLink}`}
+              to={`/catalog/${props.id}`}
             >
               {props.title}
             </Link>
             <li className="card__list-item card-author">{props.author}</li>
-            {/* <li className="card__list-item card-genre">{props.genre}</li> */}
           </ul>
           <div className="card__response">
             <div className="card__heart"></div>

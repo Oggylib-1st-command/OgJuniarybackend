@@ -7,7 +7,7 @@ import Favorites from "./pages/favorites/Favorites";
 import Authorization from "./pages/authorization/Auth";
 import CatalogAdmin from "./pages/admin/adminCatalog/adminCatalog";
 import UsersAdmin from "./pages/admin/adminUsers/adminUsers";
-import AdminBook from "./pages/admin/adminBook/AdminBook";
+import AdminBook from "./pages/admin/adminBook/adminBook";
 import { AdminAddBook } from "./pages/admin/adminAddBooks/AdminAddBooks";
 import { TakenBook } from "./pages/takenBook/TakenBook";
 import NotFound from "./pages/notfound/notfound";
@@ -35,12 +35,12 @@ function App() {
             <Route path="history" element={<History />} />
             <Route path="favorites" element={<Favorites />} />
             <Route path="takenbook" element={<TakenBook />} />
-            <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
           <Route path="/admin/catalog" element={<CatalogAdmin />} />
           <Route path="/admin/users" element={<UsersAdmin />} />
           <Route path="/admin/catalog/add" element={<AdminAddBook />} />
-          <Route path="/admin/catalog/book" element={<AdminBook />} />
+          <Route path="/admin/catalog/:id" element={<AdminBook />} />
           <Route path="/login" element={<Authorization />} />
         </Routes>
       </AuthProvider>

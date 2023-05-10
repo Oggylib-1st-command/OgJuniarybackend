@@ -1,5 +1,6 @@
 .book {
   &__content {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,9 +19,8 @@
   }
   &__wrap {
     background: #ffffff;
-    max-width: 1200px;
+    max-width: 1400px;
     width: 100%;
-    margin: 0 auto;
     height: auto;
     padding: 48px 0 75px 45px;
     position: relative;
@@ -33,9 +33,17 @@
   &__canvas {
     background: #d9d9d9;
     max-width: 400px;
-    width: 400px;
+    width: 100%;
     height: 600px;
     margin-bottom: 14px;
+    &-img {
+      max-width: 400px;
+      width: 100%;
+      height: 600px;
+      margin-bottom: 14px;
+      background-color: transparent;
+      object-fit: cover;
+    }
   }
   &__but {
     display: flex;
@@ -81,7 +89,6 @@
   &-author {
     max-width: 570px;
     margin-bottom: 13px;
-    max-width: 150px;
     font-family: "Montserrat", sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -103,10 +110,20 @@
     margin-bottom: 20px;
     font-family: "Montserrat", sans-serif;
     font-style: bold;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 18px;
     line-height: 22px;
     color: #000000;
+    & span{
+      height: 48px;
+      margin-bottom: 20px;
+      font-family: "Montserrat", sans-serif;
+      font-style: bold;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      color: #000000;
+    }
   }
 
   &-description {
@@ -117,9 +134,22 @@
     margin-bottom: 14px;
     font-family: "Montserrat", sans-serif;
     font-style: bold;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 18px;
     line-height: 22px;
     color: #000000;
+    & span{
+      border-radius: 10px;
+      max-width: 100%;
+      width: 100%;
+      height: 346px;
+      margin-bottom: 14px;
+      font-family: "Montserrat", sans-serif;
+      font-style: bold;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      color: #000000;
+    }
   }
 }

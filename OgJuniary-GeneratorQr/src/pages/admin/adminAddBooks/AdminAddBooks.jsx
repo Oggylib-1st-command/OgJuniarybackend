@@ -1,30 +1,39 @@
 import Header from "../../../components/admin/adminHeader/Header";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import getImageKey from "./../../../components/getImageKey";
 import { MultiSelect } from "primereact/multiselect";
 import "./adminAddBooks.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import GeneratorQr from "../../../components/Generator-qr/generator";
+import Search from "../../../components/admin/adminSearch/Search";
+
 export const AdminAddBook = () => {
   const [options, setOptions] = useState({
-    genres: [""],
+    genres: [],
     image: "",
     title: "",
     author: "",
     year: "",
+    language: "",
     description: "",
   });
-  const [genre,setGenre] = useState();
+  const [genre, setGenre] = useState("");
+  const [languages, setLanguages] = useState("");
+  const [selectImg, setSelectImg] = useState(null);
+
   useEffect(() => {
     const getBook = async () => {
       const genna = await axios.get("http://localhost:8000/genre/");
       setGenre(genna.data);
     };
-
+    const getLanguagle = async () => {
+      const lang = await axios.get("http://localhost:8000/language/");
+      setLanguages(lang.data);
+    };
     getBook();
-  }, [genre]);
-  const [selectImg, setSelectImg] = useState(null);
+    getLanguagle();
+  }, []);
+
   const navigate = useNavigate();
   const handleCancel = () => {
     navigate(-1);
@@ -33,15 +42,19 @@ export const AdminAddBook = () => {
     const selectImg = e.target.files[0];
     setSelectImg(selectImg);
   };
+
   const handleSaveForm = (e) => {
     e.preventDefault();
+    console.log(options.genres);
     const postBook = async () => {
-      const response = await axios.post("http://127.0.0.1:8000/api/books/",options);
-      console.log(response.data);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/books/",
+        options
+      );
+      console.log(response);
+      navigate(-1);
     };
-
     postBook();
-    console.log(options);
   };
 
   useEffect(() => {
@@ -68,33 +81,30 @@ export const AdminAddBook = () => {
     };
   }, [selectImg]);
 
-  const genres = genre;
   return (
     <div>
       <Header />
       <div className="add__content">
-        <div className="search__content">
-          <label className="search__pos">
-            <img
-              className="search__logo"
-              src={getImageKey("searchIcon")}
-              alt=""
-            />
-            <input className="search__input" type="text" placeholder="Поиск" />
-          </label>
-          <button className="search__add-books">
-            <Link to="" className="search__add-link">
-              Добавить книгу
-            </Link>
-          </button>
-        </div>
+        <Search />
         <div className="add__info">
           <div className="add__wrap">
             <div className="add__download">
               {options.image ? (
                 <img className="add__download-img" src={options.image} />
               ) : (
-                <canvas className="add__download-canvas" />
+                <div className="add__download-canvas">
+                  <img
+                    className="download__bg"
+                    src={getImageKey("Download")}
+                    alt=""
+                  />
+                  <input
+                    type="file"
+                    onChange={(e) => loadImg(e)}
+                    accept=".png, .jpg, jpeg*"
+                    className="input__file"
+                  />
+                </div>
               )}
               <button className="add__download-btn">
                 <input
@@ -141,17 +151,31 @@ export const AdminAddBook = () => {
                     required
                   />
                 </label>
-                <div className="add__creation-rating">
-                  Здесь будет рейтинг, а пока нам плевать на ваше мнение
-                </div>
+                <label className="label__languagle">
+                  Язык:
+                  <MultiSelect
+                    value={options.languagle}
+                    onChange={(e) =>
+                      setOptions({ ...options, languagle: e.target.value })
+                    }
+                    options={languages}
+                    optionLabel="name"
+                    placeholder="Выберите язык"
+                    maxSelectedLabels={5}
+                    removeIcon={false}
+                    closeIcon={false}
+                    display="chip"
+                    className=" multiselect"
+                  />
+                </label>
                 <label className="label__genre">
                   Жанры:
                   <MultiSelect
-                    value={options.selectedGenres}
+                    value={options.genres}
                     onChange={(e) =>
-                      setOptions({ ...options, selectedGenres: e.target.value })
+                      setOptions({ ...options, genres: e.target.value })
                     }
-                    options={genres}
+                    options={genre}
                     optionLabel="name"
                     filter
                     placeholder="Выберите жанры"
@@ -193,7 +217,6 @@ export const AdminAddBook = () => {
           </div>
         </div>
       </div>
-      <GeneratorQr/>
     </div>
   );
 };

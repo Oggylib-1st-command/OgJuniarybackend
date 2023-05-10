@@ -7,10 +7,10 @@ from .models import Genre, Book
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = "__all__"
+        fields = ('__all__')
         
 class BookSerializer(serializers.ModelSerializer):
-    genres = serializers.SlugRelatedField(many=True, slug_field='name', queryset = Genre.objects.all())
+    genre = serializers.StringRelatedField(source='name', many=True)
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ('__all__')

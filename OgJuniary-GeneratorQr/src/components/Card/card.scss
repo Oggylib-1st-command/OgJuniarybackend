@@ -56,6 +56,8 @@
   &__heart {
     background-image: url("./../../assets/icons/main/Card/Heart-Card.svg");
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
     width: 36px;
     height: 36px;
     margin-right: 10px;
@@ -63,6 +65,8 @@
     &:hover {
       background-image: url("./../../assets/icons/main/Card/Heart-Card-active.svg");
       background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
     }
   }
   &__btn {

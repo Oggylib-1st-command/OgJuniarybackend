@@ -1,8 +1,10 @@
 .container__generator {
   display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 260px;
+  max-width: 300px;
+  min-height: 50vh;
   margin: 0 auto;
 }
 .form {
@@ -11,6 +13,14 @@
   }
   &__download-qr {
     padding: 5px;
-    width: 100%;
+    width: 203px;
+    height: 36px;
+    background-color: #D9D9D9;
+    border: none;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
   }
 }

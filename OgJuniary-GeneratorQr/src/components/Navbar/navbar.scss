@@ -4,11 +4,7 @@
   justify-content: center;
 }
 
-hr {
-  border: 1px solid #a8a8a8;
-  width: 100%;
-  margin: 0;
-}
+
 
 .menu {
   margin: 0;
@@ -19,7 +15,7 @@ hr {
     flex-direction: column;
     align-items: flex-start;
     transform: translateX(-300%);
-    top: 72px;
+    top: 64px;
     right: 0;
     position: absolute;
     width: 100%;
@@ -47,6 +43,11 @@ hr {
     & div {
       display: flex;
     }
+  }
+  & hr {
+    border: 1px solid #a8a8a8;
+    width: 100%;
+    margin: 0;
   }
   &__list-info {
     display: flex;
