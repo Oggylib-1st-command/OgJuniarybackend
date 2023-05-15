@@ -19,6 +19,7 @@ from django.urls import path, include
 from app import views
 from rest_framework import routers
 
+
 router = routers.DefaultRouter()
 router.register(r'genre', views.GenreView, 'genres')
 router.register(r'book', views.BookView, 'books')
@@ -27,6 +28,6 @@ router.register(r'book', views.BookView, 'books')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('api/books/', include('app.urls'))
-    
+    path('api/books/', include('app.urls')),
+    path('api/users/', include('app.urls')),
 ]

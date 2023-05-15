@@ -45,7 +45,10 @@ export const AdminAddBook = () => {
 
   const handleSaveForm = (e) => {
     e.preventDefault();
-    console.log(options.genres);
+    const update = options.genres.map((el) => "" + el.name);
+    console.log(update);
+    Object.assign(options.genres, update);
+    console.log(options);
     const postBook = async () => {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/books/",
