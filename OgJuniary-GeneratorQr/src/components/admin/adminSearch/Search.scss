@@ -1,13 +1,40 @@
 .search {
+  &__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__inner {
-    max-width: 1980px;
+    max-width: 1375px;
+    max-height: 1080px;
+    height: 100%;
     width: 100%;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #d9d9d9;
-    margin-top: 25px;
+    margin-top: 26px
+  }
+
+
+
+}
+
+.admin {
+  &__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+  &__add-link {
+    color: #000000;
+  }
+
+  &__logout-disable{
+    display: none;
   }
 
   &__add-books {
@@ -19,83 +46,168 @@
     background-color: #fff343;
     border: none;
     border-radius: 5px;
-    padding: 5px;
+    padding: 5px 9px 5px 9px;
     color: #000000;
-    max-width: 250px;
-    max-height: 80px;
     cursor: pointer;
     transition: background-color 0.6s;
-    margin-right: 56px;
     margin-bottom: 5px;
     &:hover {
       background-color: #f3c53f;
     }
   }
-  &__add-link {
-    color: #000000;
+
+  &__add-books-disable{
+    display: none;
   }
 }
-.admin__info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
+
 .sort {
   &__inner {
     display: flex;
     align-items: center;
-    margin-left: 41px;
   }
 
-  &__catalog {
+  &__catalog-text{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  &__sort-text{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  &__catalog-active {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
     border-radius: 5px;
     padding: 2px 5px 2px 2px;
+    cursor: pointer;
     p {
       margin-left: 3px;
     }
   }
 
-  &__sort-block {
-    margin-left: 32px;
-    position: relative;
+  &__catalog-disable{
+    display: none;
   }
+
+  &__catalog-logo{
+    max-width: 25px;
+    max-height: 25px;
+  }
+
+  &__sort-block-active {
+    display: flex;
+    margin-right: 44px;
+
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+
+  &__sort-block-disable {
+    display: none;
+  }
+
   &__sort-logo {
+    max-height: 25px;
+    max-width: 25px;
     position: absolute;
+    align-items: center;
     top: 1px;
     left: 1px;
-    pointer-events: none;
   }
+
+  &__sort-more{
+    margin-top: 5px;
+    display: flex;
+  }
+
   &__sorter {
-    width: 27px;
+    width: 24px;
     border-color: transparent;
-    height: 27px;
+    height: 24px;
     margin-right: 5px;
-    background: #ffffff;
-    border-radius: 5px;
+    background-color: transparent;
     font-family: "Montserrat", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
-    color: #ffffff;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     outline: none;
     cursor: pointer;
     transition: all 0.3s;
     appearance: none;
     color: #000000;
-    option {
-      font-family: "Montserrat";
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 17px;
-      letter-spacing: 0em;
-      text-align: center;
-      margin-left: 12px;
-      border-color: green;
+  }
+
+  &__sort-block-menu{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__sort-menu-active{
+    bottom: -85px;
+    padding: 11px 0 11px 0;
+    position: absolute;
+    width: 253px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 4px 6px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    transform: scale(100%);
+    transition: 0.3s;
+  }
+
+  &__sort-menu-inner{
+    li{
+      cursor: pointer;
+      transition: 0.3s;
     }
+
+    li:hover{
+      color: #f3c53f;
+    }
+
+    li:not(:last-child) {
+      margin-bottom: 15px;
+      }
+  }
+
+  &__sort-menu-disactive{
+    bottom: -85px;
+    padding: 11px 0 11px 0;
+    position: absolute;
+    width: 253px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 4px 6px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    transform: scale(0%);
+    transition: 0.3s;
   }
 }

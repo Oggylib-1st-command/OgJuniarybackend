@@ -4,7 +4,7 @@ import Users from "../../../components/admin/adminUsers/Users";
 function adminUsers() {
   return (
     <div>
-      <Header />
+      <Header HeaderChoiceUser={true} HeaderChoiceBook={false} />
       <Users />
     </div>
   );

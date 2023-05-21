@@ -1,13 +1,18 @@
 .admin-catalog {
   &__inner {
-    padding: 10px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 20px;
-    background-color: white;
+    grid-template-columns: repeat(5, 0fr);
+    gap: 20px 30px;
+    align-items: center;
     max-height: 1890px;
     width: 95vw;
-    height: 1890px;
     margin: 40px auto;
   }
+}
+
+.paggination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
 }

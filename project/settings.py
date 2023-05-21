@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'app',
 ]
 
+AUTH_USER_MODEL = 'app.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -100,7 +101,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'base1',
+        'NAME': 'data',
         'USER': 'prot1',
         'PASSWORD': '12345',
     }

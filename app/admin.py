@@ -7,7 +7,7 @@ from .models import Genre, Book, User
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     """челы"""
-    list_display = ("id", "email", "name", "surname",) 
+    list_display = ("id", "email", "name",) 
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):

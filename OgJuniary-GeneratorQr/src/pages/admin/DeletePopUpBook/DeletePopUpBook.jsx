@@ -1,18 +1,14 @@
+import axios from "axios";
 import "./DeletePopUpBook.scss";
 import React from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function DeletePop(props) {
   const navigate = useNavigate();
-  const deleteBook = ()=>{
-    console.log(props.id);
-    const deleteBookForId = async ()=>{
-      await axios.delete(`http://127.0.0.1:8000/api/books/${props.id}`);
-      navigate(-1);
-    }
-    deleteBookForId();
-  }
+  const handleDelete = async () => {
+    await axios.delete(`http://127.0.0.1:8000/books/${props.id}`);
+    navigate(-1);
+  };
   return (
     <div
       className={
@@ -26,7 +22,9 @@ function DeletePop(props) {
       >
         <p className="DeletePop__text">Вы точно хотите удалить книгу?</p>
         <div className="DeletePop__but">
-          <button className="DeletePop__but__Yes"onClick={deleteBook}>Да</button>
+          <button className="DeletePop__but__Yes" onClick={handleDelete}>
+            Да
+          </button>
           <button className="DeletePop__but__No" onClick={props.handleClose}>
             Нет
           </button>

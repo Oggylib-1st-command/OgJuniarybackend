@@ -1,0 +1,87 @@
+.users-add {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: calc(50% - 247px);
+  margin-top: calc(50vh - 139px);
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 17px 37px 49px 19px;
+  &__title {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 10px;
+  }
+  &__email,
+  &__name,
+  &__surname {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  &__input {
+    background: #ffffff;
+    border: 1px solid #9d9d9d;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    pointer-events: all;
+    outline: none;
+    width: 360px;
+    margin-left: 10px;
+    &:focus {
+      transition: all 0.3s;
+      border-color: rgb(247, 247, 6);
+    }
+  }
+  &__btns {
+    max-width: 434px;
+    width: 100%;
+    margin: 27px auto 0;
+  }
+  &__yes-btn,
+  &__no-btn {
+    padding: 5px 55px;
+    background: #d9d9d9;
+    border-radius: 5px;
+    outline: none;
+    border-color: transparent;
+    pointer-events: all;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    &:hover {
+      transition: all 0.3s;
+      background: #afafaf;
+    }
+  }
+  &__yes-btn {
+    margin-right: 34px;
+  }
+}

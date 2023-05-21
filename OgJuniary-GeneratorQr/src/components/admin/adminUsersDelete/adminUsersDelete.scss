@@ -1,0 +1,41 @@
+.admin-users__delete-bg {
+  position: fixed;
+  top: 0;
+  background: rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+}
+.users-delete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: calc(50% - 214px);
+  margin-top: calc(50vh - 90px);
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 34px 38px 55px;
+}
+
+.users-delete__btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.users-delete__yes-btn,
+.users-delete__no-btn {
+  cursor: pointer;
+  padding: 8px 63px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  pointer-events: all;
+  &:hover {
+    transition: all 0.3s;
+    background: #d9d9d9;
+  }
+}

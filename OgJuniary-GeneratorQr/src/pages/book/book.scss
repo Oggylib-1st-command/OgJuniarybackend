@@ -30,7 +30,7 @@ hr {
 .book {
   &__img {
     width: 288px;
-    height: 382px;
+    height: 352px;
     object-fit: cover;
     background-color: #959595;
     margin-bottom: 6px;
@@ -54,6 +54,7 @@ hr {
     font-size: 14px;
     line-height: 17px;
     color: #646464;
+    margin-top: 4px;
     margin-bottom: 17px;
     max-width: 316px;
     width: 100%;
@@ -99,25 +100,19 @@ hr {
     cursor: pointer;
   }
   &__description {
+    max-width: 382px;
+    width: 100%;
+    text-align: start;
     font-family: "Montserrat", sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
     color: #000000;
-  }
-  &__table {
-    background: rgba(106, 106, 106, 0.95);
-    border-radius: 5px;
-    font-family: "Montserrat", sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
-    color: #ffffff;
-    max-width: 360px;
-    width: 100%;
-    margin-bottom: 13px;
+    & span {
+      display: block;
+      font-weight: 700;
+    }
   }
 }
 
@@ -170,20 +165,20 @@ td {
 }
 
 .table {
-  &__list-item {
-    height: 50px;
-  }
-  &__list-options {
-    padding: 6px 5px 7px 6px;
-    font-weight: 700;
-  }
   &__list-info {
-    padding: 5px;
-    max-width: 165px;
+    max-width: 385px;
     width: 100%;
-    text-align: center;
-    overflow: hidden;
-    //white-space: nowrap;
-    text-overflow: ellipsis;
+    text-align: start;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    margin-bottom: 20px;
+    & span {
+      font-weight: 700;
+      padding-right: 10px;
+    }
   }
 }

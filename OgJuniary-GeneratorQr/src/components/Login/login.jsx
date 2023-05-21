@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../useAuth";
 import getImageKey from "../getImageKey";
 import Cookies from "js-cookie";
-import { useLogin } from "../../pages/api";
+import { useLogin } from "./../../api/api";
 
 import "./login.scss";
 

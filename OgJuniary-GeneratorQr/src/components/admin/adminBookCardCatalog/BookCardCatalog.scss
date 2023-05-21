@@ -1,42 +1,72 @@
-
 .book-card {
   &__inner {
     width: 250px;
     height: 450px;
-    background-color: grey;
+    background-color: white;
   }
   &__image-block {
     margin: 13px 25px 0 25px;
     width: 200px;
     height: 300px;
   }
-  &__image{
+  &__image {
     width: 200px;
     height: 300px;
     object-fit: cover;
   }
+
+  &__title-block{
+    height: 49px;
+  }
+
+  &__author-block{
+    height: 24px;
+  }
+
+  &__holder-block{
+    height: 22px;
+  }
+
   &__title {
-    font-family: "Montserrat";
+    margin: 13px 25px 0 25px;
+    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
-    margin: 13px 25px 0 25px;
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   &__author {
     margin: 13px 25px 0 25px;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
+    color: #8D8D8D;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
   &__holder {
-    margin: 13px 25px 0 25px;
-    font-family: "Montserrat";
+    margin: 7px 25px 0 25px;
+    font-family: 'Montserrat';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 16px;
     line-height: 20px;
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 }
