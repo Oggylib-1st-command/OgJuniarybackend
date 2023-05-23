@@ -16,25 +16,33 @@
   
   &__logotipe{
     margin-left: 15px;
-    min-height: 90px;
-    min-width: 90px;
-    max-width: 90px;
-    max-width: 90px;
+    width: 70px;
+    height: 70px;
+  }
+
+  &__exit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.25);
+    width: 86px;
+    height: 100px;
+    background-color: #F85149;
+    cursor: pointer;
   }
 
   &__logo-text{
-    margin-left: 22px;
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
-    font-size: 46px;
-    line-height: 56px;
+    font-size: 36px;
+    line-height: 44px;
   }
 
 
   &__search-position{
-    width: 100%;
-    max-width: 692px;
+    max-width: 100%;
+    min-width: 47%;
     position: relative;
     justify-content: center;
     margin-left: 22px;
@@ -63,7 +71,6 @@
   }
 
   &__block-text{
-    margin-right: 18px;
     margin-left: 11px;
     max-width: 380px;
     width: 100%;

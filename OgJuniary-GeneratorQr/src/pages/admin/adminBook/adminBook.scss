@@ -5,16 +5,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 24px 25px 0 25px;
+    margin: 50px 25px 0 25px;
     min-height: 100vh;
+    height: auto;
   }
   &__info {
-    margin-top: 34px;
     background-color: #fff;
     max-width: 1400px;
     width: 100%;
     min-height: 100vh;
-    //overflow: hidden;
     text-overflow: ellipsis;
   }
   &__wrap {
@@ -42,12 +41,12 @@
   }
   &__but {
     display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     right: 0;
-    flex-direction: row-reverse;
-    margin-top: 18px;
-    margin-right: 20px;
+    margin-top: 30px;
+    margin-right: 30px;
     &__QR {
       width: 55px;
       height: 55px;
@@ -56,13 +55,13 @@
     &__trash {
       width: 55px;
       height: 55px;
-      margin-left: 40px;
+      margin-bottom: 26px;
       cursor: pointer;
     }
     &__edit {
       width: 55px;
       height: 55px;
-      margin-left: 40px;
+      margin-bottom: 26px;
       cursor: pointer;
     }
   }

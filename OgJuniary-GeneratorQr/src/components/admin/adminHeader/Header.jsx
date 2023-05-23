@@ -1,11 +1,17 @@
 import "./Header.scss";
 
+import Cookies from "js-cookie";
+import { useAuth } from "./../../useAuth";
 import getImageKey from "../../getImageKey";
-import { Link } from "react-router-dom";
-
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header({ HeaderChoiceUser, HeaderChoiceBook }) {
+  const navigate = useNavigate();
+  const { signout } = useAuth();
+  const logout = () => {
+    Cookies.remove("admin");
+    signout(() => navigate("/login", { replace: true }));
+  };
   return (
     <div className="admin-header__inner">
       <div className="admin-header__logo-text-container">
@@ -54,6 +60,9 @@ function Header({ HeaderChoiceUser, HeaderChoiceBook }) {
           Книги
         </Link>
       </label>
+      <div className="admin-header__exit" onClick={logout}>
+        <img src={getImageKey("HeaderExit")} alt="" />
+      </div>
     </div>
   );
 }

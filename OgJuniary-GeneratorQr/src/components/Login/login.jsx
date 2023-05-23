@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../useAuth";
 import getImageKey from "../getImageKey";
 import Cookies from "js-cookie";
-import { useLogin } from "./../../api/api";
+import { useLogin, useInfoUser } from "./../../api/api";
 
 import "./login.scss";
 
@@ -14,13 +14,18 @@ function Login() {
 
   const { login, user, profile } = useLogin();
   const { signin, fromPage } = useAuth();
-
+  const { infoUser } = useInfoUser();
   useEffect(() => {
+    // const tempUser =
+    //   infoUser.find((elem) => elem.email === profile.email) || [];
     if (profile.length !== 0) {
+      //tempUser.picture = profile.picture;
       Cookies.set("profile", JSON.stringify(profile), {
         expires: 7,
       });
       signin(user, () => navigate(fromPage, { replace: true }));
+    } else {
+      console.log("ОШИБКА ВХОДА");
     }
   }, [profile]);
 
@@ -39,7 +44,6 @@ function Login() {
       }, 150000);
     }
   };
-
   return (
     <div className="container">
       <div className="container__inner">

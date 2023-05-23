@@ -2,13 +2,16 @@
   &__inner {
     display: grid;
     grid-template-columns: repeat(5, 0fr);
-    gap: 20px 30px;
+    gap: 0px 30px;
+    justify-content: center;
     align-items: center;
     max-height: 1890px;
     width: 95vw;
+    height: 1890px;
     margin: 40px auto;
   }
 }
+
 
 .paggination {
   display: flex;

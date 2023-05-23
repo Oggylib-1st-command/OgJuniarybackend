@@ -1,27 +1,73 @@
 import getImageKey from "./../../../components/getImageKey";
-import { MultiSelect } from "primereact/multiselect";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import "./adminAddBook.scss";
+import { useSelector } from "react-redux";
+import { getCurrentBook } from "../../../store/books/selectors";
+import Select from "react-select";
 
 export const AdminAddBook = () => {
-  const [options, setOptions] = useState({
-    genres: [],
-    image: "",
-    title: "",
-    author: "",
-    year: "",
-    languagle: "",
-    description: "",
-  });
-  const [genre, setGenre] = useState("");
-  const [languagles, setLanguagles] = useState("");
+  const book = useSelector((state) => state.books.book);
+  const genresForSelect = [];
+  const languagesForSelect = [];
+  const defaultGenre = [];
+  const defaultLanguage = { value: "", label: "" };
+  const [options, setOptions] = useState(book);
+  const [allGenres, setGenre] = useState([]);
+  const [languagles, setLanguagles] = useState([]);
   const [selectImg, setSelectImg] = useState(null);
+  const navigate = useNavigate();
+  allGenres.map((el, index) => {
+    const obj = { value: "", label: "" };
+    obj.value = el.name;
+    obj.label = el.name;
+    genresForSelect.push(obj);
+  });
+
+  languagles.map((el, index) => {
+    const obj = { value: "", label: "" };
+    obj.value = el.name;
+    obj.label = el.name;
+    languagesForSelect.push(obj);
+  });
+
+  book.genres.map((el, index) => {
+    const obj = { value: "", label: "" };
+    obj.value = el;
+    obj.label = el;
+    defaultGenre.push(obj);
+  });
+
+  defaultLanguage.value = book.languagle;
+  defaultLanguage.label = book.languagle;
+
+  allGenres.map((el, index) => {
+    const obj = { value: "", label: "" };
+    obj.value = el.name;
+    obj.label = el.name;
+    genresForSelect.push(obj);
+  });
+
+  languagles.map((el, index) => {
+    const obj = { value: "", label: "" };
+    obj.value = el.name;
+    obj.label = el.name;
+    languagesForSelect.push(obj);
+  });
+
+  book.genres.map((el, index) => {
+    const obj = { value: "", label: "" };
+    obj.value = el.name;
+    obj.label = el.name;
+    defaultGenre.push(obj);
+  });
+
+  defaultLanguage.value = book.languagle;
+  defaultLanguage.label = book.languagle;
 
   useEffect(() => {
-    const getBook = async () => {
+    const getGenre = async () => {
       const genna = await axios.get("http://localhost:8000/genre/");
       setGenre(genna.data);
     };
@@ -29,18 +75,19 @@ export const AdminAddBook = () => {
       const lang = await axios.get("http://localhost:8000/language/");
       setLanguagles(lang.data);
     };
-    getBook();
+    getGenre();
     getLanguagle();
   }, []);
 
-  const navigate = useNavigate();
   const handleCancel = () => {
-    navigate(-1);
+    navigate(`/admin/catalog/${book.id}`);
   };
+
   const loadImg = (e) => {
     const selectImg = e.target.files[0];
     setSelectImg(selectImg);
   };
+
   useEffect(() => {
     let fileReader,
       isCancel = false;
@@ -64,20 +111,32 @@ export const AdminAddBook = () => {
       }
     };
   }, [selectImg]);
+
   const handleSaveForm = (e) => {
     e.preventDefault();
-    const update = options.genres.map((el) => "" + el.name);
-    console.log(update);
-    Object.assign(options.genres, update);
-    const postBook = async () => {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/books/",
-        options
-      );
-      console.log(response);
-      navigate(-1);
-    };
-    postBook();
+    if (options.id === 0) {
+      console.log(options);
+      const postBook = async () => {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/books/",
+          options
+        );
+        console.log(response);
+        navigate(-1);
+      };
+      postBook();
+    } else {
+      console.log(options);
+      const patchBook = async () => {
+        const response = await axios.patch(
+          `http://127.0.0.1:8000/books/${book.id}/`,
+          options
+        );
+        console.log(response);
+        navigate(`/admin/catalog/${book.id}`);
+      };
+      patchBook();
+    }
   };
 
   return (
@@ -147,37 +206,30 @@ export const AdminAddBook = () => {
           </label>
           <label className="label__languagle">
             Язык:
-            <MultiSelect
-              value={options.languagle}
-              onChange={(e) =>
-                setOptions({ ...options, languagle: e.target.value })
-              }
-              options={languagles}
-              optionLabel="name"
+            <Select
+              defaultValue={defaultLanguage}
               placeholder="Выберите язык"
-              maxSelectedLabels={5}
-              removeIcon={false}
-              closeIcon={false}
-              display="chip"
-              className=" multiselect"
+              options={languagesForSelect}
+              className="w-180 md:w-31rem multiselect"
+              onChange={(e) => setOptions({ ...options, languagle: e.value })}
             />
           </label>
           <label className="label__genre">
             Жанры:
-            <MultiSelect
-              value={options.genres}
-              onChange={(e) =>
-                setOptions({ ...options, genres: e.target.value })
-              }
-              options={genre}
-              optionLabel="name"
-              filter
+            <Select
+              closeMenuOnSelect={false}
+              defaultValue={defaultGenre}
+              isMulti
               placeholder="Выберите жанры"
-              maxSelectedLabels={10}
-              removeIcon={false}
-              closeIcon={false}
-              display="chip"
+              options={genresForSelect}
               className="w-full md:w-31rem multiselect"
+              onChange={(e) => {
+                console.log(e);
+                setOptions({
+                  ...options,
+                  genres: e.map((elem) => elem.value),
+                });
+              }}
             />
           </label>
           <label htmlFor="add__creation-description">

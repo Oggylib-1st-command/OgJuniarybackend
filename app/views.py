@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
-from app.models import Genre, Book, User
+from app.models import Genre, Book, User, Language
 from rest_framework import serializers
 from rest_framework import viewsets
-from app.serializers import GenreSerializer, BookSerializer, UserSerializer
+from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer
 
 
 from rest_framework import status, generics
@@ -12,6 +12,10 @@ import math
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
     queryset = Genre.objects.all()  
+    
+class LanguageView(viewsets.ModelViewSet):
+    serializer_class = LanguageSerializer
+    queryset = Language.objects.all() 
 
 class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer

@@ -14,16 +14,26 @@ class Genre(models.Model):
         verbose_name = "Жанр"
         verbose_name_plural = "Жанры"
         
+        
+class Language(models.Model):
+    """Язык"""
+    name = models.CharField("Язык", max_length=30, unique=True)
+    def __str__(self):
+            return self.name
+    
+    class Meta:
+            verbose_name = "Язык"
+            verbose_name_plural = "Языки"
 
 class Book(models.Model):
     """Книга"""
     #id = models.AutoField(primary_key=True)
-    title = models.CharField("Название", max_length=100, blank=True)
-    author = models.CharField("Автор", max_length=150, blank=True)
+    title = models.CharField("Название", max_length=150, blank=True)
+    author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
     genres = models.ManyToManyField('Genre', verbose_name="жанры", related_name='genres', blank=True)
-    language =  models.CharField("Язык", max_length=30, null=True, blank=True)
+    languages =  models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     
     

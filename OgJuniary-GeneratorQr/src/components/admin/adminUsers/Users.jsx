@@ -16,7 +16,6 @@ function Users() {
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.get("http://localhost:8000/users/");
-      console.log(res);
       setUser(res.data);
     };
     getUser();
@@ -26,8 +25,10 @@ function Users() {
     setUserId(id);
     console.log(userId);
     setUserDelete(!userDelete);
+    console.log("delet");
   };
   const handleAdd = (e) => {
+    e.stopPropagation();
     setUserAdd(!userAdd);
   };
   const navigate = useNavigate();
@@ -51,9 +52,6 @@ function Users() {
           <button className="admin__add-users" onClick={(e) => handleAdd(e)}>
             Добавить пользователя
           </button>
-          <p className="menu__logout admin__logout" onClick={logout}>
-            Выйти из аккаунта
-          </p>
         </div>
       </div>
       <div className="admin__users-content">

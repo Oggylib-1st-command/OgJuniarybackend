@@ -72,18 +72,3 @@ export const useInfoBook = () => {
 
   return { book };
 };
-
-export const useInfoUser = () => {
-  const [infoUser, setInfoUser] = useState([]);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const res = await axios.get("http://localhost:8000/users/");
-      setInfoUser(res.data);
-    };
-
-    getUser();
-  }, []);
-
-  return { infoUser };
-};

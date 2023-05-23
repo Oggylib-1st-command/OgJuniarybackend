@@ -27,6 +27,7 @@ const GenresCatalog = ({ active, setActive }) => {
           <div className="genres__list">
             {genre.map((target) => (
               <BlockGenres
+                key={target.id}
                 id={target.id}
                 genre={target.name}
                 clas={"genres__block"}

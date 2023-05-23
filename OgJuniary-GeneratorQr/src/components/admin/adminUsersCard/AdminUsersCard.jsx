@@ -94,26 +94,28 @@ export const AdminUsersCard = ({
               <span>{mail}</span>
             </div>
           </div>
-          <div className="users__choosen">
-            <span>
-              <Link className="users__choosen-text" to="#">
-                Перейти в “Взятые книги”
-              </Link>
-            </span>
-          </div>
           <div className="users__options">
-            <img
-              className="users__options-edit"
-              src={getImageKey("IconEdit")}
-              alt="edit icon"
-              onClick={handleEdit}
-            ></img>
-            <img
-              className="users__options-delete"
-              src={getImageKey("IconTrash")}
-              alt="delete icon"
-              onClick={() => handleDelete(id)}
-            />
+            <div className="users__choosen">
+              <span>
+                <Link className="users__choosen-text" to="#">
+                  Перейти в “Взятые книги”
+                </Link>
+              </span>
+            </div>
+            <div className="users__options-img">
+              <img
+                className="users__options-edit"
+                src={getImageKey("IconEdit")}
+                alt="edit icon"
+                onClick={handleEdit}
+              ></img>
+              <img
+                className="users__options-delete"
+                src={getImageKey("IconTrash")}
+                alt="delete icon"
+                onClick={() => handleDelete(id)}
+              />
+            </div>
           </div>
         </>
       )}

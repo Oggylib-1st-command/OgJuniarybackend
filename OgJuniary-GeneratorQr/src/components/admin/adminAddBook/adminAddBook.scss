@@ -1,11 +1,9 @@
 .add {
   &__content {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: column-reverse;
     align-items: center;
-    margin: 0 25px;
-    min-height: 100vh;
+    margin: 50px 25px 0px 25px;
   }
   &__info {
     background-color: #fff;
@@ -18,7 +16,6 @@
     padding: 48px 0 45px 45px;
     display: flex;
     justify-content: center;
-    align-items: center;
   }
   &__download {
     display: flex;
@@ -45,7 +42,7 @@
   &__download-img {
     background-color: transparent;
     object-fit: contain;
-    margin-bottom: 46px;
+    margin-bottom: 20px;
   }
   &__download-btn,
   &__save,
@@ -97,7 +94,7 @@
 }
 
 .add__creation {
-  margin-left: 40px;
+  margin-left: 30px;
   margin-right: auto;
   max-width: 700px;
   width: 100%;
@@ -115,7 +112,7 @@
     border-radius: 10px;
     outline: none;
     padding: 5px;
-    margin-bottom: 6px;
+    margin-bottom: 16px;
     font-family: "Montserrat", sans-serif;
     font-style: normal;
     font-weight: 700;
@@ -125,7 +122,7 @@
   }
   &-author,
   &-year {
-    margin-bottom: 6px;
+    margin-bottom: 16px;
     padding: 5px;
     margin-left: 5px;
     max-width: 150px;
@@ -139,10 +136,6 @@
   }
   &-year {
     max-width: 85px;
-    margin-bottom: 12px;
-  }
-  &-rating {
-    margin-bottom: 12px;
   }
   &-description {
     background: #ffffff;
@@ -150,8 +143,8 @@
     border-radius: 10px;
     max-width: 100%;
     width: 100%;
-    height: 283px;
-    margin-bottom: 8px;
+    height: 300px;
+    margin-bottom: 40px;
     outline: none;
     padding: 10px;
     resize: none;
@@ -177,10 +170,13 @@
 }
 .label__genre,
 .label__languagle {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
 }
+.label__genre{
+  margin-bottom: 20px;
+}
 .multiselect {
-  margin-left: 5px;
+  width: 180px;
 }

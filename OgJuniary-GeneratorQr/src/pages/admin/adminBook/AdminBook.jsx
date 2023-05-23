@@ -6,61 +6,33 @@ import getImageKey from "../../../components/getImageKey";
 import { Link, useParams } from "react-router-dom";
 import QrPop from "../../../components/admin/QrPopUp/QrPopUp";
 import DeletePop from "../../../components/admin/DeletePopUpBook/DeletePopUpBook";
-import { useInfoBookId } from "../../api";
 import CommentCard from "../../../components/admin/commentcard/commentcard";
 import { Pagination } from "@mui/material";
 import { Rating } from "@mui/material";
-
-const Comment = [
-  {
-    id: 1,
-    img: getImageKey("UserIcon"),
-    name: "NIKITA",
-    data: "23:23:23",
-    rating: 4,
-    text: "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-  },
-  {
-    id: 2,
-    img: getImageKey("UserIcon"),
-    name: "NIKITA",
-    data: "23:23:23",
-    rating: 1,
-    text: "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-  },
-  {
-    id: 3,
-    img: getImageKey("UserIcon"),
-    name: "NIKITA",
-    data: "23:23:23",
-    rating: 3,
-    text: "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-  },
-  {
-    id: 4,
-    img: getImageKey("UserIcon"),
-    name: "NIKITA",
-    data: "23:23:23",
-    rating: 2.5,
-    text: "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { axiosBookById, removeBook } from "../../../store/books/Slice";
+import { getCurrentBook, getStatusError } from "../../../store/books/selectors";
 
 function AdminBook() {
-  const NumberPage = localStorage.getItem("page") || 1;
+  const dispatch = useDispatch();
+  const book = useSelector((state) => state.books.book);
+  const numberPage = localStorage.getItem("page") || 1;
   const { id } = useParams();
-  const { book } = useInfoBookId(id);
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  //const [Comment] = useState([]);
-  const [currentCommentpage, setCurrentCommentpage] = useState(NumberPage);
-  const [Commentperpage] = useState(4);
+  useEffect(() => {
+    dispatch(axiosBookById(id));
+  }, [id]);
 
-  const lastCommentIndex = currentCommentpage * Commentperpage;
-  const firstCommentIndex = lastCommentIndex - Commentperpage;
-  const currentComment = Comment.slice(firstCommentIndex, lastCommentIndex);
-  const countPage = Math.ceil(Comment.length / Commentperpage);
+  const comment = book.comment || [];
+  const [currentCommentPage, setCurrentCommentpage] = useState(numberPage);
+  const [commentPerPage] = useState(4);
+
+  const lastCommentIndex = currentCommentPage * commentPerPage;
+  const firstCommentIndex = lastCommentIndex - commentPerPage;
+  const currentComment = comment.slice(firstCommentIndex, lastCommentIndex);
+  const countPage = Math.ceil(comment.length / commentPerPage);
 
   const toggleQrPopup = () => {
     setIsQrOpen(!isQrOpen);
@@ -82,7 +54,6 @@ function AdminBook() {
   return (
     <div>
       <Header />
-      <Search catalog={true} sort={false} button={true} exit={true} />
       <QrPop isActive={isQrOpen} handleClose={toggleQrPopup} />
       <DeletePop
         isActive={isDeleteOpen}
@@ -143,7 +114,7 @@ function AdminBook() {
           <div className="book__comment">
             <p className="book__comment__text"> Отзывы </p>
 
-            {Comment.length === 0 ? (
+            {comment.length === 0 ? (
               <p className="book__comment__without">
                 {" "}
                 Ещё никто не оставил отзыва{" "}
@@ -164,7 +135,7 @@ function AdminBook() {
                   <Pagination
                     count={countPage}
                     color="primary"
-                    page={currentCommentpage}
+                    page={currentCommentPage}
                     onChange={handleChange}
                   />
                 </div>

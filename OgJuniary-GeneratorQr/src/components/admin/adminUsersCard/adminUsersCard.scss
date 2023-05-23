@@ -10,7 +10,7 @@
     border-radius: 20px;
     margin-bottom: 20px;
   }
-  &__options {
+  &__options-img {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,15 +18,18 @@
     width: 100%;
     margin-right: 28px;
   }
+  &__options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 650px;
+    width: 100%;
+  }
   &__options-edit,
   &__options-delete {
     cursor: pointer;
     width: 30px;
     height: 30px;
-  }
-  &__choosen {
-    margin-right: auto;
-    margin-left: 60px;
   }
   &__choosen-text {
     font-family: "Montserrat", sans-serif;
@@ -54,6 +57,9 @@
     line-height: 20px;
     color: #000000;
     margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   }
   &__info-input {
     padding: 9px;
@@ -94,6 +100,7 @@
 
 .edit__options {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-right: 30px;
 }
@@ -101,9 +108,9 @@
 .fullname {
   & span + span {
     line-height: 24px;
+    margin-left: 5px;
   }
   & span {
-    margin-left: 5px;
     font-weight: 500;
     font-size: 20px;
   }

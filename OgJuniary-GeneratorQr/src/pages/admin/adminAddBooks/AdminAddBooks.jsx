@@ -48,7 +48,7 @@ export const AdminAddBook = () => {
     console.log(options.genres);
     const postBook = async () => {
       const response = await axios.post(
-        "http://127.0.0.1:8000/books/",
+        "http://127.0.0.1:8000/api/books/",
         options
       );
       console.log(response);

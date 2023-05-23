@@ -20,7 +20,7 @@ const CatalogAdmin = lazy(() =>
 );
 const AdminBook = lazy(() => import("./pages/admin/adminBook/adminBook"));
 const UsersAdmin = lazy(() => import("./pages/admin/adminUsers/adminUsers"));
-const AllGenres = lazy(() => import("./pages/admin/adminAllGenres/AllGenres"))
+const AllGenres = lazy(() => import("./pages/admin/adminAllGenres/AllGenres"));
 
 function App() {
   return (
@@ -82,6 +82,22 @@ function App() {
               </Suspense>
               }
             />
+          <Route
+            path="admin/catalog/:id/edit"
+            element={
+              <Suspense fallback={<p>...Loading</p>}>
+                <AdminEdit />
+              </Suspense>
+            }
+          />
+          <Route
+            path="admin/catalog/allgenres"
+            element={
+              <Suspense fallback={<p>...Loading</p>}>
+                <AllGenres />
+              </Suspense>
+            }
+          />
           <Route
             path="admin/catalog/:id/edit"
             element={

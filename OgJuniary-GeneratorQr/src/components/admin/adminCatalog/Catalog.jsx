@@ -3,9 +3,12 @@ import BookCardCatalog from "./../adminBookCardCatalog/BookCardCatalog";
 import { Pagination } from "@mui/material";
 import { useInfoBook } from "./../../../api/api";
 import { useState, useEffect } from "react";
-import { createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import MuiColor from "../../../pages/MuiColor";
 
 function Catalog() {
+  const theme = MuiColor();
   const { book } = useInfoBook();
   const NumberPage = localStorage.getItem("Page") || 1;
   const [currentPage, setCurrentPage] = useState(NumberPage);
@@ -42,13 +45,15 @@ function Catalog() {
           />
         ))}
       </div>
-      <Pagination
-        className="paggination"
-        count={countPage}
-        color="primary"
-        page={currentPage}
-        onChange={handleChange}
-      />
+      <ThemeProvider theme={theme}>
+        <Pagination
+          className="paggination"
+          count={countPage}
+          color="orange"
+          page={currentPage}
+          onChange={handleChange}
+        />
+      </ThemeProvider>
     </div>
   );
 }
