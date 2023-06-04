@@ -10,16 +10,16 @@ import MuiColor from "../../../pages/MuiColor";
 function Catalog() {
   const theme = MuiColor();
   const { book } = useInfoBook();
-  const NumberPage = localStorage.getItem("Page") || 1;
+  const NumberPage = parseInt(localStorage.getItem("page")) || 1;
   const [currentPage, setCurrentPage] = useState(NumberPage);
-  const [bookOnPage] = useState(20);
+  const bookOnPage = 20;
   const countPage = Math.ceil(book.length / bookOnPage);
   const lastBookOnPage = currentPage * bookOnPage;
   const firstBookOnPage = lastBookOnPage - bookOnPage;
 
   const handleChange = (prev, next) => {
     setCurrentPage(next);
-    localStorage.setItem("page", prev);
+    localStorage.setItem("page", next);
     window.scrollTo({
       top: 0,
       left: 0,
@@ -33,17 +33,19 @@ function Catalog() {
 
   return (
     <div>
-      <div className="admin-catalog__inner">
-        {book.slice(firstBookOnPage, lastBookOnPage).map((target) => (
-          <BookCardCatalog
-            key={target.id}
-            id={target.id}
-            title={target.title}
-            author={target.author}
-            image={target.image}
-            holder={target.holder}
-          />
-        ))}
+      <div className="admin-catalog__wrapper">
+        <div className="admin-catalog__inner">
+          {book.slice(firstBookOnPage, lastBookOnPage).map((target) => (
+            <BookCardCatalog
+              key={target.id}
+              id={target.id}
+              title={target.title}
+              author={target.author}
+              image={target.image}
+              holder={target.holder}
+            />
+          ))}
+        </div>
       </div>
       <ThemeProvider theme={theme}>
         <Pagination

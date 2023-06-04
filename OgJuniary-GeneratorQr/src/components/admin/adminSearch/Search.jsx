@@ -4,8 +4,11 @@ import getImageKey from "./../../getImageKey";
 import { useState } from "react";
 import GenresCatalog from "../adminGenresCatalog/GenresCatalog";
 import cn from "classnames";
+import { useDispatch } from "react-redux";
+import { removeBook } from "../../../store/books/Slice";
 
 function Search({ sort, catalog, button }) {
+  const dispatch = useDispatch();
   const [genresActive, setGenresActive] = useState(false);
   const [activeSortMenu, setActiveSortMenu] = useState(false);
   const [typeSort, setTypeSort] = useState("От А до Я");
@@ -82,7 +85,11 @@ function Search({ sort, catalog, button }) {
           <button
             className={button ? "admin__add-books" : "admin__add-books-disable"}
           >
-            <Link to="/admin/catalog/add" className="search__add-link">
+            <Link
+              to="/admin/catalog/add"
+              onClick={dispatch(removeBook)}
+              className="search__add-link"
+            >
               Добавить книгу
             </Link>
           </button>

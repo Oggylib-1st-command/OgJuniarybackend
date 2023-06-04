@@ -24,6 +24,16 @@ class Language(models.Model):
     class Meta:
             verbose_name = "Язык"
             verbose_name_plural = "Языки"
+            
+class Booking(models.Model):
+    """Бронь"""
+    name = models.CharField("Бронь", max_length=30, unique=True)
+    def __str__(self):
+            return self.name
+    
+    class Meta:
+            verbose_name = "Бронь"
+            verbose_name_plural = "Брони"
 
 class Book(models.Model):
     """Книга"""
@@ -33,9 +43,9 @@ class Book(models.Model):
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
     genres = models.ManyToManyField('Genre', verbose_name="жанры", related_name='genres', blank=True)
-    languages =  models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
+    languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
-    
+    bookings = models.ForeignKey('Booking', on_delete = models.CASCADE, verbose_name="id_книги", related_name='bookings', max_length=30, null=True, blank=True)
     
     #Статус бронирования
     #QR-код
@@ -43,6 +53,9 @@ class Book(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse("book_detail", kwargs={"slug": self.url})
     
     class Meta:
         verbose_name = "Книга"
@@ -75,6 +88,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
     surname = models.CharField(max_length=255, blank=True, default='')
+    
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)

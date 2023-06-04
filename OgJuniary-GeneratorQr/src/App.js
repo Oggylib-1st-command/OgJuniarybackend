@@ -65,7 +65,14 @@ function App() {
               </Suspense>
             }
           />
-          <Route path="admin/catalog/add" element={<AdminAdd />} />
+          <Route
+            path="admin/catalog/add"
+            element={
+              <Suspense fallback={<p>...Loading</p>}>
+                <AdminAdd />
+              </Suspense>
+            } 
+          />
           <Route
             path="admin/catalog/:id"
             element={

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
-from app.models import Genre, Book, User, Language
+from app.models import Genre, Book, User, Language, Booking
 from rest_framework import serializers
-from rest_framework import viewsets
-from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer
-
+from rest_framework import mixins, viewsets
+from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, BookingSerializer
+from django.views.generic import ListView, DetailView
 
 from rest_framework import status, generics
 import math
@@ -16,11 +16,14 @@ class GenreView(viewsets.ModelViewSet):
 class LanguageView(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
     queryset = Language.objects.all() 
+    
+class BookingView(viewsets.ModelViewSet):
+    serializer_class = BookingSerializer
+    queryset = Booking.objects.all()     
 
 class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-    
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -148,5 +151,8 @@ class BookDetail(viewsets.ModelViewSet):
 
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
 
 # Create your views her

@@ -69,9 +69,33 @@
       background-position: center center;
     }
   }
+  &__heart_active {
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+    transition: all 0.3s;
+    background-image: url("./../../assets/icons/main/Card/Heart-Card-active.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
   &__btn {
     padding: 8px 26px;
     background: #fff343;
+    border-radius: 5px;
+    border-color: transparent;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    cursor: pointer;
+  }
+  &__btn_active {
+    padding: 8px 26px;
+    background: #646464;
     border-radius: 5px;
     border-color: transparent;
     outline: none;

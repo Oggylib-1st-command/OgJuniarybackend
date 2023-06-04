@@ -31,7 +31,7 @@ const bookSlice = createSlice({
       title: "",
       author: "",
       year: "",
-      languagle: "",
+      language: "",
       description: "",
     },
   },
@@ -48,7 +48,7 @@ const bookSlice = createSlice({
         title: "",
         author: "",
         year: "",
-        languagle: "",
+        language: "",
         description: "",
       };
     },

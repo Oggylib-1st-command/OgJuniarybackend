@@ -23,11 +23,15 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'genre', views.GenreView, 'genres')
 router.register(r'language', views.LanguageView, 'languages')
-router.register(r'book', views.BookView, 'books')
+router.register(r'booking', views.BookingView, 'Bookings')
+router.register(r'book', views.BookView, 'book  ')
 router.register(r'users', views.UserView, 'userss')
-router.register(r'books', views.BooksView, 'bookss')
+router.register(r'books', views.BooksView, 'books')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+
+
 ]

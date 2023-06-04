@@ -1,23 +1,28 @@
 import getImageKey from "./../../../components/getImageKey";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./adminAddBook.scss";
-import { useSelector } from "react-redux";
 import { getCurrentBook } from "../../../store/books/selectors";
 import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { axiosBookById } from "../../../store/books/Slice";
+import { useParams } from "react-router-dom";
 
 export const AdminAddBook = () => {
+  const dispatch = useDispatch();
   const book = useSelector((state) => state.books.book);
   const genresForSelect = [];
   const languagesForSelect = [];
+  const { id } = useParams();
   const defaultGenre = [];
   const defaultLanguage = { value: "", label: "" };
   const [options, setOptions] = useState(book);
   const [allGenres, setGenre] = useState([]);
-  const [languagles, setLanguagles] = useState([]);
+  const [languages, setLanguages] = useState([]);
   const [selectImg, setSelectImg] = useState(null);
   const navigate = useNavigate();
+
   allGenres.map((el, index) => {
     const obj = { value: "", label: "" };
     obj.value = el.name;
@@ -25,7 +30,7 @@ export const AdminAddBook = () => {
     genresForSelect.push(obj);
   });
 
-  languagles.map((el, index) => {
+  languages.map((el, index) => {
     const obj = { value: "", label: "" };
     obj.value = el.name;
     obj.label = el.name;
@@ -39,32 +44,12 @@ export const AdminAddBook = () => {
     defaultGenre.push(obj);
   });
 
-  defaultLanguage.value = book.languagle;
-  defaultLanguage.label = book.languagle;
+  if (book.id !== 0 && options.id === 0) {
+    setOptions(book);
+  }
 
-  allGenres.map((el, index) => {
-    const obj = { value: "", label: "" };
-    obj.value = el.name;
-    obj.label = el.name;
-    genresForSelect.push(obj);
-  });
-
-  languagles.map((el, index) => {
-    const obj = { value: "", label: "" };
-    obj.value = el.name;
-    obj.label = el.name;
-    languagesForSelect.push(obj);
-  });
-
-  book.genres.map((el, index) => {
-    const obj = { value: "", label: "" };
-    obj.value = el.name;
-    obj.label = el.name;
-    defaultGenre.push(obj);
-  });
-
-  defaultLanguage.value = book.languagle;
-  defaultLanguage.label = book.languagle;
+  defaultLanguage.value = book.language;
+  defaultLanguage.label = book.language;
 
   useEffect(() => {
     const getGenre = async () => {
@@ -73,14 +58,19 @@ export const AdminAddBook = () => {
     };
     const getLanguagle = async () => {
       const lang = await axios.get("http://localhost:8000/language/");
-      setLanguagles(lang.data);
+      setLanguages(lang.data);
     };
     getGenre();
     getLanguagle();
+    if (id !== undefined && book.id === 0) dispatch(axiosBookById(id));
   }, []);
 
-  const handleCancel = () => {
-    navigate(`/admin/catalog/${book.id}`);
+  const handleCancel = (props) => {
+    if (props === 0) {
+      navigate(`/admin/catalog`);
+    } else {
+      navigate(`/admin/catalog/${props}`);
+    }
   };
 
   const loadImg = (e) => {
@@ -115,7 +105,6 @@ export const AdminAddBook = () => {
   const handleSaveForm = (e) => {
     e.preventDefault();
     if (options.id === 0) {
-      console.log(options);
       const postBook = async () => {
         const response = await axios.post(
           "http://127.0.0.1:8000/books/",
@@ -126,7 +115,6 @@ export const AdminAddBook = () => {
       };
       postBook();
     } else {
-      console.log(options);
       const patchBook = async () => {
         const response = await axios.patch(
           `http://127.0.0.1:8000/books/${book.id}/`,
@@ -251,7 +239,10 @@ export const AdminAddBook = () => {
             <button className="add__save" onClick={(e) => handleSaveForm(e)}>
               Сохранить
             </button>
-            <button className="add__cancel" onClick={handleCancel}>
+            <button
+              className="add__cancel"
+              onClick={() => handleCancel(book.id)}
+            >
               Отменить
             </button>
           </div>

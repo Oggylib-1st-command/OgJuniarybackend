@@ -35,7 +35,6 @@
     height: 600px;
     margin-bottom: 14px;
     &-img {
-      //background-color: transparent;
       object-fit: cover;
     }
   }
@@ -132,7 +131,7 @@
 
   &-genre {
     height: auto;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-family: "Montserrat", sans-serif;
     font-style: bold;
     font-weight: 700;
@@ -151,13 +150,21 @@
     max-width: 100%;
     width: 100%;
     height: auto;
-    margin-bottom: 14px;
-    font-family: "Montserrat", sans-serif;
-    font-style: bold;
+    font-family: 'Montserrat';
+    font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
-    color: #000000;
+    &__text{
+      height: auto;
+      max-width: 800px;
+      width: 100%;
+      font-family: 'Montserrat';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+    }
   }
 }
 

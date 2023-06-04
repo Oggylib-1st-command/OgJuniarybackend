@@ -1,3 +1,35 @@
+@mixin three {
+  @media (min-width: 890px) {
+    @content;
+  }
+}
+
+@mixin four {
+  @media (min-width: 1170px) {
+    @content;
+  }
+}
+
+@mixin five {
+  @media (min-width: 1450px) {
+    @content;
+  }
+}
+
+@mixin six {
+  @media (min-width: 1730px) {
+    @content;
+  }
+}
+
+@mixin seven {
+  @media (min-width: 2010px) {
+    @content;
+  }
+}
+
+
+
 .search {
   &__container{
     display: flex;
@@ -6,10 +38,27 @@
   }
 
   &__inner {
-    max-width: 1375px;
+    @include three() {
+      width: 810px;
+    }
+
+    @include four(){
+      width: 1090px;
+    }
+
+    @include five(){
+      width: 1370px;
+    }
+
+    @include six(){
+      width: 1650px;
+    }
+
+    @include seven(){
+      width: 1930px;
+    }
     max-height: 1080px;
     height: 100%;
-    width: 100%;
     box-sizing: border-box;
     display: flex;
     align-items: center;

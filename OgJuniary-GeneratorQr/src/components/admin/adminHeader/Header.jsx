@@ -21,8 +21,8 @@ function Header({ HeaderChoiceUser, HeaderChoiceBook }) {
             src={getImageKey("Logo")}
             alt="logo icons"
           />
+          <p className="admin-header__logo-text">Oggylib</p>
         </Link>
-        <p className="admin-header__logo-text">Oggylib</p>
       </div>
       <label className="admin-header__search-position">
         <img

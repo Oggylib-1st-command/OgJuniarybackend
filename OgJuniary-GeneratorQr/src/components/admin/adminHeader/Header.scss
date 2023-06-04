@@ -13,6 +13,13 @@
     display: flex;
     align-items: center;
   }
+
+  &__logo-link{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
   
   &__logotipe{
     margin-left: 15px;
@@ -21,11 +28,12 @@
   }
 
   &__exit{
+    margin-left: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.25);
-    width: 86px;
+    min-width: 86px;
     height: 100px;
     background-color: #F85149;
     cursor: pointer;
@@ -37,15 +45,15 @@
     font-weight: 700;
     font-size: 36px;
     line-height: 44px;
+    color: #000000;
+    margin-right: 75px;
   }
 
 
   &__search-position{
-    max-width: 100%;
-    min-width: 47%;
+    max-width: 1000px;
+    width: 100%;
     position: relative;
-    justify-content: center;
-    margin-left: 22px;
   }
 
   &__search-logo{
@@ -72,15 +80,15 @@
 
   &__block-text{
     margin-left: 11px;
-    max-width: 380px;
+    max-width: 300px;
+    min-width: 260px;
     width: 100%;
     display: flex;
     align-items: end;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   &__admin-users-active {
-    margin-right: 43px;
     color: #000000;
     font-family: 'Montserrat';
     font-style: normal;
@@ -91,7 +99,6 @@
   }
 
   &__admin-users-unactive {
-    margin-right: 43px;
     color: #000000;
     font-family: 'Montserrat';
     font-style: normal;

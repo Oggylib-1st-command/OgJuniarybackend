@@ -1,7 +1,6 @@
 import "./adminBook.scss";
 import { useState, useEffect } from "react";
 import Header from "../../../components/admin/adminHeader/Header";
-import Search from "../../../components/admin/adminSearch/Search";
 import getImageKey from "../../../components/getImageKey";
 import { Link, useParams } from "react-router-dom";
 import QrPop from "../../../components/admin/QrPopUp/QrPopUp";
@@ -24,10 +23,10 @@ function AdminBook() {
   useEffect(() => {
     dispatch(axiosBookById(id));
   }, [id]);
-
+  console.log(book);
   const comment = book.comment || [];
   const [currentCommentPage, setCurrentCommentpage] = useState(numberPage);
-  const [commentPerPage] = useState(4);
+  const commentPerPage = 4;
 
   const lastCommentIndex = currentCommentPage * commentPerPage;
   const firstCommentIndex = lastCommentIndex - commentPerPage;
@@ -101,13 +100,13 @@ function AdminBook() {
                   readOnly
                 />
               </div>
-              <div className="book__text-language">Язык: {book.language}</div>
               <div className="book__text-genre">
                 Жанры:
                 <p>{book.genres + " "}</p>
               </div>
-              <div className="book__text-description">
-                Описание книги: {book.description}
+              <div className="book__text-description">Описание книги:</div>
+              <div className="book__text-description__text">
+                {book.description}
               </div>
             </div>
           </div>

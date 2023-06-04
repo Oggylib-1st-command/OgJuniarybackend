@@ -28,7 +28,6 @@ function Users() {
     console.log("delet");
   };
   const handleAdd = (e) => {
-    e.stopPropagation();
     setUserAdd(!userAdd);
   };
   const navigate = useNavigate();

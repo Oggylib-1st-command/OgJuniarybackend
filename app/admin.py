@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Genre, Book, User, Language
+from .models import Genre, Book, User, Language, Booking
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -16,8 +16,13 @@ class GenreAdmin(admin.ModelAdmin):
     
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    """Жанры"""
-    list_display = ("id", "name",)        
+    """Язык"""
+    list_display = ("id", "name",)
+    
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    """Бронь"""
+    list_display = ("id", "bookings",)         
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
