@@ -37,6 +37,7 @@ class Booking(models.Model):
 
 class Book(models.Model):
     """Книга"""
+    bookings = models.ForeignKey('Booking', on_delete = models.CASCADE, verbose_name="id_книги", related_name='bookings', max_length=30, null=True, blank=True)
     #id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
@@ -45,14 +46,14 @@ class Book(models.Model):
     genres = models.ManyToManyField('Genre', verbose_name="жанры", related_name='genres', blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
-    bookings = models.ForeignKey('Booking', on_delete = models.CASCADE, verbose_name="id_книги", related_name='bookings', max_length=30, null=True, blank=True)
+    
     
     #Статус бронирования
     #QR-код
     #Рейтинг
 
-    def __str__(self) -> str:
-        return self.title
+    def __str__(self):
+        return "%s"%self.bookings
     
     def get_absolute_url(self):
         return reverse("book_detail", kwargs={"slug": self.url})
@@ -85,11 +86,12 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
+    bookid = models.ForeignKey('Book', on_delete = models.CASCADE, verbose_name="id_книги", related_name='bookid', max_length=30, null=True, blank=True)
+    
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
     surname = models.CharField(max_length=255, blank=True, default='')
     
-
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -102,7 +104,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-
+    
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'

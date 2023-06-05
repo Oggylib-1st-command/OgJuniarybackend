@@ -28,7 +28,7 @@ class BookView(viewsets.ModelViewSet):
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
+        
     def get(self, request):
         users = User.objects.all()
         serializer = self.serializer_class(users, many=True)
@@ -80,6 +80,7 @@ class UserDetail(viewsets.ModelViewSet):
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
     
     
 class BooksView(viewsets.ModelViewSet):
