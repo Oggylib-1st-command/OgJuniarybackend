@@ -15,16 +15,16 @@ class GenreView(viewsets.ModelViewSet):
     
 class LanguageView(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
-    queryset = Language.objects.all() 
-    
+    queryset = Language.objects.all()    
+
 class BookingView(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
-    queryset = Booking.objects.all()     
+    queryset = Booking.objects.all()
 
 class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-
+    
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()

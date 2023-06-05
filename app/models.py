@@ -24,7 +24,7 @@ class Language(models.Model):
     class Meta:
             verbose_name = "Язык"
             verbose_name_plural = "Языки"
-            
+
 class Booking(models.Model):
     """Бронь"""
     name = models.CharField("Бронь", max_length=30, unique=True)
@@ -37,7 +37,8 @@ class Booking(models.Model):
 
 class Book(models.Model):
     """Книга"""
-    bookings = models.ForeignKey('Booking', on_delete = models.CASCADE, verbose_name="id_книги", related_name='bookings', max_length=30, null=True, blank=True)
+    bookings = models.CharField("Бронь книги", max_length=30, null=True, blank=True)
+    userid = models.CharField("id Пользователя", max_length=10, null=True, blank=True)
     #id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
@@ -47,10 +48,16 @@ class Book(models.Model):
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     
-    
     #Статус бронирования
     #QR-код
     #Рейтинг
+        
+    def save(self, *args, **kwargs):
+        user = User.objects.first()
+        bookings_list = Booking.objects.filter(name=self.bookings)
+        user.bookid.add(*bookings_list) 
+        user.save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return "%s"%self.bookings
@@ -86,7 +93,7 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
-    bookid = models.ManyToManyField('Book', verbose_name="id_книги", related_name='bookid', max_length=30, null=True, blank=True)
+    bookid = models.ManyToManyField('Booking', verbose_name="id_книги", related_name='bookid', default=None, max_length=30, blank=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -114,3 +121,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
+    
+    
+    
