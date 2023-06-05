@@ -86,7 +86,7 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
-    bookid = models.ForeignKey('Book', on_delete = models.CASCADE, verbose_name="id_книги", related_name='bookid', max_length=30, null=True, blank=True)
+    bookid = models.ManyToManyField('Book', verbose_name="id_книги", related_name='bookid', max_length=30, null=True, blank=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -104,7 +104,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-    
+
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
