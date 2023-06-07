@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView
 
 from rest_framework import status, generics
 import math
+from rest_framework.views import APIView
 
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
@@ -153,7 +154,15 @@ class BookDetail(viewsets.ModelViewSet):
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-
+class BookSearchView(APIView):
+    
+    def get(self, request, format=None):
+        query = request.query_params.get('query')
+        if not query:
+            return Response([])
+        books = Book.objects.filter(title__icontains=query)
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
+        
 
 # Create your views her
