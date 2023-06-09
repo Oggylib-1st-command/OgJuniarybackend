@@ -26,14 +26,9 @@ router.register(r'language', views.LanguageView, 'languages')
 router.register(r'book', views.BookView, 'book  ')
 router.register(r'users', views.UserView, 'userss')
 router.register(r'books', views.BooksView, 'books')
-#router.register(r'search', views.BookSearchView, 'search')
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('search/', views.BookSearchView.as_view(), name='book-search'),
-
-
-
+    path('search/', views.BookSearchView.as_view(), name='book_search'),
 ]

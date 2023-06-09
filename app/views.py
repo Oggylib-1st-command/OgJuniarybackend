@@ -155,14 +155,9 @@ class BookDetail(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BookSearchView(APIView):
-    
-    def get(self, request, format=None):
-        query = request.query_params.get('query')
-        if not query:
-            return Response([])
-        books = Book.objects.filter(title__icontains=query)
+    def get(self, request, *args, **kwargs):
+        search_text = request.GET.get('q', '')
+        books = search_books(search_text)
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
-        
-
 # Create your views her

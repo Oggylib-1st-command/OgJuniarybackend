@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, UserManager
 from django.utils import timezone
+from django.db.models import Q
 
 # Create your models here.   
 
@@ -58,6 +59,10 @@ class Book(models.Model):
         user.bookid.add(*bookings_list) 
         user.save()
         super().save(*args, **kwargs)
+        
+    def search_books(search_text):
+        books = Book.objects.filter(Q(title__icontains=search_text))
+        return books
 
     def __str__(self):
         return "%s"%self.bookings
