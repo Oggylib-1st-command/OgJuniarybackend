@@ -157,7 +157,8 @@ class BookDetail(viewsets.ModelViewSet):
 class BookSearchView(APIView):
     def get(self, request, *args, **kwargs):
         search_text = request.GET.get('q', '')
-        books = search_books(search_text)
+        books = Book.search_books(search_text)
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
+      
 # Create your views her
