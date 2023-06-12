@@ -38,9 +38,10 @@ class Booking(models.Model):
 
 class Book(models.Model):
     """Книга"""
-    bookings = models.CharField("Бронь книги", max_length=30, null=True, blank=True)
+    bookings = models.TextField("Бронь книги", max_length=30, null=True, blank=True)
     userid = models.CharField("id Пользователя", max_length=10, null=True, blank=True)
-    #id = models.AutoField(primary_key=True)
+    history = models.TextField("История бронирования", null=True, blank=True)
+    favorites = models.TextField("Избранное", max_length=10, null=True, blank=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
@@ -56,16 +57,27 @@ class Book(models.Model):
     def save(self, *args, **kwargs):
         user = User.objects.first()
         bookings_list = Booking.objects.filter(name=self.bookings)
+        historys_list = Booking.objects.filter(name=self.history)
+        favoritess_list = Booking.objects.filter(name=self.favorites)
         user.bookid.add(*bookings_list) 
+        user.bookid_history.add(*historys_list) 
+        user.bookid_favorites.add(*favoritess_list) 
         user.save()
         super().save(*args, **kwargs)
         
     def search_books(search_text):
         books = Book.objects.filter(Q(title__icontains=search_text))
-        return books
-
+        authors = Book.objects.filter(Q(author__icontains=search_text))
+        return books, authors
+    
     def __str__(self):
         return "%s"%self.bookings
+    
+    def __str__(self):
+        return "%s"%self.history
+    
+    def __str__(self):
+        return "%s"%self.favorites
     
     def get_absolute_url(self):
         return reverse("book_detail", kwargs={"slug": self.url})
@@ -98,7 +110,9 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
-    bookid = models.ManyToManyField('Booking', verbose_name="id_книги", related_name='bookid', default=None, max_length=30, blank=True)
+    bookid = models.ManyToManyField('Booking', verbose_name="id взятой книги", related_name='bookid', default=None, max_length=30, blank=True)
+    bookid_history = models.ManyToManyField('Booking', verbose_name="id книги в истории", related_name='bookid_history', default=None, max_length=1000, blank=True)
+    bookid_favorites = models.ManyToManyField('Booking', verbose_name="id избранной книги", related_name='bookid_favorites', default=None, max_length=700, blank=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')

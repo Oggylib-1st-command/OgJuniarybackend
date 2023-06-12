@@ -9,6 +9,12 @@ from django.views.generic import ListView, DetailView
 from rest_framework import status, generics
 import math
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
+import functools
+from typing import List
+from six import text_type
+from functools import cmp_to_key
+from django.db.models.functions import Lower
 
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
@@ -81,8 +87,6 @@ class UserDetail(viewsets.ModelViewSet):
 
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-    
     
 class BooksView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
@@ -158,7 +162,11 @@ class BookSearchView(APIView):
     def get(self, request, *args, **kwargs):
         search_text = request.GET.get('q', '')
         books = Book.search_books(search_text)
+        authors = Book.search_authors(search_text)
         serializer = BookSerializer(books, many=True)
+        serializer = BookSerializer(authors, many=True)
         return Response(serializer.data)
-      
+
+
+
 # Create your views her

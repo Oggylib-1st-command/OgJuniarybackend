@@ -10,7 +10,7 @@ from project import settings
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "name", "surname", "email", "bookid")
+        fields = ("id", "name", "surname", "email", "bookid", "bookid_history", "bookid_favorites",)
         
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +29,6 @@ class BookingSerializer(serializers.ModelSerializer):
         
 class BookSerializer(serializers.ModelSerializer):
     genres = serializers.SlugRelatedField(many=True, slug_field="name", queryset = Genre.objects.all())
-    #languages = serializers.SlugRelatedField(many=True, slug_field="name", queryset = Language.objects.all())
     class Meta:
         model = Book
         fields = ('__all__')
