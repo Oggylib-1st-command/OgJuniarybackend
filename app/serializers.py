@@ -1,11 +1,8 @@
-#from rest_framework import serializers
-
 from rest_framework import serializers
 from .models import Genre, Book, User, Language, Booking
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from project import settings
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,20 +1,18 @@
 from django.shortcuts import render, redirect
-from rest_framework.response import Response
-from app.models import Genre, Book, User, Language, Booking
-from rest_framework import serializers
-from rest_framework import mixins, viewsets
-from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, BookingSerializer
 from django.views.generic import ListView, DetailView
-
-from rest_framework import status, generics
-import math
+from django.db.models.functions import Lower
+from django.db.models import Case, CharField, Value, When  
+from rest_framework import serializers, mixins, viewsets, status, generics
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-import functools
+from app.models import Genre, Book, User, Language, Booking
+from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, BookingSerializer
 from typing import List
 from six import text_type
 from functools import cmp_to_key
-from django.db.models.functions import Lower
+import functools
+import math
 
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
@@ -159,6 +157,7 @@ class BookDetail(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BookSearchView(APIView):
+    """Поиск по названию и автору книги"""
     def get(self, request, *args, **kwargs):
         search_text = request.GET.get('q', '')
         search_text1 = request.GET.get('q', '')
@@ -166,9 +165,22 @@ class BookSearchView(APIView):
         title_serializer = BookSerializer(books, many=True)
         author_serializer = BookSerializer(authors, many=True)
         return Response({'books': title_serializer.data, 'authors': author_serializer.data})
+    
+class BookList(generics.ListAPIView):
+    """Сортировка по алфавиту"""
+    serializer_class = BookSerializer
 
+    def get_queryset(self):
+        queryset = Book.objects.annotate(
+            lower_title=Lower('title'),
+            is_english=Case(
+                When(lower_title__regex=r'^[a-zA-Z]', then=Value('1')),
+                default=Value('0'),
+                output_field=CharField(),
+            )
+        ).order_by('is_english', 'lower_title')
 
+        if self.request.query_params.get('sort') == 'desc':
+            queryset = queryset.order_by('-is_english', '-lower_title')
 
-
-
-# Create your views her
+        return queryset
