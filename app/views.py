@@ -162,10 +162,15 @@ class BookSearchView(APIView):
     def get(self, request, *args, **kwargs):
         search_text = request.GET.get('q', '')
         books = Book.search_books(search_text)
-        authors = Book.search_authors(search_text)
         serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
+    
+    def get_authors(self, request, *args, **kwargs):
+        search_text = request.GET.get('q', '')
+        authors = Book.search_authors(search_text)
         serializer = BookSerializer(authors, many=True)
         return Response(serializer.data)
+
 
 
 

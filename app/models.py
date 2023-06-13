@@ -67,8 +67,11 @@ class Book(models.Model):
         
     def search_books(search_text):
         books = Book.objects.filter(Q(title__icontains=search_text))
+        return books
+    
+    def search_authors(search_text):
         authors = Book.objects.filter(Q(author__icontains=search_text))
-        return books, authors
+        return authors
     
     def __str__(self):
         return "%s"%self.bookings
