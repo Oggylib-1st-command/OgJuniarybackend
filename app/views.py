@@ -161,15 +161,12 @@ class BookDetail(viewsets.ModelViewSet):
 class BookSearchView(APIView):
     def get(self, request, *args, **kwargs):
         search_text = request.GET.get('q', '')
-        books = Book.search_books(search_text)
-        serializer = BookSerializer(books, many=True)
-        return Response(serializer.data)
-    
-    def get_authors(self, request, *args, **kwargs):
-        search_text = request.GET.get('q', '')
-        authors = Book.search_authors(search_text)
-        serializer = BookSerializer(authors, many=True)
-        return Response(serializer.data)
+        search_text1 = request.GET.get('q', '')
+        books, authors = Book.search_books(search_text, search_text1)
+        title_serializer = BookSerializer(books, many=True)
+        author_serializer = BookSerializer(authors, many=True)
+        return Response({'books': title_serializer.data, 'authors': author_serializer.data})
+
 
 
 

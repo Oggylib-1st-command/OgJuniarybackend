@@ -65,13 +65,10 @@ class Book(models.Model):
         user.save()
         super().save(*args, **kwargs)
         
-    def search_books(search_text):
+    def search_books(search_text, search_text1):
         books = Book.objects.filter(Q(title__icontains=search_text))
-        return books
-    
-    def search_authors(search_text):
-        authors = Book.objects.filter(Q(author__icontains=search_text))
-        return authors
+        authors = Book.objects.filter(Q(author__icontains=search_text1))
+        return books, authors
     
     def __str__(self):
         return "%s"%self.bookings
