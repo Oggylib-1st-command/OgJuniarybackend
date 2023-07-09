@@ -184,3 +184,23 @@ class BookList(generics.ListAPIView):
             queryset = queryset.order_by('-is_english', '-lower_title')
 
         return queryset
+    
+class AuthorList(generics.ListAPIView):
+    """Сортировка по авторам"""
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        queryset = Book.objects.annotate(
+            lower_author=Lower('author'),
+            is_english=Case(
+                When(lower_author__regex=r'^[a-zA-Z]', then=Value('1')),
+                default=Value('0'),
+                output_field=CharField(),
+            )
+        ).order_by('is_english', 'lower_author')
+
+        if self.request.query_params.get('sort') == 'desc':
+            queryset = queryset.order_by('-is_english', '-lower_author')
+
+        return queryset
+    

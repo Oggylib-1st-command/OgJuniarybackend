@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, UserManager
 from django.utils import timezone
 from django.db.models import Q
-
+from django.contrib.auth.models import User
 # Create your models here.   
 
 class Genre(models.Model):
@@ -39,9 +39,6 @@ class Booking(models.Model):
 class Book(models.Model):
     """Книга"""
     bookings = models.TextField("Бронь книги", max_length=30, null=True, blank=True)
-    userid = models.CharField("id Пользователя", max_length=10, null=True, blank=True)
-    history = models.TextField("История бронирования", null=True, blank=True)
-    favorites = models.TextField("Избранное", max_length=10, null=True, blank=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
@@ -49,35 +46,27 @@ class Book(models.Model):
     genres = models.ManyToManyField('Genre', verbose_name="жанры", related_name='genres', blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
-    
-    #Статус бронирования
-    #QR-код
-    #Рейтинг
-        
+    review = models.CharField("Отзыв", max_length=1500, null=True, blank=True)
+    rating = models.CharField("Рейтинг", max_length=150, null=True, blank=True)
+    owner = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
+
     def save(self, *args, **kwargs):
-        user = User.objects.first()
+        """Сохранение id забронированной книги у текущего пользователя"""
+        user = User.objects.get(id=self.owner.id)
         bookings_list = Booking.objects.filter(name=self.bookings)
-        historys_list = Booking.objects.filter(name=self.history)
-        favoritess_list = Booking.objects.filter(name=self.favorites)
-        user.bookid.add(*bookings_list) 
-        user.bookid_history.add(*historys_list) 
-        user.bookid_favorites.add(*favoritess_list) 
+        user.bookid.add(*bookings_list)
+        user.bookid_history.add(*bookings_list)
         user.save()
         super().save(*args, **kwargs)
         
     def search_books(search_text, search_text1):
+        """Поиск по названию и автору книги"""
         books = Book.objects.filter(Q(title__icontains=search_text))
         authors = Book.objects.filter(Q(author__icontains=search_text1))
         return books, authors
-    
+
     def __str__(self):
         return "%s"%self.bookings
-    
-    def __str__(self):
-        return "%s"%self.history
-    
-    def __str__(self):
-        return "%s"%self.favorites
     
     def get_absolute_url(self):
         return reverse("book_detail", kwargs={"slug": self.url})
@@ -96,7 +85,7 @@ class CustomUserManager(UserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
-
+        
         return user
     
     def create_user(self, email=None, password=None, **extra_fields):
@@ -110,8 +99,9 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
+    """Пользователь"""
     bookid = models.ManyToManyField('Booking', verbose_name="id взятой книги", related_name='bookid', default=None, max_length=30, blank=True)
-    bookid_history = models.ManyToManyField('Booking', verbose_name="id книги в истории", related_name='bookid_history', default=None, max_length=1000, blank=True)
+    bookid_history = models.ManyToManyField('Booking', verbose_name="id бронированных книг в истории", related_name='bookid_history', default=None, max_length=1000, blank=True)
     bookid_favorites = models.ManyToManyField('Booking', verbose_name="id избранной книги", related_name='bookid_favorites', default=None, max_length=700, blank=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
@@ -140,6 +130,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
-    
-    
     

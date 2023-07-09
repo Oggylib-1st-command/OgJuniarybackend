@@ -6,7 +6,7 @@ from .models import Genre, Book, User, Language, Booking
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    """челы"""
+    """Пользователь"""
     list_display = [field.name for field in User._meta.get_fields() if not field.many_to_many]
     
 @admin.register(Booking)
@@ -26,6 +26,6 @@ class LanguageAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    """Авторы"""
+    """Книга"""
     list_display = [field.name for field in Book._meta.get_fields() if not field.many_to_many]
     

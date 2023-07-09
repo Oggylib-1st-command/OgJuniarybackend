@@ -31,4 +31,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('search/', views.BookSearchView.as_view(), name='book_search'),
     path('sorted/', views.BookList.as_view(), name='book-list-sort'),
+    path('sorted/author', views.AuthorList.as_view(), name='author-list-sort'),
 ]
