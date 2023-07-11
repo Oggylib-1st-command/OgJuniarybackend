@@ -51,6 +51,7 @@ class Book(models.Model):
                     user.bookid_history.add(self.bookings)
                 elif self.pk:
                     user.bookid.remove(self.pk)
+                    self.owner = None
             user.save()
 
         super().save(*args, **kwargs)
@@ -86,7 +87,7 @@ class CustomUserManager(UserManager):
         return user
     
     def create_user(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_staff', False   )
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
     
@@ -117,8 +118,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-
-
 
     class Meta:
         verbose_name = 'User'
