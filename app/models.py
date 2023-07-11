@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, UserManager
 from django.utils import timezone
 from django.db.models import Q
-from django.contrib.auth.models import User
-# Create your models here.   
+from django.contrib.auth.models import User 
 
 class Genre(models.Model):
     """Жанры"""
@@ -15,7 +14,6 @@ class Genre(models.Model):
         verbose_name = "Жанр"
         verbose_name_plural = "Жанры"
         
-        
 class Language(models.Model):
     """Язык"""
     name = models.CharField("Язык", max_length=30, unique=True)
@@ -25,21 +23,44 @@ class Language(models.Model):
     class Meta:
             verbose_name = "Язык"
             verbose_name_plural = "Языки"
+           
+class Reviews(models.Model):
+    """Отзывы"""
+    email = models.EmailField(blank=True, default='')
+    name = models.CharField("Имя", max_length=255, null=True, blank=True)
+    surname = models.CharField("Фамилия", max_length=255, null=True, blank=True)
+    text = models.TextField("Комментарий", max_length=2000, null=True, blank=True)
+    book = models.ForeignKey('Book', verbose_name="Книга", on_delete=models.CASCADE, null=True, blank=True)
+    owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто пишет отзыв", null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        """Сохранение данных текущего пользователя"""
+        if self.owner is not None:
+            user = User.objects.get(id=self.owner.id)
+            self.email = user.email
+            self.name = user.name
+            self.surname = user.surname
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} - {self.book}"
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
 
 class Book(models.Model):
     """Книга"""
-    bookings = models.TextField("Бронь книги", max_length=30, null=True, blank=True)
-    owner = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
+    bookings = models.TextField("Бронь книги", max_length=5, null=True, blank=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
-    genres = models.ManyToManyField('Genre', verbose_name="жанры", related_name='genres', blank=True)
-    languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="языки", related_name='languages', max_length=30, null=True, blank=True)
+    genres = models.ManyToManyField('Genre', verbose_name="Жанры", related_name='genres', blank=True)
+    languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
-    review = models.CharField("Отзыв", max_length=1500, null=True, blank=True)
     rating = models.CharField("Рейтинг", max_length=150, null=True, blank=True)
+    owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", null=True, blank=True)
     
     def save(self, *args, **kwargs):
         """Бронь и возврат книги"""
@@ -55,8 +76,7 @@ class Book(models.Model):
             user.save()
 
         super().save(*args, **kwargs)
-        
-            
+         
     def search_books(search_text, search_text1):
         """Поиск по названию и автору книги"""
         books = Book.objects.filter(Q(title__icontains=search_text))
@@ -72,8 +92,7 @@ class Book(models.Model):
     class Meta:
         verbose_name = "Книга"
         verbose_name_plural = "Книги"
-        
-        
+           
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:

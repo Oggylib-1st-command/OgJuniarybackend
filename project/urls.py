@@ -25,6 +25,7 @@ router.register(r'language', views.LanguageView, 'languages')
 router.register(r'book', views.BookView, 'book')
 router.register(r'users', views.UserView, 'userss')
 router.register(r'books', views.BooksView, 'books')
+router.register(r'reviews', views.ReviewsView, 'reviewss')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
