@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Genre, Book, User, Language, Booking
+from .models import Genre, Book, User, Language
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from project import settings
@@ -17,11 +17,6 @@ class GenreSerializer(serializers.ModelSerializer):
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ('__all__')
-        
-class BookingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Booking
         fields = ('__all__')
         
 class BookSerializer(serializers.ModelSerializer):

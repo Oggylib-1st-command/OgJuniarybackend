@@ -6,8 +6,8 @@ from rest_framework import serializers, mixins, viewsets, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-from app.models import Genre, Book, User, Language, Booking
-from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, BookingSerializer
+from app.models import Genre, Book, User, Language
+from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer
 from typing import List
 from six import text_type
 from functools import cmp_to_key
@@ -21,10 +21,6 @@ class GenreView(viewsets.ModelViewSet):
 class LanguageView(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
     queryset = Language.objects.all()    
-
-class BookingView(viewsets.ModelViewSet):
-    serializer_class = BookingSerializer
-    queryset = Booking.objects.all()
 
 class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
@@ -91,23 +87,9 @@ class BooksView(viewsets.ModelViewSet):
     queryset = Book.objects.all()
 
     def get(self, request):
-        page_num = int(request.GET.get("page", 1))
-        limit_num = int(request.GET.get("limit", 10))
-        start_num = (page_num - 1) * limit_num
-        end_num = limit_num * page_num
-        search_param = request.GET.get("search")
         books = Book.objects.all()
-        total_books = books.count()
-        if search_param:
-            books = books.filter(title__icontains=search_param)
-        serializer = self.serializer_class(books[start_num:end_num], many=True)
-        return Response({
-            "status": "success",
-            "total": total_books,
-            "page": page_num,
-            "last_page": math.ceil(total_books / limit_num),
-            "books": serializer.data
-        })
+        serializer = self.serializer_class(books, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -203,4 +185,5 @@ class AuthorList(generics.ListAPIView):
             queryset = queryset.order_by('-is_english', '-lower_author')
 
         return queryset
-    
+
+

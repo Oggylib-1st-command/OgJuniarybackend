@@ -2,17 +2,12 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Genre, Book, User, Language, Booking
+from .models import Genre, Book, User, Language
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     """Пользователь"""
-    list_display = [field.name for field in User._meta.get_fields() if not field.many_to_many]
-    
-@admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
-    """Бронь"""
-    list_display = ("id", "name",)    
+    list_display = [field.name for field in User._meta.get_fields() if not field.many_to_many] 
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):

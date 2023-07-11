@@ -26,19 +26,11 @@ class Language(models.Model):
             verbose_name = "Язык"
             verbose_name_plural = "Языки"
 
-class Booking(models.Model):
-    """Бронь"""
-    name = models.CharField("Бронь", max_length=30, unique=True)
-    def __str__(self):
-            return self.name
-    
-    class Meta:
-            verbose_name = "Бронь"
-            verbose_name_plural = "Брони"
 
 class Book(models.Model):
     """Книга"""
     bookings = models.TextField("Бронь книги", max_length=30, null=True, blank=True)
+    owner = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
@@ -48,17 +40,22 @@ class Book(models.Model):
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     review = models.CharField("Отзыв", max_length=1500, null=True, blank=True)
     rating = models.CharField("Рейтинг", max_length=150, null=True, blank=True)
-    owner = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
-
+    
     def save(self, *args, **kwargs):
-        """Сохранение id забронированной книги у текущего пользователя"""
-        user = User.objects.get(id=self.owner.id)
-        bookings_list = Booking.objects.filter(name=self.bookings)
-        user.bookid.add(*bookings_list)
-        user.bookid_history.add(*bookings_list)
-        user.save()
+        """Бронь и возврат книги"""
+        if self.owner is not None:
+            user = User.objects.get(id=self.owner.id)
+            if self.bookings is not None:
+                if self.bookings != '':
+                    user.bookid.add(self.bookings)
+                    user.bookid_history.add(self.bookings)
+                elif self.pk:
+                    user.bookid.remove(self.pk)
+            user.save()
+
         super().save(*args, **kwargs)
         
+            
     def search_books(search_text, search_text1):
         """Поиск по названию и автору книги"""
         books = Book.objects.filter(Q(title__icontains=search_text))
@@ -68,8 +65,8 @@ class Book(models.Model):
     def __str__(self):
         return "%s"%self.bookings
     
-    def get_absolute_url(self):
-        return reverse("book_detail", kwargs={"slug": self.url})
+    def __str__(self):
+        return f"Book ID: {self.id}"
     
     class Meta:
         verbose_name = "Книга"
@@ -100,9 +97,9 @@ class CustomUserManager(UserManager):
     
 class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь"""
-    bookid = models.ManyToManyField('Booking', verbose_name="id взятой книги", related_name='bookid', default=None, max_length=30, blank=True)
-    bookid_history = models.ManyToManyField('Booking', verbose_name="id бронированных книг в истории", related_name='bookid_history', default=None, max_length=1000, blank=True)
-    bookid_favorites = models.ManyToManyField('Booking', verbose_name="id избранной книги", related_name='bookid_favorites', default=None, max_length=700, blank=True)
+    bookid = models.ManyToManyField('Book', verbose_name="id взятой книги", related_name='bookid', blank=True)
+    bookid_history = models.ManyToManyField('Book', verbose_name="id бронированных книг в истории", related_name='bookid_history', default=None, max_length=1000, blank=True)
+    bookid_favorites = models.CharField(max_length=700, blank=True, null=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -121,9 +118,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+
+
     class Meta:
         verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name_plural = 'Users'   
     
     def get_full_name(self):
         return self.name
