@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Genre, Book, User, Language, Reviews
+from .models import Genre, Book, User, Language, Reviews, Rating
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
@@ -8,13 +8,18 @@ class GenreAdmin(admin.ModelAdmin):
     
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    """Язык"""
+    """Языки"""
     list_display = ("id", "name",)      
 
 @admin.register(Reviews)
-class GenreAdmin(admin.ModelAdmin):
-    """Жанры"""
+class ReviewsAdmin(admin.ModelAdmin):
+    """Отзывы"""
     list_display = ("id", "email", "name", "surname", "text", "book",)
+    
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    """Рейтинги"""
+    list_display = ("id", "value", "book", "owner",)
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):

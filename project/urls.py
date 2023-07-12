@@ -26,6 +26,7 @@ router.register(r'book', views.BookView, 'book')
 router.register(r'users', views.UserView, 'userss')
 router.register(r'books', views.BooksView, 'books')
 router.register(r'reviews', views.ReviewsView, 'reviewss')
+router.register(r'rating', views.RatingView, 'ratings')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.utils import timezone
 from django.db.models import Q
 from django.contrib.auth.models import User 
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 class Genre(models.Model):
     """Жанры"""
@@ -32,6 +34,7 @@ class Reviews(models.Model):
     text = models.TextField("Комментарий", max_length=2000, null=True, blank=True)
     book = models.ForeignKey('Book', verbose_name="Книга", on_delete=models.CASCADE, null=True, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто пишет отзыв", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         """Сохранение данных текущего пользователя"""
@@ -48,6 +51,37 @@ class Reviews(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+        unique_together = ('owner', 'book')
+
+class Rating(models.Model):
+    """Рейтинг"""
+    value = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
+    book = models.ForeignKey('Book', on_delete=models.CASCADE, verbose_name="Книга", related_name='ratings', null=True, blank=True)
+    owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто поставил оценку", null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        super(Rating, self).save(*args, **kwargs)
+        self.update_book_rating()
+
+    def delete(self, *args, **kwargs):
+        super(Rating, self).delete(*args, **kwargs)
+        self.update_book_rating()
+
+    def update_book_rating(self):
+        if self.book_id:
+            average_rating = Rating.objects.filter(book_id=self.book_id).aggregate(Avg('value'))['value__avg']
+            if average_rating is not None:
+                self.book.rating = round(average_rating, 2)
+            else:
+                self.book.rating = 0.0
+            self.book.save()
+    
+    def __str__(self):
+        return f'{self.value}'
+    
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинги"
 
 class Book(models.Model):
     """Книга"""
@@ -59,7 +93,7 @@ class Book(models.Model):
     genres = models.ManyToManyField('Genre', verbose_name="Жанры", related_name='genres', blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
-    rating = models.CharField("Рейтинг", max_length=150, null=True, blank=True)
+    rating = models.FloatField(default=0, null=True, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", null=True, blank=True)
     
     def save(self, *args, **kwargs):
@@ -77,12 +111,20 @@ class Book(models.Model):
 
         super().save(*args, **kwargs)
          
+    def mid_rating(self, *args, **kwargs):
+        """Средний рейтинг книги"""
+        
+        
+    
     def search_books(search_text, search_text1):
         """Поиск по названию и автору книги"""
         books = Book.objects.filter(Q(title__icontains=search_text))
         authors = Book.objects.filter(Q(author__icontains=search_text1))
         return books, authors
 
+    def __str__(self):
+        return f'{self.rating}'
+    
     def __str__(self):
         return "%s"%self.bookings
     
