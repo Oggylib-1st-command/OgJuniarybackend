@@ -71,7 +71,7 @@ class Rating(models.Model):
         if self.book_id:
             average_rating = Rating.objects.filter(book_id=self.book_id).aggregate(Avg('value'))['value__avg']
             if average_rating is not None:
-                self.book.rating = round(average_rating, 2)
+                self.book.rating = round(average_rating, 1)
             else:
                 self.book.rating = 0.0
             self.book.save()
