@@ -19,4 +19,6 @@ urlpatterns = [
     path('sorted/author/', views.AuthorList.as_view(), name='author-list-sort'),
     path('sorted/rating/', views.RatingList.as_view(), name='rating-list-sort'),
     path('sorted/time/', views.CreatedList.as_view(), name='time-list-sort'),
+    path('slider/rating/', views.SliderRating.as_view(), name='rating-list-slider'),
+    path('slider/time/', views.SliderCreated.as_view(), name='time-list-slider'),
 ]

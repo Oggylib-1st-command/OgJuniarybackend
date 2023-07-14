@@ -26,226 +26,18 @@ class LanguageView(viewsets.ModelViewSet):
 class ReviewsView(viewsets.ModelViewSet):
     serializer_class = ReviewsSerializer
     queryset = Reviews.objects.all() 
-    
-    def get(self, request):
-        reviews = Reviews.objects.all()
-        serializer = self.serializer_class(reviews, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "review": serializer.data}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-class ReviewsDetail(viewsets.ModelViewSet):
-    queryset = Reviews.objects.all()
-    serializer_class = ReviewsSerializer
-
-    def get_reviews(self, pk):
-        try:
-            return Reviews.objects.get(pk=pk)
-        except:
-            return None
-
-    def get(self, request, pk):
-        reviews = self.get_reviews(pk=pk)
-        if reviews == None:
-            return Response({"status": "fail", "message": f"reviews with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(reviews)
-        return Response({"status": "success", "": serializer.data})
-
-    def patch(self, request, pk):
-        reviews = self.get_reviews(pk)
-        if reviews == None:
-            return Response({"status": "fail", "message": f"reviews with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(
-            reviews, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.validated_data['updatedAt'] = datetime.now()
-            serializer.save()
-            return Response({"status": "success", "reviews": serializer.data})
-        return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        reviews = self.get_reviews(pk)
-        if reviews == None:
-            return Response({"status": "fail", "message": f"reviews with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        reviews.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class RatingView(viewsets.ModelViewSet):
     serializer_class = RatingSerializer
     queryset = Rating.objects.all()
-    
-    def get(self, request):
-        rating = Rating.objects.all()
-        serializer = self.serializer_class(rating, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "rating": serializer.data}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
-class RatingDetail(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-
-    def get_rating(self, pk):
-        try:
-            return Rating.objects.get(pk=pk)
-        except:
-            return None
-
-    def get(self, request, pk):
-        rating = self.get_rating(pk=pk)
-        if rating == None:
-            return Response({"status": "fail", "message": f"rating with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(rating)
-        return Response({"status": "success", "": serializer.data})
-
-    def patch(self, request, pk):
-        rating = self.get_rating(pk)
-        if rating == None:
-            return Response({"status": "fail", "message": f"rating with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(
-            rating, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.validated_data['updatedAt'] = datetime.now()
-            serializer.save()
-            return Response({"status": "success", "rating": serializer.data})
-        return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        rating = self.get_rating(pk)
-        if rating == None:
-            return Response({"status": "fail", "message": f"rating with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        rating.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-        
-    def get(self, request):
-        users = User.objects.all()
-        serializer = self.serializer_class(users, many=True)
-        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "user": serializer.data}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        
-class UserDetail(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def get_user(self, pk):
-        try:
-            return User.objects.get(pk=pk)
-        except:
-            return None
-
-    def get(self, request, pk):
-        user = self.get_user(pk=pk)
-        if user == None:
-            return Response({"status": "fail", "message": f"User with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(user)
-        return Response({"status": "success", "": serializer.data})
-
-    def patch(self, request, pk):
-        user = self.get_user(pk)
-        if user == None:
-            return Response({"status": "fail", "message": f"User with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(
-            user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.validated_data['updatedAt'] = datetime.now()
-            serializer.save()
-            return Response({"status": "success", "user": serializer.data})
-        return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        user = self.get_user(pk)
-        if user == None:
-            return Response({"status": "fail", "message": f"User with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
 class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-
-    def get(self, request):
-        books = Book.objects.all()
-        serializer = self.serializer_class(books, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "book": serializer.data}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-class BookDetail(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-
-    def get_book(self, pk):
-        try:
-            return Book.objects.get(pk=pk)
-        except:
-            return None
-
-    def get(self, request, pk):
-        book = self.get_book(pk=pk)
-        if book == None:
-            return Response({"status": "fail", "message": f"Book with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(book)
-        return Response({"status": "success", "": serializer.data})
-
-    def patch(self, request, pk):
-        book = self.get_book(pk)
-        if book == None:
-            return Response({"status": "fail", "message": f"Book with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = self.serializer_class(
-            book, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.validated_data['updatedAt'] = datetime.now()
-            serializer.save()
-            return Response({"status": "success", "book": serializer.data})
-        return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        book = self.get_book(pk)
-        if book == None:
-            return Response({"status": "fail", "message": f"Book with Id: {pk} not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        book.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BookSearchView(APIView):
     """Поиск по названию и автору книги"""
@@ -317,5 +109,23 @@ class CreatedList(generics.ListAPIView):
         
         if self.request.query_params.get('sort') == 'desc':
             queryset = queryset.order_by('created_at')
+        
+        return queryset
+    
+class SliderRating(generics.ListAPIView):
+    """Слайдер по популярности (рейтингу)"""
+    serializer_class = BookSerializer
+    
+    def get_queryset(self):
+        queryset = Book.objects.order_by('-rating')[:5]
+        
+        return queryset
+    
+class SliderCreated(generics.ListAPIView):
+    """Слайдер по новизне"""
+    serializer_class = BookSerializer
+    
+    def get_queryset(self):
+        queryset = Book.objects.order_by('-created_at')[:5]
         
         return queryset
