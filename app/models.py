@@ -34,7 +34,7 @@ class Reviews(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
     surname = models.CharField("Фамилия", max_length=255, null=True, blank=True)
     text = models.TextField("Комментарий", max_length=2000, null=True, blank=True)
-    book = models.ForeignKey('Book', verbose_name="Книга", on_delete=models.CASCADE, null=True, blank=True)
+    book = models.ForeignKey('Book', verbose_name="Книга", related_name='reviews', on_delete=models.CASCADE, null=True, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто пишет отзыв", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
@@ -88,7 +88,6 @@ class Rating(models.Model):
 
 class Book(models.Model):
     """Книга"""
-    bookings = models.TextField("Бронь книги", max_length=5, null=True, blank=True)
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
@@ -99,6 +98,7 @@ class Book(models.Model):
     rating = models.FloatField(default=0.0, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    bookings = models.TextField("Бронь книги", max_length=5, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         """Бронь и возврат книги"""
