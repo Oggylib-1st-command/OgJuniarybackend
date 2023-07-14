@@ -5,6 +5,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
+import random
+import datetime
 
 class Genre(models.Model):
     """Жанры"""
@@ -95,6 +97,7 @@ class Book(models.Model):
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     rating = models.FloatField(default=0, null=True, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         """Бронь и возврат книги"""
