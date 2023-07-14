@@ -70,6 +70,7 @@ class Rating(models.Model):
         self.update_book_rating()
 
     def update_book_rating(self):
+        """Средний рейтинг для книги"""
         if self.book_id:
             average_rating = Rating.objects.filter(book_id=self.book_id).aggregate(Avg('value'))['value__avg']
             if average_rating is not None:
@@ -95,7 +96,7 @@ class Book(models.Model):
     genres = models.ManyToManyField('Genre', verbose_name="Жанры", related_name='genres', blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
-    rating = models.FloatField(default=0, null=True, blank=True)
+    rating = models.FloatField(default=0.0, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     
@@ -112,16 +113,11 @@ class Book(models.Model):
                     self.owner = None
             user.save()
 
-        super().save(*args, **kwargs)
-         
-    def mid_rating(self, *args, **kwargs):
-        """Средний рейтинг книги"""
-        
-        
+        super().save(*args, **kwargs)        
     
     def search_books(search_text, search_text1):
         """Поиск по названию и автору книги"""
-        books = Book.objects.filter(Q(title__icontains=search_text))
+        titles = Book.objects.filter(Q(title__icontains=search_text))
         authors = Book.objects.filter(Q(author__icontains=search_text1))
         return books, authors
 

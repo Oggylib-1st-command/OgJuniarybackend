@@ -40,10 +40,8 @@ class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
 
-
 class BookSearchView(viewsets.ModelViewSet):
-    """Поиск по названию и автору книги"""
-    
+    """Поиск по названию и автору книги""" 
     serializer_class = BookSerializer
     
     def get_queryset(self):
@@ -94,7 +92,6 @@ class AuthorList(viewsets.ModelViewSet):
             queryset = queryset.order_by('-is_english', '-lower_author')
 
         return queryset
-
 
 class RatingList(viewsets.ModelViewSet):
     """Сортировка по рейтингу"""
