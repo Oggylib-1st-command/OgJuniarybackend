@@ -17,5 +17,6 @@ urlpatterns = [
     path('search/', views.BookSearchView.as_view(), name='book_search'),
     path('sorted/', views.BookList.as_view(), name='book-list-sort'),
     path('sorted/author/', views.AuthorList.as_view(), name='author-list-sort'),
-    path('sorted/rating/', views.RatingBook.as_view(), name='rating-list-sort'),
+    path('sorted/rating/', views.RatingList.as_view(), name='rating-list-sort'),
+    path('sorted/time/', views.CreatedList.as_view(), name='time-list-sort'),
 ]

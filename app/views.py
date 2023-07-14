@@ -296,11 +296,26 @@ class AuthorList(generics.ListAPIView):
         return queryset
 
 
-class RatingBook(generics.ListAPIView):
+class RatingList(generics.ListAPIView):
     """Сортировка по рейтингу"""
     serializer_class = BookSerializer
-    model = Book
-
 
     def get_queryset(self):
-        return Book.objects.order_by('-rating')
+        queryset = Book.objects.order_by('-rating')
+    
+        if self.request.query_params.get('sort') == 'desc':
+            queryset = queryset.order_by('rating')
+        
+        return queryset
+    
+class CreatedList(generics.ListAPIView):
+    """Сортировка по новизне"""
+    serializer_class = BookSerializer
+    
+    def get_queryset(self):
+        queryset = Book.objects.order_by('-created_at')
+        
+        if self.request.query_params.get('sort') == 'desc':
+            queryset = queryset.order_by('created_at')
+        
+        return queryset
