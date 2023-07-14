@@ -14,6 +14,7 @@ from functools import cmp_to_key
 import functools
 import math
 import datetime
+from rest_framework.viewsets import ModelViewSet
 
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
@@ -39,17 +40,24 @@ class BookView(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
 
-class BookSearchView(APIView):
+
+class BookSearchView(viewsets.ModelViewSet):
     """Поиск по названию и автору книги"""
-    def get(self, request, *args, **kwargs):
-        search_text = request.GET.get('q', '')
-        search_text1 = request.GET.get('q', '')
-        books, authors = Book.search_books(search_text, search_text1)
-        title_serializer = BookSerializer(books, many=True)
-        author_serializer = BookSerializer(authors, many=True)
-        return Response({'books': title_serializer.data, 'authors': author_serializer.data})
     
-class BookList(generics.ListAPIView):
+    serializer_class = BookSerializer
+    
+    def get_queryset(self):
+        search_text = self.request.GET.get('q', '')
+        search_text1 = self.request.GET.get('q', '')
+        titles, authors = Book.search_books(search_text, search_text1)
+        return titles.union(authors)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+class BookList(viewsets.ModelViewSet):
     """Сортировка по алфавиту"""
     serializer_class = BookSerializer
 
@@ -68,7 +76,7 @@ class BookList(generics.ListAPIView):
 
         return queryset
     
-class AuthorList(generics.ListAPIView):
+class AuthorList(viewsets.ModelViewSet):
     """Сортировка по авторам"""
     serializer_class = BookSerializer
 
@@ -88,7 +96,7 @@ class AuthorList(generics.ListAPIView):
         return queryset
 
 
-class RatingList(generics.ListAPIView):
+class RatingList(viewsets.ModelViewSet):
     """Сортировка по рейтингу"""
     serializer_class = BookSerializer
 
@@ -100,7 +108,7 @@ class RatingList(generics.ListAPIView):
         
         return queryset
     
-class CreatedList(generics.ListAPIView):
+class CreatedList(viewsets.ModelViewSet):
     """Сортировка по новизне"""
     serializer_class = BookSerializer
     
@@ -112,7 +120,7 @@ class CreatedList(generics.ListAPIView):
         
         return queryset
     
-class SliderRating(generics.ListAPIView):
+class SliderRating(viewsets.ModelViewSet):
     """Слайдер по популярности (рейтингу)"""
     serializer_class = BookSerializer
     
@@ -121,7 +129,7 @@ class SliderRating(generics.ListAPIView):
         
         return queryset
     
-class SliderCreated(generics.ListAPIView):
+class SliderCreated(viewsets.ModelViewSet): 
     """Слайдер по новизне"""
     serializer_class = BookSerializer
     

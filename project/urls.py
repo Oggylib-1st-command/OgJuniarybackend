@@ -4,21 +4,22 @@ from app import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'genre', views.GenreView, 'genres')
-router.register(r'language', views.LanguageView, 'languages')
-router.register(r'users', views.UserView, 'userss')
-router.register(r'books', views.BookView, 'books')
-router.register(r'reviews', views.ReviewsView, 'reviewss')
-router.register(r'rating', views.RatingView, 'ratings')
+router.register(r'books', views.BookView, 'books-lisr')
+router.register(r'users', views.UserView, 'users-list')
+router.register(r'genre', views.GenreView, 'genre-list')
+router.register(r'language', views.LanguageView, 'language-list')
+router.register(r'rating', views.RatingView, 'rating-list')
+router.register(r'reviews', views.ReviewsView, 'reviews-list')
+router.register(r'sorted/book', views.BookList, 'book-list-sort')
+router.register(r'sorted/author', views.AuthorList, 'author-list-sort')
+router.register(r'sorted/rating', views.RatingList, 'rating-list-sort')
+router.register(r'sorted/time', views.CreatedList, 'time-list-sort')
+router.register(r'slider/rating', views.SliderRating, 'rating-list-slider')
+router.register(r'slider/time', views.SliderCreated, 'time-list-slider')
+router.register(r'search', views.BookSearchView, 'book-search')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('search/', views.BookSearchView.as_view(), name='book_search'),
-    path('sorted/book/', views.BookList.as_view(), name='book-list-sort'),
-    path('sorted/author/', views.AuthorList.as_view(), name='author-list-sort'),
-    path('sorted/rating/', views.RatingList.as_view(), name='rating-list-sort'),
-    path('sorted/time/', views.CreatedList.as_view(), name='time-list-sort'),
-    path('slider/rating/', views.SliderRating.as_view(), name='rating-list-slider'),
-    path('slider/time/', views.SliderCreated.as_view(), name='time-list-slider'),
 ]
