@@ -3,9 +3,9 @@ import getImageKey from "./../../../components/getImageKey";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-
 export const AdminUsersCard = ({
   handleDelete,
+  handleTaken,
   userName,
   surname,
   mail,
@@ -25,9 +25,7 @@ export const AdminUsersCard = ({
     setEdit(!edit);
   };
   const chooseName = async () => {
-    console.log(id);
     await axios.patch(`http://localhost:8000/users/${id}/`, newInfo);
-    console.log(newInfo);
     setEdit(!edit);
     window.location.reload();
   };
@@ -97,7 +95,11 @@ export const AdminUsersCard = ({
           <div className="users__options">
             <div className="users__choosen">
               <span>
-                <Link className="users__choosen-text" to="#">
+                <Link
+                  className="users__choosen-text"
+                  to="#"
+                  onClick={() => handleTaken(id)}
+                >
                   Перейти в “Взятые книги”
                 </Link>
               </span>

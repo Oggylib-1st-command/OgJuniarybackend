@@ -1,0 +1,19 @@
+.taken {
+  &__top {
+    padding: 24px 0;
+  }
+  &__top-title {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 37px;
+    color: #000000;
+    margin: 0 auto;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  &__arrow {
+    padding-right: 21px;
+  }
+}

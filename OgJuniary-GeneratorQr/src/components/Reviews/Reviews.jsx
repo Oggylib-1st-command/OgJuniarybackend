@@ -1,18 +1,17 @@
 import "./reviews.scss";
 import { Rating } from "@mui/material";
-
-export const Reviews = ({ state, setComment, comment }) => {
+export const Reviews = ({ setComment, comment, rating, setRating }) => {
   return (
     <form className="reviews-form">
       <div className="reviews-form__rating">
         <h4 className="reviews-form__rating-title">Ваша оценка:</h4>
         <Rating
           name="simple-controlled"
-          value={comment.value}
+          value={rating.value}
           onChange={(newValue) =>
-            setComment({ ...comment, value: +newValue.target.value })
+            setRating({ ...rating, value: +newValue.target.value })
           }
-          //precision={0.5}
+          precision={0.5}
           size="large"
         />
       </div>
@@ -23,7 +22,7 @@ export const Reviews = ({ state, setComment, comment }) => {
           onChange={(newValue) =>
             setComment({ ...comment, text: newValue.target.value })
           }
-          maxLength={150}
+          maxLength={1500}
         ></textarea>
       </label>
     </form>

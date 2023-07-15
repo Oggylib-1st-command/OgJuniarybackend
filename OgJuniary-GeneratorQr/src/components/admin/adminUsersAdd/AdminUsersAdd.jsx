@@ -14,7 +14,6 @@ export const AdminUsersAdd = ({ handleAdd }) => {
         "http://localhost:8000/users/",
         user
       );
-      console.log(addUserInfo);
       handleAdd();
       window.location.reload();
     }

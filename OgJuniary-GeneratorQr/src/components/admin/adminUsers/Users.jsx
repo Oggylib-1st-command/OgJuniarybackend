@@ -7,12 +7,13 @@ import Cookies from "js-cookie";
 import { AdminUsersDelete } from "../adminUsersDelete/AdminUsersDelete";
 import { AdminUsersAdd } from "../adminUsersAdd/AdminUsersAdd";
 import axios from "axios";
-
+import { TakenBook } from "../adminTakenBook/TakenBook";
 function Users() {
   const [user, setUser] = useState([]);
   const [userDelete, setUserDelete] = useState(false);
   const [userAdd, setUserAdd] = useState(false);
   const [userId, setUserId] = useState();
+  const [userTaken, setUserTaken] = useState(false);
   useEffect(() => {
     const getUser = async () => {
       const res = await axios.get("http://localhost:8000/users/");
@@ -23,9 +24,11 @@ function Users() {
 
   const handleDelete = (id) => {
     setUserId(id);
-    console.log(userId);
     setUserDelete(!userDelete);
-    console.log("delet");
+  };
+  const handleTaken = (id) => {
+    setUserId(id);
+    setUserTaken(!userTaken);
   };
   const handleAdd = (e) => {
     setUserAdd(!userAdd);
@@ -58,6 +61,7 @@ function Users() {
           <AdminUsersDelete handleDelete={handleDelete} id={userId} />
         )}
         {userAdd && <AdminUsersAdd handleAdd={handleAdd} />}
+        {userTaken && <TakenBook handleTaken={handleTaken} id={userId} />}
         {user.map((e) => (
           <AdminUsersCard
             key={e.id}
@@ -66,6 +70,7 @@ function Users() {
             userName={e.name}
             surname={e.surname}
             mail={e.email}
+            handleTaken={handleTaken}
           />
         ))}
       </div>

@@ -1,11 +1,13 @@
 import "./commentcard.scss";
 import { Rating } from "@mui/material";
 import { useState } from "react";
+import axios from "axios";
 import cn from "classnames";
 
 function CommentCard(props) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
+  const deleteForm = () => {};
   return (
     <div className="comment__content">
       <div className="comment__head">
@@ -45,7 +47,9 @@ function CommentCard(props) {
         >
           {isDescriptionExpanded ? "Свернуть" : "Развернуть"}
         </button>
-        <button className="comment__but__delete">Удалить отзыв</button>
+        <button className="comment__but__delete" onClick={deleteForm}>
+          Удалить отзыв
+        </button>
       </div>
     </div>
   );

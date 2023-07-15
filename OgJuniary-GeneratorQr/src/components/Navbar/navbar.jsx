@@ -49,8 +49,7 @@ function Navbar({ show, setShow }) {
                   />
                 </div>
                 <div className="menu__list-info">
-                  <p className="menu__fullname">{info.name}</p>
-                  {/* <p className="menu__fullname">{`${info.name} ${info.surname}`}</p> */}
+                  <p className="menu__fullname">{`${info.name} ${info.surname}`}</p>
                   <p className="menu__email">{info.email}</p>
                   <p className="menu__logout" onClick={logout}>
                     Выйти из аккаунта

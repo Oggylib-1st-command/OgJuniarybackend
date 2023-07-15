@@ -5,7 +5,7 @@ export const axiosBookById = createAsyncThunk(
   "books/axiosBookById",
   async function (id, { rejectWithValue }) {
     try {
-      const response = await axios.get(`http://localhost:8000/book/${id}/`); // проверить почему отваливаются CORS, если убрать слеш
+      const response = await axios.get(`http://localhost:8000/books/${id}/`); // проверить почему отваливаются CORS, если убрать слеш
 
       if (response.status !== 200) {
         console.log("haha");
@@ -31,7 +31,7 @@ const bookSlice = createSlice({
       title: "",
       author: "",
       year: "",
-      language: "",
+      languages: "",
       description: "",
     },
   },
@@ -48,7 +48,7 @@ const bookSlice = createSlice({
         title: "",
         author: "",
         year: "",
-        language: "",
+        languages: "",
         description: "",
       };
     },

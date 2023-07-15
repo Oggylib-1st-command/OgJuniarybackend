@@ -1,6 +1,6 @@
 import getImageKey from "./../../../components/getImageKey";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./adminAddBook.scss";
 import { getCurrentBook } from "../../../store/books/selectors";
@@ -12,71 +12,66 @@ import { useParams } from "react-router-dom";
 export const AdminAddBook = () => {
   const dispatch = useDispatch();
   const book = useSelector((state) => state.books.book);
-  const genresForSelect = [];
-  const languagesForSelect = [];
+  const [genresForSelect, setGenresForSelect] = useState([]);
+  const [languagesForSelect, setLanguagesForSelect] = useState([]);
   const { id } = useParams();
-  const defaultGenre = [];
-  const defaultLanguage = { value: "", label: "" };
+  const [defaultGenre, setDefaultGenre] = useState([]);
+  const [defaultLanguage, setDefaultLanguage] = useState({});
   const [options, setOptions] = useState(book);
-  const [allGenres, setGenre] = useState([]);
-  const [languages, setLanguages] = useState([]);
+  const [allGenres, setAllGenre] = useState([]);
+  const [allLanguagles, setAllLanguagles] = useState([]);
   const [selectImg, setSelectImg] = useState(null);
   const navigate = useNavigate();
-
-  allGenres.map((el, index) => {
-    const obj = { value: "", label: "" };
-    obj.value = el.name;
-    obj.label = el.name;
-    genresForSelect.push(obj);
-  });
-
-  languages.map((el, index) => {
-    const obj = { value: "", label: "" };
-    obj.value = el.name;
-    obj.label = el.name;
-    languagesForSelect.push(obj);
-  });
-
-  book.genres.map((el, index) => {
-    const obj = { value: "", label: "" };
-    obj.value = el;
-    obj.label = el;
-    defaultGenre.push(obj);
-  });
 
   if (book.id !== 0 && options.id === 0) {
     setOptions(book);
   }
 
-  defaultLanguage.value = book.language;
-  defaultLanguage.label = book.language;
+  useEffect(() => {
+    const dGen = book.genres.map((el, index) => {
+      const obj = { value: "", label: "" };
+      obj.value = el;
+      obj.label = el;
+      return obj;
+    });
+
+    const dLan = { value: book.languagles, label: book.languagles };
+
+    setDefaultLanguage(dLan);
+    setDefaultGenre(dGen);
+  }, [book.genres, book.languagle]);
+
+  useEffect(() => {
+    const gen = allGenres.map((el, index) => {
+      const obj = { value: "", label: "" };
+      obj.value = el.name;
+      obj.label = el.name;
+      return obj;
+    });
+
+    const lan = allLanguagles.map((el, index) => {
+      const obj = { value: 0, label: "" };
+      obj.value = el.id;
+      obj.label = el.name;
+      return obj;
+    });
+    setGenresForSelect(gen);
+    setLanguagesForSelect(lan);
+  }, [allLanguagles, allGenres]);
 
   useEffect(() => {
     const getGenre = async () => {
       const genna = await axios.get("http://localhost:8000/genre/");
-      setGenre(genna.data);
+      setAllGenre(genna.data);
     };
     const getLanguagle = async () => {
       const lang = await axios.get("http://localhost:8000/language/");
-      setLanguages(lang.data);
+      setAllLanguagles(lang.data);
     };
     getGenre();
     getLanguagle();
     if (id !== undefined && book.id === 0) dispatch(axiosBookById(id));
   }, []);
-
-  const handleCancel = (props) => {
-    if (props === 0) {
-      navigate(`/admin/catalog`);
-    } else {
-      navigate(`/admin/catalog/${props}`);
-    }
-  };
-
-  const loadImg = (e) => {
-    const selectImg = e.target.files[0];
-    setSelectImg(selectImg);
-  };
 
   useEffect(() => {
     let fileReader,
@@ -101,6 +96,19 @@ export const AdminAddBook = () => {
       }
     };
   }, [selectImg]);
+
+  const handleCancel = (props) => {
+    if (props === 0) {
+      navigate(`/admin/catalog`);
+    } else {
+      navigate(`/admin/catalog/${props}`);
+    }
+  };
+
+  const loadImg = (e) => {
+    const selectImg = e.target.files[0];
+    setSelectImg(selectImg);
+  };
 
   const handleSaveForm = (e) => {
     e.preventDefault();
@@ -151,7 +159,7 @@ export const AdminAddBook = () => {
           <input
             type="file"
             onChange={(e) => loadImg(e)}
-            accept=".png, .jpg, jpeg*"
+            accept=".png, .jpg, jpeg*, .webp"
             className="input__file"
           />
           Загрузить фото
@@ -199,25 +207,28 @@ export const AdminAddBook = () => {
               placeholder="Выберите язык"
               options={languagesForSelect}
               className="w-180 md:w-31rem multiselect"
-              onChange={(e) => setOptions({ ...options, languagle: e.value })}
+              onChange={(e) => {
+                setDefaultLanguage(e);
+                setOptions({ ...options, languages: e.value });
+              }}
             />
           </label>
           <label className="label__genre">
             Жанры:
             <Select
-              closeMenuOnSelect={false}
-              defaultValue={defaultGenre}
-              isMulti
-              placeholder="Выберите жанры"
-              options={genresForSelect}
-              className="w-full md:w-31rem multiselect"
               onChange={(e) => {
-                console.log(e);
+                setDefaultGenre(e);
                 setOptions({
                   ...options,
                   genres: e.map((elem) => elem.value),
                 });
               }}
+              closeMenuOnSelect={false}
+              value={defaultGenre}
+              isMulti
+              placeholder="Выберите жанры"
+              options={genresForSelect}
+              className="w-full md:w-31rem"
             />
           </label>
           <label htmlFor="add__creation-description">

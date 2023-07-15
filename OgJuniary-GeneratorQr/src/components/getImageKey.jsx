@@ -3,12 +3,15 @@ import passwordIcon from "./../assets/icons/main/password-icon.svg";
 import googleIcon from "./../assets/icons/main/icon-google.svg";
 import Logo from "./../assets/icons/main/Logo.png";
 import searchIcon from "./../assets/icons/main/Navbar/search-line.svg";
+import EmptyHisIzb from "./../assets/icons/emptyIzbHis.svg";
+import EmptyCatalog from "./../assets/icons/emptyCat.svg";
 
 import UserIcon from "./../assets/icons/main/Navbar/user-avatar.svg";
 import HeartIcon from "./../assets/icons/main/Navbar/Heart-black.svg";
 import CatalogIcon from "./../assets/icons/main/Navbar/Catalog-black.svg";
 import HistoryIcon from "./../assets/icons/main/Navbar/History-black.svg";
 import TakenBookIcon from "./../assets/icons/main/Navbar/TakenBook-black.svg";
+import ArrowBack from "./../assets/icons/main/Arrow 2.svg";
 
 import User from "./../assets/icons/admin/user.svg";
 import IconCatalog from "./../assets/icons/admin/book-open-line.svg";
@@ -42,6 +45,9 @@ const images = {
   IconCloseX,
   SortArrow,
   HeaderExit,
+  EmptyHisIzb,
+  EmptyCatalog,
+  ArrowBack,
 };
 
 function getImageKey(key) {

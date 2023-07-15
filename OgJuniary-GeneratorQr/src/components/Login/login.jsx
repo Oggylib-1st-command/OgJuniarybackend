@@ -16,11 +16,11 @@ function Login() {
   const { signin, fromPage } = useAuth();
   const { infoUser } = useInfoUser();
   useEffect(() => {
-    // const tempUser =
-    //   infoUser.find((elem) => elem.email === profile.email) || [];
-    if (profile.length !== 0) {
-      //tempUser.picture = profile.picture;
-      Cookies.set("profile", JSON.stringify(profile), {
+    const tempUser =
+      infoUser.find((elem) => elem.email === profile.email) || [];
+    if (profile.length !== 0 && tempUser.length !== 0) {
+      tempUser.picture = profile.picture;
+      Cookies.set("profile", JSON.stringify(tempUser), {
         expires: 7,
       });
       signin(user, () => navigate(fromPage, { replace: true }));

@@ -119,7 +119,7 @@ class Book(models.Model):
         """Поиск по названию и автору книги"""
         titles = Book.objects.filter(Q(title__icontains=search_text))
         authors = Book.objects.filter(Q(author__icontains=search_text1))
-        return books, authors
+        return titles, authors
 
     def __str__(self):
         return f'{self.rating}'

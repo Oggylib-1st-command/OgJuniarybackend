@@ -85,8 +85,7 @@ hr {
     }
   }
   &__btn {
-    padding: 9px 0;
-    width: 100%;
+    padding: 9px 100px;
     background: #fff343;
     border-radius: 5px;
     border-color: transparent;
@@ -109,6 +108,11 @@ hr {
     font-size: 16px;
     line-height: 20px;
     color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
     & span {
       display: block;
       font-weight: 700;

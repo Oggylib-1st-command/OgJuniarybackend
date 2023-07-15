@@ -92,6 +92,25 @@ class AuthorList(viewsets.ModelViewSet):
             queryset = queryset.order_by('-is_english', '-lower_author')
 
         return queryset
+    
+class UserList(viewsets.ModelViewSet):
+    """Сортировка по авторам"""
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset = User.objects.annotate(
+            lower_user=Lower('name'),
+            is_english=Case(
+                When(lower_user__regex=r'^[a-zA-Z]', then=Value('1')),
+                default=Value('0'),
+                output_field=CharField(),
+            )
+        ).order_by('is_english', 'lower_user')
+
+        if self.request.query_params.get('sort') == 'desc':
+            queryset = queryset.order_by('-is_english', '-lower_user')
+
+        return queryset
 
 class RatingList(viewsets.ModelViewSet):
     """Сортировка по рейтингу"""

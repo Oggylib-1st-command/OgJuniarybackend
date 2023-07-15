@@ -3,7 +3,7 @@ import BookCardCatalog from "./../adminBookCardCatalog/BookCardCatalog";
 import { Pagination } from "@mui/material";
 import { useInfoBook } from "./../../../api/api";
 import { useState, useEffect } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 
 import MuiColor from "../../../pages/MuiColor";
 
@@ -47,15 +47,19 @@ function Catalog() {
           ))}
         </div>
       </div>
-      <ThemeProvider theme={theme}>
-        <Pagination
-          className="paggination"
-          count={countPage}
-          color="orange"
-          page={currentPage}
-          onChange={handleChange}
-        />
-      </ThemeProvider>
+      {book.length === 0 ? (
+        <></>
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Pagination
+            className="paggination"
+            count={countPage}
+            color="orange"
+            page={currentPage}
+            onChange={handleChange}
+          />
+        </ThemeProvider>
+      )}
     </div>
   );
 }
