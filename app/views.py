@@ -119,7 +119,7 @@ class RatingList(viewsets.ModelViewSet):
             queryset = queryset.order_by('rating')
         
         return queryset
-    
+
 class CreatedList(viewsets.ModelViewSet):
     """Сортировка по новизне"""
     serializer_class = BookSerializer
@@ -131,7 +131,7 @@ class CreatedList(viewsets.ModelViewSet):
             queryset = queryset.order_by('created_at')
         
         return queryset
-    
+
 class SliderRating(viewsets.ModelViewSet):
     """Слайдер по популярности (рейтингу)"""
     serializer_class = BookSerializer
@@ -140,7 +140,7 @@ class SliderRating(viewsets.ModelViewSet):
         queryset = Book.objects.order_by('-rating')[:5]
         
         return queryset
-    
+
 class SliderCreated(viewsets.ModelViewSet): 
     """Слайдер по новизне"""
     serializer_class = BookSerializer

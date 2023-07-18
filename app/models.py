@@ -51,12 +51,11 @@ class Reviews(models.Model):
     def __str__(self):
         return f"{self.name} - {self.book}"
 
-        
-    def save(self, *args, **kwargs):
+    def save_value(self, *args, **kwargs):
         super(Reviews, self).save(*args, **kwargs)
         self.update_book_rating()
 
-    def delete(self, *args, **kwargs):
+    def delete_value(self, *args, **kwargs):
         super(Reviews, self).delete(*args, **kwargs)
         self.update_book_rating()
 
@@ -77,7 +76,6 @@ class Reviews(models.Model):
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
         unique_together = ('owner', 'book')
-
 
 class Book(models.Model):
     """Книга"""
