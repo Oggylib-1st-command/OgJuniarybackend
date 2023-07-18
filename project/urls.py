@@ -8,7 +8,6 @@ router.register(r'books', views.BookView, 'books-lisr')
 router.register(r'users', views.UserView, 'users-list')
 router.register(r'genre', views.GenreView, 'genre-list')
 router.register(r'language', views.LanguageView, 'language-list')
-router.register(r'rating', views.RatingView, 'rating-list')
 router.register(r'reviews', views.ReviewsView, 'reviews-list')
 router.register(r'sorted/book', views.BookList, 'book-list-sort')
 router.register(r'sorted/user', views.UserList, 'user-list-sort')
@@ -18,7 +17,6 @@ router.register(r'sorted/time', views.CreatedList, 'time-list-sort')
 router.register(r'slider/rating', views.SliderRating, 'rating-list-slider')
 router.register(r'slider/time', views.SliderCreated, 'time-list-slider')
 router.register(r'search', views.BookSearchView, 'book-search')
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),

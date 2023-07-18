@@ -35,6 +35,7 @@ export const AdminAddBook = () => {
       return obj;
     });
 
+    
     const dLan = { value: book.languagles, label: book.languagles };
 
     setDefaultLanguage(dLan);

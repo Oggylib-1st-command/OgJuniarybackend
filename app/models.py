@@ -34,6 +34,7 @@ class Reviews(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
     surname = models.CharField("Фамилия", max_length=255, null=True, blank=True)
     text = models.TextField("Комментарий", max_length=2000, null=True, blank=True)
+    value = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
     book = models.ForeignKey('Book', verbose_name="Книга", related_name='reviews', on_delete=models.CASCADE, null=True, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто пишет отзыв", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -50,41 +51,33 @@ class Reviews(models.Model):
     def __str__(self):
         return f"{self.name} - {self.book}"
 
-    class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
-        unique_together = ('owner', 'book')
-
-class Rating(models.Model):
-    """Рейтинг"""
-    value = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
-    book = models.ForeignKey('Book', on_delete=models.CASCADE, verbose_name="Книга", related_name='ratings', null=True, blank=True)
-    owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто поставил оценку", null=True, blank=True)
-    
+        
     def save(self, *args, **kwargs):
-        super(Rating, self).save(*args, **kwargs)
+        super(Reviews, self).save(*args, **kwargs)
         self.update_book_rating()
 
     def delete(self, *args, **kwargs):
-        super(Rating, self).delete(*args, **kwargs)
+        super(Reviews, self).delete(*args, **kwargs)
         self.update_book_rating()
 
     def update_book_rating(self):
         """Средний рейтинг для книги"""
         if self.book_id:
-            average_rating = Rating.objects.filter(book_id=self.book_id).aggregate(Avg('value'))['value__avg']
+            average_rating = Reviews.objects.filter(book_id=self.book_id).aggregate(Avg('value'))['value__avg']
             if average_rating is not None:
                 self.book.rating = round(average_rating, 1)
             else:
                 self.book.rating = 0.0
             self.book.save()
-    
+
     def __str__(self):
         return f'{self.value}'
     
     class Meta:
-        verbose_name = "Рейтинг"
-        verbose_name_plural = "Рейтинги"
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        unique_together = ('owner', 'book')
+
 
 class Book(models.Model):
     """Книга"""
@@ -158,13 +151,13 @@ class CustomUserManager(UserManager):
     
 class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь"""
-    bookid = models.ManyToManyField('Book', verbose_name="id взятой книги", related_name='bookid', blank=True)
-    bookid_history = models.ManyToManyField('Book', verbose_name="id бронированных книг в истории", related_name='bookid_history', default=None, max_length=1000, blank=True)
+    bookid = models.ManyToManyField('Book', verbose_name="Взятые книги", related_name='bookid', blank=True)
+    bookid_history = models.ManyToManyField('Book', verbose_name="История бронированных книг", related_name='bookid_history', default=None, max_length=1000, blank=True)
     bookid_favorites = models.CharField(max_length=700, blank=True, null=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
-    name = models.CharField(max_length=255, blank=True, default='')
-    surname = models.CharField(max_length=255, blank=True, default='')
+    name = models.CharField(max_length=30, blank=True, default='')
+    surname = models.CharField(max_length=30, blank=True, default='')
     
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
