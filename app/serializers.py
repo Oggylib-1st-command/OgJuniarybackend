@@ -7,7 +7,7 @@ from project import settings
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'email', 'bookid', 'bookid_history', 'bookid_favorites',)
+        fields = ('id', 'name', 'surname', 'email', 'image', 'bookid', 'bookid_history', 'bookid_favorites',)
         
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:

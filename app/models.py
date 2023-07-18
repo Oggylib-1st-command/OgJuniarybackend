@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
 import random
 import datetime
+#from .helpers import 
 
 class Genre(models.Model):
     """Жанры"""
@@ -47,15 +48,12 @@ class Reviews(models.Model):
             self.name = user.name
             self.surname = user.surname
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.name} - {self.book}"
-
-    def save_value(self, *args, **kwargs):
-        super(Reviews, self).save(*args, **kwargs)
         self.update_book_rating()
 
-    def delete_value(self, *args, **kwargs):
+    # def __str__(self):
+        # return f"{self.name} - {self.book}"
+
+    def delete(self, *args, **kwargs):
         super(Reviews, self).delete(*args, **kwargs)
         self.update_book_rating()
 
@@ -154,8 +152,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     bookid_favorites = models.CharField(max_length=700, blank=True, null=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
-    name = models.CharField(max_length=30, blank=True, default='')
-    surname = models.CharField(max_length=30, blank=True, default='')
+    name = models.CharField(max_length=255, blank=True, default='')
+    surname = models.CharField(max_length=255, blank=True, default='')
+    image = models.URLField(blank=True, default='')
     
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -171,8 +170,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'   
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'   
     
     def get_full_name(self):
         return self.name
