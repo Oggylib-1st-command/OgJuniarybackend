@@ -6,6 +6,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'books', views.BookView, 'books-lisr')
 router.register(r'users', views.UserView, 'users-list')
+router.register(r'maingenre', views.MainGenreView, 'main_genre-list')
 router.register(r'genre', views.GenreView, 'genre-list')
 router.register(r'language', views.LanguageView, 'language-list')
 router.register(r'reviews', views.ReviewsView, 'reviews-list')

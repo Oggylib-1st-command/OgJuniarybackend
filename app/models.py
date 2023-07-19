@@ -9,15 +9,27 @@ import random
 import datetime
 #from .helpers import 
 
+class MainGenre(models.Model):
+    """Главные жанры"""
+    main = models.CharField('Главный жанр', max_length=50, null=True, blank=True)
+    name = models.ManyToManyField('Genre', max_length=150, null=True, blank=True)
+    
+    def __str__(self):
+        return ", ".join([genre.name for genre in self.name.all()])
+
+    class Meta:
+        verbose_name = "Главный жанр"
+        verbose_name_plural = "Главные жанры"
+    
 class Genre(models.Model):
-    """Жанры"""
-    name = models.CharField("Имя", max_length=150, unique=True)
+    """Поджанры"""
+    name = models.CharField(max_length=150, null=True, blank=True)
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Жанр"
-        verbose_name_plural = "Жанры"
+        verbose_name = "Поджанр"
+        verbose_name_plural = "Поджанры"
         
 class Language(models.Model):
     """Язык"""
@@ -81,7 +93,7 @@ class Book(models.Model):
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
-    genres = models.ManyToManyField('Genre', verbose_name="Жанры", related_name='genres', blank=True)
+    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', null=True, blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     rating = models.FloatField(default=0.0, blank=True)
@@ -111,13 +123,16 @@ class Book(models.Model):
         return titles, authors
 
     def __str__(self):
-        return f'{self.rating}'
+        return self.name
     
-    def __str__(self):
-        return "%s"%self.bookings
-    
-    def __str__(self):
-        return f"Book ID: {self.id}"
+    # def __str__(self):
+        # return f'{self.rating}'
+    # 
+    # def __str__(self):
+        # return "%s"%self.bookings
+    # 
+    # def __str__(self):
+        # return f"Book ID: {self.id}"
     
     class Meta:
         verbose_name = "Книга"

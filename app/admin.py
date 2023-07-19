@@ -1,11 +1,16 @@
 from django.contrib import admin
-from .models import Genre, Book, User, Language, Reviews
+from .models import MainGenre, Genre, Book, User, Language, Reviews
 from django.contrib.admin.models import LogEntry
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
-    '''Жанры'''
+    '''Поджанры'''
     list_display = ('id', 'name',) 
+    
+@admin.register(MainGenre)
+class MainGenreAdmin(admin.ModelAdmin):
+    '''Главные жанры'''
+    list_display = ('id', 'main',) 
     
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):

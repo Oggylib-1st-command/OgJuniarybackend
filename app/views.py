@@ -6,8 +6,8 @@ from rest_framework import serializers, mixins, viewsets, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-from app.models import Genre, Book, User, Language, Reviews
-from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, ReviewsSerializer
+from app.models import Genre, Book, User, Language, Reviews, MainGenre
+from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, ReviewsSerializer, MainGenreSerializer
 from typing import List
 from six import text_type
 from functools import cmp_to_key
@@ -19,6 +19,10 @@ from rest_framework.viewsets import ModelViewSet
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
     queryset = Genre.objects.all()  
+    
+class MainGenreView(viewsets.ModelViewSet):
+    serializer_class = MainGenreSerializer
+    queryset = MainGenre.objects.all()  
     
 class LanguageView(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
