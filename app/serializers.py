@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'surname', 'email', 'image', 'bookid', 'bookid_history', 'bookid_favorites',)
         
 class MainGenreSerializer(serializers.ModelSerializer):
+    name = serializers.SlugRelatedField(many=True, slug_field='name', queryset = Genre.objects.all())
     class Meta:
         model = MainGenre
         fields = ('__all__')        
