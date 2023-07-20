@@ -159,11 +159,6 @@ class FilterGenre(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 
     def get_queryset(self):
-        genre_ids = self.kwargs.get('genre_ids')
-        genre_ids = genre_ids.split(',')
-        queryset = Book.objects.all()
-
-        for genre_id in genre_ids:
-            queryset = queryset.filter(genres__id=genre_id)
-
+        genre_id = self.kwargs.get('genre_id')
+        queryset = Book.objects.filter(genres__id=genre_id)
         return queryset

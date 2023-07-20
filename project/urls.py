@@ -18,7 +18,7 @@ router.register(r'sorted/time', views.CreatedList, 'time-list-sort')
 router.register(r'slider/rating', views.SliderRating, 'rating-list-slider')
 router.register(r'slider/time', views.SliderCreated, 'time-list-slider')
 router.register(r'search', views.BookSearchView, 'book-search')
-router.register(r'filter/(?P<genre_ids>\d+(?:,\d+)*)', views.FilterGenre, 'filter-genre')
+router.register(r'filter/(?P<genre_id>\d+)', views.FilterGenre, 'filter-genre')
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
