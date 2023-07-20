@@ -47,6 +47,7 @@ class Reviews(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
     surname = models.CharField("Фамилия", max_length=255, null=True, blank=True)
     text = models.TextField("Комментарий", max_length=2000, null=True, blank=True)
+    image = models.URLField("Ссылка на фото акка", max_length=200, blank=True, null=True)
     value = models.IntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
     book = models.ForeignKey('Book', verbose_name="Книга", related_name='reviews', on_delete=models.CASCADE, null=True, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто пишет отзыв", null=True, blank=True)
