@@ -6,8 +6,8 @@ from rest_framework import serializers, mixins, viewsets, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-from app.models import Genre, Book, User, Language, Reviews, MainGenre
-from app.serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, ReviewsSerializer, MainGenreSerializer
+from .models import Genre, Book, User, Language, Reviews, MainGenre
+from .serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, ReviewsSerializer, MainGenreSerializer
 from typing import List
 from six import text_type
 from functools import cmp_to_key
@@ -15,6 +15,7 @@ import functools
 import math
 import datetime
 from rest_framework.viewsets import ModelViewSet
+from django.http import JsonResponse
 
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
@@ -94,7 +95,7 @@ class AuthorList(viewsets.ModelViewSet):
         return queryset
     
 class UserList(viewsets.ModelViewSet):
-    """Сортировка по авторам"""
+    """Сортировка пользователей"""
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -152,4 +153,17 @@ class SliderCreated(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Book.objects.order_by('-created_at')[:5]
         
+        return queryset
+    
+class FilterGenre(viewsets.ModelViewSet):
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        genre_ids = self.kwargs.get('genre_ids')
+        genre_ids = genre_ids.split(',')
+        queryset = Book.objects.all()
+
+        for genre_id in genre_ids:
+            queryset = queryset.filter(genres__id=genre_id)
+
         return queryset

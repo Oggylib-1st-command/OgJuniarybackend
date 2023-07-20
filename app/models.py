@@ -12,7 +12,7 @@ import datetime
 class MainGenre(models.Model):
     """Главные жанры"""
     main = models.CharField('Главный жанр', max_length=50, null=True, blank=True)
-    name = models.ManyToManyField('Genre', max_length=150, null=True, blank=True)
+    name = models.ManyToManyField('Genre', max_length=150, blank=True)
     
     def __str__(self):
         return ", ".join([genre.name for genre in self.name.all()])
@@ -93,7 +93,7 @@ class Book(models.Model):
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
-    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', null=True, blank=True)
+    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     rating = models.FloatField(default=0.0, blank=True)
