@@ -24,6 +24,7 @@ class MainGenre(models.Model):
 class Genre(models.Model):
     """Поджанры"""
     name = models.CharField(max_length=150, null=True, blank=True)
+    
     def __str__(self):
         return self.name
 
@@ -126,14 +127,14 @@ class Book(models.Model):
     def __str__(self):
         return self.name
     
-    # def __str__(self):
-        # return f'{self.rating}'
-    # 
-    # def __str__(self):
-        # return "%s"%self.bookings
-    # 
-    # def __str__(self):
-        # return f"Book ID: {self.id}"
+    def __str__(self):
+        return f'{self.rating}'
+    
+    def __str__(self):
+        return "%s"%self.bookings
+    
+    def __str__(self):
+        return f"Book ID: {self.id}"
     
     class Meta:
         verbose_name = "Книга"

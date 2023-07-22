@@ -8,17 +8,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'surname', 'email', 'image', 'bookid', 'bookid_history', 'bookid_favorites',)
-        
-class MainGenreSerializer(serializers.ModelSerializer):
-    name = serializers.SlugRelatedField(many=True, slug_field='name', queryset = Genre.objects.all())
-    class Meta:
-        model = MainGenre
-        fields = ('__all__')        
-        
+    
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ('__all__')
+        fields = ('__all__')    
+        
+class MainGenreSerializer(serializers.ModelSerializer):
+    name = GenreSerializer(many=True)
+    
+    class Meta:
+        model = MainGenre
+        fields = ('__all__')        
         
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,7 +32,9 @@ class ReviewsSerializer(serializers.ModelSerializer):
         fields = ('__all__')
         
 class BookSerializer(serializers.ModelSerializer):
-    genres = serializers.SlugRelatedField(many=True, slug_field='name', queryset = Genre.objects.all())
+    genres = serializers.StringRelatedField(many=True)
+    languages = serializers.StringRelatedField()
+
     class Meta:
         model = Book
         fields = ('__all__')
