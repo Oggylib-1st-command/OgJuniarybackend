@@ -1,6 +1,5 @@
 import Header from "../../../components/admin/adminHeader/Header";
 import "./adminEdit.scss";
-import Search from "../../../components/admin/adminSearch/Search";
 import { AdminAddBook } from "../../../components/admin/adminAddBook/AdminAddBook";
 
 export const AdminEdit = () => {

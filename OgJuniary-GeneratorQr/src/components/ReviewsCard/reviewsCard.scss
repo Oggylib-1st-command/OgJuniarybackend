@@ -1,6 +1,60 @@
-.reviews__card {
-  margin-top: 40px;
-  width: 200px;
-  height: 200px;
-  background-color: aqua;
+.reviews {
+  &__card {
+    width: 100%;
+    padding-top: 10px;
+    &:last-child {
+      & hr {
+        display: none;
+      }
+    }
+  }
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__img {
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+  }
+  &__card-info {
+    margin: 0 20px 0 10px;
+  }
+  &__name,
+  &__surname,
+  &__date {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  &__name {
+    margin-right: 5px;
+  }
+  &__content {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    padding: 0 5px;
+  }
+  &__content-text {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    word-wrap: break-word;
+  }
+  &__card-edit {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 0;
+    top: -20px;
+    cursor: pointer;
+  }
 }

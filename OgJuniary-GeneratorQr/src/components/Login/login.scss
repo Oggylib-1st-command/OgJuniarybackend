@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   &__inner {
     display: flex;
     justify-content: space-between;
@@ -95,6 +96,7 @@
     font-size: 16px;
     line-height: 20px;
     color: #3c3c3c;
+    border: 2px solid transparent;
     &::placeholder {
       color: #3c3c3c;
     }
@@ -200,12 +202,12 @@
 
 @keyframes border-pulsate {
   0% {
-    border-color: #ed3737;
+    border: 2px solid #ed3737;
   }
   50% {
-    border-color: #e35555;
+    border: 2px solid #e35555;
   }
   100% {
-    border-color: #df3f3f;
+    border: 2px solid #df3f3f;
   }
 }

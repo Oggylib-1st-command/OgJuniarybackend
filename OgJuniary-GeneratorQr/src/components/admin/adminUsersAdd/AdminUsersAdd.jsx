@@ -9,11 +9,7 @@ export const AdminUsersAdd = ({ handleAdd }) => {
   });
   const addUser = async () => {
     if (user.email && user.name && user.surname) {
-      console.log(user);
-      const addUserInfo = await axios.post(
-        "http://localhost:8000/users/",
-        user
-      );
+      await axios.post("http://localhost:8000/users/", user);
       handleAdd();
       window.location.reload();
     }

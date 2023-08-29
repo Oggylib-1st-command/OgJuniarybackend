@@ -166,7 +166,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь"""
     bookid = models.ManyToManyField('Book', verbose_name="Взятые книги", related_name='bookid', blank=True)
     bookid_history = models.ManyToManyField('Book', verbose_name="История бронированных книг", related_name='bookid_history', default=None, max_length=1000, blank=True)
-    bookid_favorites = models.CharField(max_length=700, blank=True, null=True)
+    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites', max_length=700, blank=True, null=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -189,6 +189,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'   
+        
+    def update_favorite_books(self, book_id):
+        favorites = self.bookid_favorites.all() 
+        if str(book_id) in [str(book.id) for book in favorites]:
+            self.bookid_favorites.remove(book_id) 
+        else:
+            book = Book.objects.get(id=book_id)
+            self.bookid_favorites.add(book)  
     
     def get_full_name(self):
         return self.name

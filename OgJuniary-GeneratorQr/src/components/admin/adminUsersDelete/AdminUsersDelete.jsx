@@ -1,5 +1,4 @@
 import "./adminUsersDelete.scss";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const AdminUsersDelete = ({ handleDelete, id }) => {
   const handleDeleteUser = async () => {

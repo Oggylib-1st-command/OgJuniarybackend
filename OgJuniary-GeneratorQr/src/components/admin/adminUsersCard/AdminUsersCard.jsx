@@ -1,8 +1,8 @@
 import "./adminUsersCard.scss";
 import getImageKey from "./../../../components/getImageKey";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { AdminUsersEdit } from "./AdminUsersEdit";
 export const AdminUsersCard = ({
   handleDelete,
   handleTaken,
@@ -15,7 +15,6 @@ export const AdminUsersCard = ({
   const [newInfo, setNewInfo] = useState({ name: "", surname: "", email: "" });
   const handleEdit = async () => {
     const info = await axios.get(`http://localhost:8000/users/${id}/`);
-    console.log(info.data);
     setNewInfo({
       ...newInfo,
       name: info.data.name,
@@ -77,49 +76,15 @@ export const AdminUsersCard = ({
           </div>
         </>
       ) : (
-        <>
-          <div className="users__info">
-            <img
-              className="users__info-avatar"
-              src={getImageKey("UserIcon")}
-              alt=""
-            />
-            <div className="users__info-text">
-              <div className="fullname">
-                <span>{userName}</span>
-                <span>{surname}</span>
-              </div>
-              <span>{mail}</span>
-            </div>
-          </div>
-          <div className="users__options">
-            <div className="users__choosen">
-              <span>
-                <Link
-                  className="users__choosen-text"
-                  to="#"
-                  onClick={() => handleTaken(id)}
-                >
-                  Перейти в “Взятые книги”
-                </Link>
-              </span>
-            </div>
-            <div className="users__options-img">
-              <img
-                className="users__options-edit"
-                src={getImageKey("IconEdit")}
-                alt="edit icon"
-                onClick={handleEdit}
-              ></img>
-              <img
-                className="users__options-delete"
-                src={getImageKey("IconTrash")}
-                alt="delete icon"
-                onClick={() => handleDelete(id)}
-              />
-            </div>
-          </div>
-        </>
+        <AdminUsersEdit
+          userName={userName}
+          surname={surname}
+          mail={mail}
+          handleTaken={handleTaken}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+          id={id}
+        />
       )}
     </div>
   );

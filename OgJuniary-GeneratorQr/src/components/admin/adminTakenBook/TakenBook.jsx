@@ -1,10 +1,9 @@
 import "./TakenBook.scss";
 import getImageKey from "./../../../components/getImageKey";
-import { useInfoUserId } from "./../../../api/api";
 import { AdminTakenCard } from "../AdminTakenCard/AdminTakenCard";
+import { useInfoUserId } from "./../../../api/api";
 export const TakenBook = ({ handleTaken, id }) => {
-  const { infoUser } = useInfoUserId(id);
-  console.log(infoUser.bookid);
+  const { infoUserId } = useInfoUserId(id);
   return (
     <div className="taken-book">
       <div className="taken-book__wrapper">
@@ -18,14 +17,26 @@ export const TakenBook = ({ handleTaken, id }) => {
           />
           <div className="taken-book__info-text">
             <div className="fullname">
-              <span>{infoUser.name}</span>
-              <span>{infoUser.surname}</span>
+              <span>{infoUserId.name}</span>
+              <span>{infoUserId.surname}</span>
             </div>
-            <span>{infoUser.email}</span>
+            <span>{infoUserId.email}</span>
           </div>
         </div>
         <hr />
-        <div className="taken-book__list">{infoUser.bookid + ""}</div>
+        <div className="taken-book__list">
+          {infoUserId.bookid ? (
+            infoUserId.bookid.length > 1 ? (
+              infoUserId.bookid.map((book, index) => (
+                <AdminTakenCard key={book} id={book} index={index} />
+              ))
+            ) : (
+              <h3>У пользователя нет взятых книг</h3>
+            )
+          ) : (
+            <h2>Loading...</h2>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -30,6 +30,6 @@ class BookAdmin(admin.ModelAdmin):
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     '''Пользователь'''
-    list_display = ('email', 'name', 'surname', 'is_active', 'bookid_favorites',)
+    list_display = ('email', 'name', 'surname', 'is_active',)
     
     

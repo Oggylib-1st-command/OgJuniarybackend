@@ -1,6 +1,6 @@
 import Header from "../../../components/admin/adminHeader/Header";
 import "./AllGenres.scss";
-import { useInfoGenre } from "../../api";
+import { useInfoGenre } from "./../../../api/api.jsx";
 import BlockGenres from "../../../components/admin/adminBlockGenres/BlockGenres";
 
 const AllGenres = () => {

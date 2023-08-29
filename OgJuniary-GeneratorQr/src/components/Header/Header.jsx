@@ -20,8 +20,7 @@ function Header() {
   const postForm = () => {
     const postSearch = async () => {
       const search = await axios.get(`http://127.0.0.1:8000/search/?q=${text}`);
-      console.log(search.data[0].id);
-      navigate(`/catalog/${search.data[0]?.id || search.data[0]?.id}`);
+      navigate(`/catalog/${search.data[0]?.id || ""}`);
     };
     if (text) postSearch();
     else console.log("Field is empty");

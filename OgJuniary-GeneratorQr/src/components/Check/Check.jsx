@@ -1,24 +1,29 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import "./Check.scss";
-
-export const Check = ({ genre }) => {
-  const [active, setActive] = useState(true);
-  const [choose, setChoose] = useState([]);
-  useEffect(() => {
-    if (active) {
-      setChoose(genre);
-    }
-  }, []);
-  const handleCheck = (elem) => {
-    setActive((even) => !even);
+import cn from "classnames";
+import { SubGenres } from "../SubGenres/SubGenres";
+export const Check = ({ genre, names, setSort }) => {
+  const [active, setActive] = useState(false);
+  const handleChange = (event) => {
+    event.stopPropagation();
+    setActive((active) => !active);
   };
   return (
-    <div className="filter__label">
-      <Link className="filter__genre-link" to="#">
-        {genre}
-      </Link>
-      <span>0</span>
-    </div>
+    <>
+      <div className="filter__label">
+        <a className="filter__genre-link" onClick={handleChange}>
+          {genre}
+        </a>
+        <span>{genre.length}</span>
+      </div>
+      <div
+        className={cn({
+          filter__animate: !active,
+          filter__animate_active: active,
+        })}
+      >
+        {active ? <SubGenres setSort={setSort} subGenres={names} /> : <></>}
+      </div>
+    </>
   );
 };

@@ -6,11 +6,11 @@ import Card from "../../components/Card/Card";
 import { useInfoUser } from "./../../api/api";
 import { Link, useNavigate } from "react-router-dom";
 export const TakenBook = () => {
-  const local = JSON.parse(Cookies.get("profile"));
   const { infoUser } = useInfoUser();
   const [booking, setBooking] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
+    const local = JSON.parse(Cookies.get("profile"));
     const getBooking = async () => {
       const bookTaken = await axios.get("http://127.0.0.1:8000/books/");
       const userTakenBook = bookTaken.data.filter(

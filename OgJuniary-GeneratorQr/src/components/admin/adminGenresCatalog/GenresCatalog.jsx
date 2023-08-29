@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./GenresCatalog.scss";
 import { Link } from "react-router-dom";
 import getImageKey from "../../getImageKey";
-import { useInfoGenre } from "./../../../pages/api.jsx";
+import { useGenres } from "./../../../api/api.jsx";
+import { useState } from "react";
 import BlockGenres from "../adminBlockGenres/BlockGenres";
 
-const GenresCatalog = ({ active, setActive }) => {
-  const { genre } = useInfoGenre();
+const GenresCatalog = ({ active, setActive, setSortBook }) => {
+  const { genre } = useGenres();
+  const [showMore, setShowMore] = useState();
+  useEffect(() => {
+    console.log(showMore);
+  }, [showMore]);
   return (
     <div
       className={
@@ -25,14 +30,35 @@ const GenresCatalog = ({ active, setActive }) => {
         </div>
         <div className="genres__genre">
           <div className="genres__list">
-            {genre.map((target) => (
-              <BlockGenres
-                key={target.id}
-                id={target.id}
-                genre={target.name}
-                clas={"genres__block"}
-              />
-            ))}
+            {showMore
+              ? genre
+                  .filter((el) => el.id === showMore)
+                  .map((target) => (
+                    <BlockGenres
+                      key={target.id}
+                      id={target.id}
+                      genre={target.main}
+                      subGenres={target.name}
+                      setSortBook={setSortBook}
+                      setActive={setActive}
+                      setShowMore={setShowMore}
+                      showMore={showMore}
+                      clas={"genres__block"}
+                    />
+                  ))
+              : genre.map((target) => (
+                  <BlockGenres
+                    key={target.id}
+                    id={target.id}
+                    genre={target.main}
+                    subGenres={target.name}
+                    setSortBook={setSortBook}
+                    setActive={setActive}
+                    setShowMore={setShowMore}
+                    showMore={showMore}
+                    clas={"genres__block"}
+                  />
+                ))}
           </div>
         </div>
         <Link className="genres__all-genres" to="/admin/catalog/allgenres">

@@ -1,111 +1,118 @@
-.comment{
-    &__content{
-        margin-bottom: 70px;
+.comment {
+  &__content {
+    margin-bottom: 70px;
+  }
+  &__head {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 15px;
+  }
+  &__UserIcon {
+    max-width: 45px;
+    max-height: 45px;
+    margin-left: 4px;
+    margin-right: 16px;
+    border-radius: 50%;
+  }
+  &__info {
+    &__name {
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
     }
-    &__head{
-        display: flex;
-        justify-content: start;
-        align-items: center;
-        position: relative;
-        width: 100%;
-        max-width: 900px;
-        margin-bottom: 15px;
+    &__data {
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      letter-spacing: 1px;
     }
-    &__UserIcon{
-        max-width: 45px;
-        max-height: 45px;
-        margin-left: 4px;
-        margin-right: 16px;
-    }
-    &__info{
-        &__name{
-            font-family: 'Montserrat';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 20px;
-        }
-        &__data{
-            font-family: 'Montserrat';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 17px;
-        }
-    }
-    &__rating{
-        position: absolute;
-        top: 7px;
-        right: 0;
-    }
-    &__text{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        &__title{
-          // добавить переменные для повторяющихся свойств
-          &__hidden{
-            display: -webkit-box;
-            -webkit-line-clamp: 5;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-            margin-left: 65px;
-            max-width: 835px;
-            height: auto;
-            font-family: 'Montserrat';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 22px;
-          }
-
-          &__expanded{
-            display: block;
-            overflow: visible;
-            margin-left: 65px;
-            max-width: 835px;
-            height: auto;
-            font-family: 'Montserrat';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 22px;
-          }
-        }
-    }
-    &__but{
-      display: flex;
-      justify-content: space-between;
-      max-width: 835px;
-      margin-left: 65px;
-      &__expand{
-        align-items: center;
-        background-color: #D9D9D9;
-        margin-top: 10px;
-        width: 100px;
-        height: 20px;
-        border: none;
-        font-family: 'Montserrat';
+  }
+  &__rating {
+    position: absolute;
+    top: 7px;
+    right: 0;
+  }
+  &__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    &__title {
+      // добавить переменные для повторяющихся свойств
+      &__hidden {
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-left: 65px;
+        max-width: 835px;
+        height: auto;
+        font-family: "Montserrat";
         font-style: normal;
         font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        cursor: pointer;
+        font-size: 14px;
+        line-height: 22px;
+      }
+
+      &__expanded {
+        display: block;
+        overflow: visible;
+        margin-left: 65px;
+        max-width: 835px;
+        height: auto;
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+      }
     }
-    &__delete{
+  }
+  &__but {
+    display: flex;
+    justify-content: space-between;
+    max-width: 835px;
+    margin-left: 65px;
+    &__expand {
+      align-items: center;
+      background-color: #d9d9d9;
+      margin-top: 10px;
+      width: 100px;
+      height: 20px;
+      border: none;
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 13px;
+      cursor: pointer;
+    }
+    &__delete {
       align-items: center;
       width: 165px;
-      height: 25px;
+      height: 30px;
       margin-top: 10px;
       box-sizing: border-box;
-      background: #FFFFFF;
+      background: #ffffff;
       border: 1px solid #000000;
-      border-radius: 5px;font-family: 'Montserrat';
+      border-radius: 5px;
+      font-family: "Montserrat";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       line-height: 20px;
       cursor: pointer;
-    } 
+      &:hover {
+        transition: all 0.3s;
+        background: #afafaf;
+      }
+    }
   }
 }

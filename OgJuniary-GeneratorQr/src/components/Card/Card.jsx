@@ -9,7 +9,7 @@ function Card(props) {
   const [name, setName] = useState("ВЗЯТЬ");
   const [active, setActive] = useState(props.bookings ? true : false);
   const [isBookings] = useState(props.owner === local.id);
-  const [heart, setHeart] = useState(props.bookings ? true : false);
+  const [heart, setHeart] = useState(false);
   const booking = () => {
     if (!active && local) {
       const postBook = async () => {
@@ -38,15 +38,19 @@ function Card(props) {
     setActive((state) => !state);
   };
   const favorites = () => {
-    // const postFavorites = async () => {
-    //   const favorite = await axios.patch(
-    //     `http://localhost:8000/users/${local.id}/`,
-    //     {
-    //       bookid_favorites: props.id.toString().split(""),
-    //     }
-    //   );
-    // };
-    setHeart((state) => !state);
+    setHeart((heart) => !heart);
+    const postFavorites = async () => {
+      const favorite = await axios.patch(
+        `http://localhost:8000/users/${local.id}/`,
+        {
+          bookid_favorites: props.id,
+        }
+      );
+      console.log(favorite);
+    };
+    if (!heart) {
+      postFavorites();
+    }
   };
   useEffect(() => {
     if (active && isBookings) {

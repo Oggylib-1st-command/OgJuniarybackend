@@ -4,6 +4,8 @@ import { useAuth } from "../useAuth";
 import getImageKey from "../getImageKey";
 import Cookies from "js-cookie";
 import { useLogin, useInfoUser } from "./../../api/api";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
 import "./login.scss";
 
@@ -24,8 +26,14 @@ function Login() {
         expires: 7,
       });
       signin(user, () => navigate(fromPage, { replace: true }));
-    } else {
-      console.log("ОШИБКА ВХОДА");
+    } else if (profile.length !== 0 && tempUser.length === 0) {
+      const stack = document.querySelector(".stack");
+      stack.style.visibility = "visible";
+      stack.style.opacity = "1";
+      setTimeout(() => {
+        stack.style.visibility = "hidden";
+        stack.style.opacity = "0";
+      }, 2000);
     }
   }, [profile]);
 
@@ -37,11 +45,15 @@ function Login() {
       });
     } else {
       elem.preventDefault();
-      setError((current) => !current);
       setForm((prevState) => ({ email: "", password: "" }));
+      setError((current) => !current);
+      const stack = document.querySelector(".stack");
+      stack.style.visibility = "visible";
+      stack.style.opacity = "1";
       setTimeout(() => {
-        window.location.reload();
-      }, 150000);
+        stack.style.visibility = "hidden";
+        stack.style.opacity = "0";
+      }, 2000);
     }
   };
 
@@ -57,8 +69,25 @@ function Login() {
         </Link>
         <p className="header__logo-text">Oggylib</p>
       </div>
+      <Stack
+        sx={{
+          width: "100%",
+          maxWidth: "300px",
+          position: "absolute",
+          top: "15%",
+          visibility: "hidden",
+          transition: "opacity 0.3s, visibility 0s linear 0.3s",
+          opacity: "0",
+        }}
+        className="stack"
+        spacing={2}
+      >
+        <Alert variant="filled" severity="error">
+          Ошибка при авторизации!
+        </Alert>
+      </Stack>
       <div className="form__inner">
-        <form className="form__signin" action="">
+        <form className="form__signin">
           <h2 className="form__title">АВТОРИЗАЦИЯ</h2>
           <label className="form__label">
             <img className="form__icon" src={getImageKey("userIcon")} alt="" />
@@ -88,13 +117,6 @@ function Login() {
               placeholder="Введите пароль"
             />
           </label>
-          <p
-            className={
-              error ? "form__error" : "form__error form__error--active"
-            }
-          >
-            Неправильный логин или пароль
-          </p>
           <button className="form__singin-btn" onClick={(e) => handleForm(e)}>
             Войти
           </button>

@@ -31,11 +31,11 @@
   &__canvas {
     max-width: 400px;
     width: 100%;
-    height: 600px;
-    margin-bottom: 14px;
+    //margin-bottom: 14px;
     background: transparent;
     &-img {
       object-fit: cover;
+      height: 600px;
     }
   }
   &__but {
@@ -95,6 +95,7 @@
   height: auto;
   max-width: 100%;
   width: 100%;
+  margin-top: 10px;
   margin-left: 47px;
   display: flex;
   flex-direction: column;
@@ -157,7 +158,7 @@
     line-height: 22px;
     &__text {
       height: auto;
-      max-width: 800px;
+      max-width: 700px;
       width: 100%;
       font-family: "Montserrat";
       font-style: normal;

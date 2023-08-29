@@ -1,13 +1,17 @@
 import "./commentcard.scss";
 import { Rating } from "@mui/material";
 import { useState } from "react";
-import axios from "axios";
 import cn from "classnames";
-
+import axios from "axios";
 function CommentCard(props) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-
-  const deleteForm = () => {};
+  const deleteForm = () => {
+    const deleteReviews = async () => {
+      await axios.delete(`http://127.0.0.1:8000/reviews/${props.id}/`);
+    };
+    deleteReviews();
+    window.location.reload();
+  };
   return (
     <div className="comment__content">
       <div className="comment__head">
@@ -17,13 +21,15 @@ function CommentCard(props) {
           alt={"UserIcon"}
         ></img>
         <div classname="comment__info">
-          <p className="comment__info__name">{props.name}</p>
-          <p className="comment__info__data">{props.data}</p>
+          <p className="comment__info__name">
+            {`${props.name} ${props.surname}`}
+          </p>
+          <p className="comment__info__data">{props.data.slice(0, 10)}</p>
         </div>
         <div className="comment__rating">
           <Rating
             name="half-rating-read"
-            defaultValue={props.rating}
+            value={+props.rating}
             precision={0.5}
             size="large"
             readOnly

@@ -3,12 +3,22 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./adminAddBook.scss";
-import { getCurrentBook } from "../../../store/books/selectors";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosBookById } from "../../../store/books/Slice";
 import { useParams } from "react-router-dom";
+import { getCurrentBook } from "../../../store/books/selectors";
 
+const lang = {
+  fir: "Русский",
+  sec: "English",
+  null: "",
+  get(lanId) {
+    if (lanId === 1) return this.fir;
+    else if (lanId === 2) return this.sec;
+    else return this.null;
+  },
+};
 export const AdminAddBook = () => {
   const dispatch = useDispatch();
   const book = useSelector((state) => state.books.book);
@@ -26,7 +36,6 @@ export const AdminAddBook = () => {
   if (book.id !== 0 && options.id === 0) {
     setOptions(book);
   }
-
   useEffect(() => {
     const dGen = book.genres.map((el, index) => {
       const obj = { value: "", label: "" };
@@ -35,10 +44,8 @@ export const AdminAddBook = () => {
       return obj;
     });
 
-    
-    const dLan = { value: book.languagles, label: book.languagles };
-
-    setDefaultLanguage(dLan);
+    const dLan = { value: book.languages, label: book.languages };
+    setDefaultLanguage(lang.get(dLan.label));
     setDefaultGenre(dGen);
   }, [book.genres, book.languagle]);
 
@@ -160,7 +167,7 @@ export const AdminAddBook = () => {
           <input
             type="file"
             onChange={(e) => loadImg(e)}
-            accept=".png, .jpg, jpeg*, .webp"
+            accept=".png, .jpg,.webp, jpeg*"
             className="input__file"
           />
           Загрузить фото

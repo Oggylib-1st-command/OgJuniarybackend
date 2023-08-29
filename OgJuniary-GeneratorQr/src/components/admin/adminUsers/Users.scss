@@ -8,9 +8,6 @@
     margin-top: 26px;
     margin-bottom: 30px;
   }
-  &__logout {
-  }
-
   &__add-users {
     font-family: "Montserrat", sans-serif;
     font-style: normal;
@@ -45,4 +42,9 @@
 
 .disactive {
   pointer-events: none;
+}
+
+#demo-simple-select,
+#menu-item-select {
+  background: white;
 }

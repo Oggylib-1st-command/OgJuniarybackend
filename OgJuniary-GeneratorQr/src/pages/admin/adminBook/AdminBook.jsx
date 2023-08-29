@@ -9,10 +9,10 @@ import CommentCard from "../../../components/admin/commentcard/commentcard";
 import { Pagination } from "@mui/material";
 import { Rating } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { axiosBookById } from "../../../store/books/Slice";
+import { axiosBookById, removeBook } from "../../../store/books/Slice";
 import { getCurrentBook, getStatusError } from "../../../store/books/selectors";
+import axios from "axios";
 import { ThemeProvider } from "@mui/material/styles";
-
 import MuiColor from "../../MuiColor";
 
 const lang = {
@@ -31,14 +31,14 @@ function AdminBook() {
   const book = useSelector((state) => state.books.book);
   const numberPage = parseInt(localStorage.getItem("page")) || 1;
   const { id } = useParams();
+  const [reviews, setReviews] = useState([]);
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
   useEffect(() => {
     dispatch(axiosBookById(id));
   }, [id]);
 
-  const comment = book.comment || [];
+  const comment = reviews || [];
   const [currentCommentPage, setCurrentCommentpage] = useState(numberPage);
   const commentPerPage = 4;
 
@@ -47,6 +47,15 @@ function AdminBook() {
   const currentComment = comment.slice(firstCommentIndex, lastCommentIndex);
   const countPage = Math.ceil(comment.length / commentPerPage);
 
+  useEffect(() => {
+    const getReviews = async () => {
+      const getRevie = await axios.get("http://127.0.0.1:8000/reviews/");
+      const filt = getRevie.data.filter((el) => +el.book === +id);
+      console.log(filt);
+      setReviews(filt);
+    };
+    getReviews();
+  }, []);
   const toggleQrPopup = () => {
     setIsQrOpen(!isQrOpen);
   };
@@ -59,11 +68,7 @@ function AdminBook() {
     setCurrentCommentpage(p);
     localStorage.setItem("page", p);
   };
-
-  useEffect(() => {
-    return localStorage.removeItem("page");
-  }, []);
-
+  console.log(book.genres.join("  ").split("  ").join(" / "));
   return (
     <div>
       <Header />
@@ -110,7 +115,7 @@ function AdminBook() {
               <div className="book__text-rating">
                 <Rating
                   name="half-rating-read"
-                  defaultValue={book.rating}
+                  value={+book.rating}
                   precision={0.5}
                   size="large"
                   readOnly
@@ -118,7 +123,7 @@ function AdminBook() {
               </div>
               <div className="book__text-genre">
                 Жанры:
-                <p>{book.genres + " "}</p>
+                <p>{book.genres.join("  ").split("  ").join(" / ")}</p>
               </div>
               <div className="book__text-description">Описание книги:</div>
               <div className="book__text-description__text">
@@ -136,13 +141,15 @@ function AdminBook() {
               </p>
             ) : (
               <>
-                {currentComment.map((obj) => (
+                {reviews.map((obj) => (
                   <CommentCard
+                    key={obj.id}
                     id={obj.id}
-                    img={obj.img}
+                    img={obj.image}
                     name={obj.name}
-                    data={obj.data}
-                    rating={obj.rating}
+                    surname={obj.surname}
+                    data={obj.created_at}
+                    rating={obj.value}
                     text={obj.text}
                   />
                 ))}

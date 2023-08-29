@@ -9,6 +9,7 @@ import "./book.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosBookById } from "../../store/books/Slice";
 import Cookies from "js-cookie";
+import { EditReviewsCard } from "../../components/EditReviewsCard/EditReviewsCard";
 const lang = {
   fir: "Русский",
   sec: "English",
@@ -19,51 +20,58 @@ const lang = {
     else return this.null;
   },
 };
+
 function Book() {
   const local = JSON.parse(Cookies.get("profile"));
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const { id } = useParams();
+  const [edit, setEdit] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [comment, setComment] = useState({
     text: "",
-    book: id,
-    owner: local.id,
-  });
-  const [rating, setRating] = useState({
     value: 0,
     book: id,
     owner: local.id,
+    image: local.picture,
   });
   const book = useSelector((state) => state.books.book);
+  const [name, setName] = useState("");
+  useEffect(() => {
+    dispatch(axiosBookById(id));
+  }, [id]);
   useEffect(() => {
     if (book.id === 0) dispatch(axiosBookById(id));
     else if (comment.text && !active) {
       const postReviews = async () => {
-        const post = await axios.post(
-          "http://127.0.0.1:8000/reviews/",
-          comment
-        );
-        const postRating = await axios.post(
-          "http://127.0.0.1:8000/rating/",
-          rating
-        );
+        await axios.post("http://127.0.0.1:8000/reviews/", comment);
       };
       postReviews();
-      setComment({ ...comment, value: 0, text: "" });
+      setComment({ ...comment, text: "", value: 0 });
+      window.location.reload();
     }
+    const getReviews = async () => {
+      const getRevie = await axios.get("http://127.0.0.1:8000/reviews/");
+      const filt = getRevie.data.filter((el) => +el.book === +id);
+      setReviews(filt);
+    };
+    getReviews();
   }, [id, active]);
-  const [isBookings] = useState(book.owner === local.id);
-  const [activeBtn, setActiveBtn] = useState(book.owner ? true : false);
-  const chooseName = () => {
-    if (activeBtn && isBookings) {
-      return "ВАШЕ";
-    } else if (activeBtn) {
-      console.log("ddd");
-      return "ЗАНЯТО";
-    } else if (!activeBtn) {
-      return "ВЗЯТЬ";
+  useEffect(() => {
+    setStateBtn(book.bookings ? true : false);
+    setBookings(book.owner === local.id);
+  }, [stateBtn, book]);
+  const [stateBtn, setStateBtn] = useState(book.bookings ? true : false);
+  const [isBookings, setBookings] = useState(book.owner === local.id);
+  useEffect(() => {
+    if (stateBtn && isBookings) {
+      setName("ВАШЕ");
+    } else if (stateBtn) {
+      setName("ЗАНЯТО");
+    } else if (!stateBtn) {
+      setName("ВЗЯТЬ");
     }
-  };
+  }, [stateBtn, isBookings]);
   return (
     <div className="user-book">
       <div className="user-book__card">
@@ -74,18 +82,24 @@ function Book() {
           <div className="book__heart"></div>
           <div
             className={cn({
-              active__block: !activeBtn && isBookings,
-              active__block_booking: activeBtn && !isBookings,
+              active__block: !stateBtn && isBookings,
+              active__block_booking: stateBtn && !isBookings,
             })}
           >
-            <button className="book__btn" type="submit">
-              {chooseName()}
+            <button
+              className={cn({
+                book__btn: !stateBtn,
+                book__btn_active: stateBtn,
+              })}
+              type="submit"
+            >
+              {name}
             </button>
           </div>
         </div>
         <p className="table__list-info">
           <span>Жанры:</span>
-          {book.genres}
+          {book.genres.join("  ").split("  ").join(" / ")}
         </p>
         <p className="table__list-info">
           <span>Язык:</span>
@@ -111,23 +125,42 @@ function Book() {
         </div>
       </div>
       <div className="user-book__reviews">
-        <button className="reviews__btn" onClick={() => setActive(!active)}>
-          {active ? "ОПУБЛИКОВАТЬ ОТЗЫВ" : "ОСТАВИТЬ ОТЗЫВ"}
-        </button>
-        <div className="reviews__info">
-          {active ? (
-            <Reviews
-              setComment={setComment}
-              comment={comment}
-              rating={rating}
-              setRating={setRating}
-            />
-          ) : (
-            active
-          )}
-          <hr />
-          <ReviewsCard />
-        </div>
+        {edit ? (
+          <EditReviewsCard
+            reviews={reviews}
+            idUser={local.id}
+            id={id}
+            setEdit={setEdit}
+          />
+        ) : (
+          <>
+            <button className="reviews__btn" onClick={() => setActive(!active)}>
+              {active ? "ОПУБЛИКОВАТЬ ОТЗЫВ" : "ОСТАВИТЬ ОТЗЫВ"}
+            </button>
+            <hr />
+            <div className="reviews__info">
+              {active ? (
+                <Reviews setComment={setComment} comment={comment} />
+              ) : (
+                active
+              )}
+            </div>
+          </>
+        )}
+        {reviews.map((el) => (
+          <ReviewsCard
+            key={el.id}
+            editState={el.owner === local.id}
+            name={el.name}
+            surname={el.surname}
+            date={el.created_at}
+            rating={el.value}
+            image={el.image}
+            text={el.text}
+            setEdit={setEdit}
+            edit={edit}
+          />
+        ))}
       </div>
     </div>
   );

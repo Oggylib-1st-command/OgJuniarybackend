@@ -7,13 +7,16 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import MuiColor from "../../../pages/MuiColor";
 
-function Catalog() {
+function Catalog({ sortBook }) {
   const theme = MuiColor();
   const { book } = useInfoBook();
   const NumberPage = parseInt(localStorage.getItem("page")) || 1;
   const [currentPage, setCurrentPage] = useState(NumberPage);
   const bookOnPage = 20;
-  const countPage = Math.ceil(book.length / bookOnPage);
+  const countPage =
+    sortBook.length !== 0
+      ? Math.ceil(sortBook.length / bookOnPage)
+      : Math.ceil(book.length / bookOnPage);
   const lastBookOnPage = currentPage * bookOnPage;
   const firstBookOnPage = lastBookOnPage - bookOnPage;
 
@@ -35,16 +38,31 @@ function Catalog() {
     <div>
       <div className="admin-catalog__wrapper">
         <div className="admin-catalog__inner">
-          {book.slice(firstBookOnPage, lastBookOnPage).map((target) => (
-            <BookCardCatalog
-              key={target.id}
-              id={target.id}
-              title={target.title}
-              author={target.author}
-              image={target.image}
-              holder={target.holder}
-            />
-          ))}
+          {sortBook.length === 0
+            ? book
+                .slice(firstBookOnPage, lastBookOnPage)
+                .map((target) => (
+                  <BookCardCatalog
+                    key={target.id}
+                    id={target.id}
+                    title={target.title}
+                    author={target.author}
+                    image={target.image}
+                    holder={target.holder}
+                  />
+                ))
+            : sortBook
+                .slice(firstBookOnPage, lastBookOnPage)
+                .map((target) => (
+                  <BookCardCatalog
+                    key={target.id}
+                    id={target.id}
+                    title={target.title}
+                    author={target.author}
+                    image={target.image}
+                    holder={target.holder}
+                  />
+                ))}
         </div>
       </div>
       {book.length === 0 ? (

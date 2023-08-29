@@ -45,13 +45,8 @@ export const useInfoBookId = (id) => {
 
   useEffect(() => {
     const getBook = async () => {
-      if (id) {
-        const bookInfo = await axios.get(`http://localhost:8000/books/${id}/`);
-        setBook(bookInfo.data);
-      } else {
-        const res = await axios.get("http://localhost:8000/books/");
-        setBook(res.data);
-      }
+      const bookInfo = await axios.get(`http://localhost:8000/books/${id}/`);
+      setBook(bookInfo.data);
     };
     getBook();
   }, []);
@@ -96,8 +91,38 @@ export const useInfoUserId = (id) => {
       const res = await axios.get(`http://localhost:8000/users/${id}/`);
       setInfoUserId(res.data);
     };
-
     getUser();
   }, []);
+  console.log(infoUserId);
   return { infoUserId };
+};
+
+export const useInfoGenre = () => {
+  const [genre, setGenre] = useState([]);
+
+  useEffect(() => {
+    const getGenre = async () => {
+      const resGenre = await axios.get("http://localhost:8000/genre/");
+      setGenre(resGenre.data);
+    };
+
+    getGenre();
+  }, []);
+
+  return { genre };
+};
+
+export const useGenres = () => {
+  const [genre, setGenre] = useState([]);
+
+  useEffect(() => {
+    const getGenre = async () => {
+      const resGenre = await axios.get("http://localhost:8000/maingenre/");
+      setGenre(resGenre.data);
+    };
+
+    getGenre();
+  }, []);
+
+  return { genre };
 };

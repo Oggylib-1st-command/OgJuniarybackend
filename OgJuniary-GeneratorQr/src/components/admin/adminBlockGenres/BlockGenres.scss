@@ -1,0 +1,45 @@
+.genres__block {
+  font-size: 16px;
+  color: black;
+  line-height: 19.5px;
+  font-weight: 700;
+  max-width: 250px;
+  width: 100%;
+  min-height: 100px;
+}
+.admin-subgenres__item + .admin-subgenres__item {
+  margin-top: 5px;
+}
+.admin-subgenres__item {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  line-height: 17.5px;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s;
+    color: #fff343;
+  }
+}
+
+.show__btn-admin {
+  margin-top: 5px;
+  color: #9d9d9d;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s;
+    color: #434343;
+  }
+}
+.exit__genres {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  cursor: pointer;
+}

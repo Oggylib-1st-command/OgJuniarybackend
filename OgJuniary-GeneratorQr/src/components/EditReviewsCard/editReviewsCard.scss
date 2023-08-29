@@ -1,0 +1,39 @@
+.edit__card {
+  transition: all 0.3s;
+  &-info {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.edit__btn-publish,
+.edit__btn-delete {
+  width: 50%;
+  border-radius: 5px;
+  outline: none;
+  border-color: transparent;
+  padding: 6px 0;
+  color: #000;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.edit__btn-publish {
+  margin-right: 6px;
+  background: #fff343;
+  &:hover {
+    transition: all 0.3s;
+    background: #f3c53f;
+  }
+}
+.edit__btn-delete {
+  margin-left: 6px;
+  background: #df3f3f;
+  &:hover {
+    transition: all 0.3s;
+    background: #ce3b34;
+  }
+}

@@ -1,0 +1,26 @@
+.subgenres {
+  &__info {
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-left: 20px;
+  }
+  &__item + .subgenres__item {
+    margin-top: 8px;
+  }
+  &__item {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #ffffff;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: #fff343;
+    }
+  }
+}
