@@ -99,12 +99,22 @@ class Book(models.Model):
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     rating = models.FloatField(default=0.0, blank=True)
-    owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", null=True, blank=True)
+    owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", related_name='owner_book', null=True, blank=True)
+    bookmarker = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто добавил в избранное", related_name='bookmarker_books', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     bookings = models.TextField("Бронь книги", max_length=5, null=True, blank=True)
     
     def save(self, *args, **kwargs):
-        """Бронь и возврат книги"""
+        """Бронь/Возврат/Избранное"""
+        if self.bookmarker is not None:
+            user = self.bookmarker
+            if self.pk:
+                user.bookid_favorites.add(self.pk)
+            elif user.bookid_favorites.filter(pk=self.pk).exists():
+                user.bookid_favorites.remove(self.pk)
+                self.bookmarker = None
+            user.save()
+        
         if self.owner is not None:
             user = User.objects.get(id=self.owner.id)
             if self.bookings is not None:
@@ -116,7 +126,7 @@ class Book(models.Model):
                     self.owner = None
             user.save()
 
-        super().save(*args, **kwargs)        
+        super(Book, self).save(*args, **kwargs)
     
     def search_books(search_text, search_text1):
         """Поиск по названию и автору книги"""
@@ -166,7 +176,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь"""
     bookid = models.ManyToManyField('Book', verbose_name="Взятые книги", related_name='bookid', blank=True)
     bookid_history = models.ManyToManyField('Book', verbose_name="История бронированных книг", related_name='bookid_history', default=None, max_length=1000, blank=True)
-    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites', max_length=700, blank=True, null=True)
+    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites', max_length=700, blank=True, null=True) 
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -185,19 +195,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-
+    
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'   
         
-    def update_favorite_books(self, book_id):
-        favorites = self.bookid_favorites.all() 
-        if str(book_id) in [str(book.id) for book in favorites]:
-            self.bookid_favorites.remove(book_id) 
-        else:
-            book = Book.objects.get(id=book_id)
-            self.bookid_favorites.add(book)  
-    
     def get_full_name(self):
         return self.name
     
