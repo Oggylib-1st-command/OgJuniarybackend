@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
 import random
 import datetime
+
 #from .helpers import 
 
 class MainGenre(models.Model):
@@ -105,16 +106,16 @@ class Book(models.Model):
     bookings = models.TextField("Бронь книги", max_length=5, null=True, blank=True)
     
     def save(self, *args, **kwargs):
-        """Бронь/Возврат/Избранное"""
+        current_book = None if self.pk is None else Book.objects.get(pk=self.pk)
         if self.bookmarker is not None:
-            user = self.bookmarker
-            if self.pk:
-                user.bookid_favorites.add(self.pk)
-            elif user.bookid_favorites.filter(pk=self.pk).exists():
-                user.bookid_favorites.remove(self.pk)
-                self.bookmarker = None
-            user.save()
-        
+            user = User.objects.get(id=self.bookmarker.id)
+            if current_book is None or current_book.bookmarker != self.bookmarker:
+                user.bookid_favorites.add(self)
+
+        if self.bookmarker is None and current_book is not None and current_book.bookmarker is not None:
+            user_to_remove_bookmarker = User.objects.get(id=current_book.bookmarker.id)
+            user_to_remove_bookmarker.bookid_favorites.remove(self)
+                
         if self.owner is not None:
             user = User.objects.get(id=self.owner.id)
             if self.bookings is not None:
@@ -176,7 +177,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь"""
     bookid = models.ManyToManyField('Book', verbose_name="Взятые книги", related_name='bookid', blank=True)
     bookid_history = models.ManyToManyField('Book', verbose_name="История бронированных книг", related_name='bookid_history', default=None, max_length=1000, blank=True)
-    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites', max_length=700, blank=True, null=True) 
+    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites_users', max_length=700, blank=True, null=True) 
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -195,7 +196,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
-    
+
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'   
