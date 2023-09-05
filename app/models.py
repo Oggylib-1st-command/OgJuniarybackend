@@ -8,8 +8,6 @@ from django.db.models import Avg
 import random
 import datetime
 
-#from .helpers import 
-
 class MainGenre(models.Model):
     """Главные жанры"""
     main = models.CharField('Главный жанр', max_length=50, null=True, blank=True)
@@ -64,9 +62,6 @@ class Reviews(models.Model):
             self.surname = user.surname
         super().save(*args, **kwargs)
         self.update_book_rating()
-
-    # def __str__(self):
-        # return f"{self.name} - {self.book}"
 
     def delete(self, *args, **kwargs):
         super(Reviews, self).delete(*args, **kwargs)
@@ -134,16 +129,7 @@ class Book(models.Model):
         return titles, authors
 
     def __str__(self):
-        return self.name
-    
-    def __str__(self):
-        return f'{self.rating}'
-    
-    def __str__(self):
-        return "%s"%self.bookings
-    
-    def __str__(self):
-        return f"Book ID: {self.id}"
+        return f"{self.title} - ID: {self.id}"
     
     class Meta:
         verbose_name = "Книга"
