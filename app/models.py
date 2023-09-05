@@ -103,7 +103,6 @@ class Book(models.Model):
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", related_name='owner_book', null=True, blank=True)
     bookmarker = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто добавил в избранное", related_name='bookmarker_books', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    bookings = models.TextField("Бронь книги", max_length=5, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         current_book = None if self.pk is None else Book.objects.get(pk=self.pk)
@@ -118,14 +117,13 @@ class Book(models.Model):
                 
         if self.owner is not None:
             user = User.objects.get(id=self.owner.id)
-            if self.bookings is not None:
-                if self.bookings != '':
-                    user.bookid.add(self.bookings)
-                    user.bookid_history.add(self.bookings)
-                elif self.pk:
-                    user.bookid.remove(self.pk)
-                    self.owner = None
-            user.save()
+            if current_book is None or current_book.owner != self.owner:
+                user.bookid.add(self)
+                user.bookid_history.add(self)
+                
+        if self.owner is None and current_book is not None and current_book.owner is not None:
+            user_to_remove_owner = User.objects.get(id=current_book.owner.id)
+            user_to_remove_owner.bookid.remove(self)
 
         super(Book, self).save(*args, **kwargs)
     

@@ -25,7 +25,7 @@ class ReviewsAdmin(admin.ModelAdmin):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     '''Книга'''
-    list_display = ('title', 'author', 'bookings' , 'description', 'languages', 'year', 'rating', 'owner', 'created_at', 'image',)
+    list_display = ('title', 'author', 'description', 'languages', 'year', 'rating', 'owner', 'created_at', 'image',)
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
