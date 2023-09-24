@@ -2,11 +2,17 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, UserManager
 from django.utils import timezone
 from django.db.models import Q
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
 import random
 import datetime
+
+class Test(models.Model):
+    name = models.CharField(max_length=4, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 class MainGenre(models.Model):
     """Главные жанры"""
@@ -89,15 +95,17 @@ class Book(models.Model):
     """Книга"""
     title = models.CharField("Название", max_length=150, blank=True)
     author = models.CharField("Автор", max_length=100, blank=True)
-    image = models.CharField("Изображение", max_length=10000000, blank=True) 
+    image = models.CharField("Изображение", max_length=10000000, null=True, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
-    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', blank=True)
+    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', null=True, blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     rating = models.FloatField(default=0.0, blank=True)
     owner = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто забронировал", related_name='owner_book', null=True, blank=True)
     bookmarker = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Кто добавил в избранное", related_name='bookmarker_books', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    created_at = models.DateTimeField("Время добавления", auto_now_add=True, null=True, blank=True)
+    control = models.IntegerField("Состояние брони", default=0, null=True, blank=True)
+    time = models.DateTimeField("Время брони", null=True, blank=True)
     
     def save(self, *args, **kwargs):
         current_book = None if self.pk is None else Book.objects.get(pk=self.pk)
@@ -105,7 +113,7 @@ class Book(models.Model):
             user = User.objects.get(id=self.bookmarker.id)
             if current_book is None or current_book.bookmarker != self.bookmarker:
                 user.bookid_favorites.add(self)
-
+        
         if self.bookmarker is None and current_book is not None and current_book.bookmarker is not None:
             user_to_remove_bookmarker = User.objects.get(id=current_book.bookmarker.id)
             user_to_remove_bookmarker.bookid_favorites.remove(self)
@@ -115,10 +123,14 @@ class Book(models.Model):
             if current_book is None or current_book.owner != self.owner:
                 user.bookid.add(self)
                 user.bookid_history.add(self)
+                self.time = timezone.now()
+                self.control = 1
                 
         if self.owner is None and current_book is not None and current_book.owner is not None:
             user_to_remove_owner = User.objects.get(id=current_book.owner.id)
             user_to_remove_owner.bookid.remove(self)
+            self.time = None
+            self.control = 0
 
         super(Book, self).save(*args, **kwargs)
     

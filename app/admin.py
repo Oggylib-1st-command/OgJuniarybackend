@@ -5,27 +5,27 @@ from django.contrib.admin.models import LogEntry
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     '''Поджанры'''
-    list_display = ('id', 'name',) 
+    list_display = ('id', 'name',)
     
 @admin.register(MainGenre)
 class MainGenreAdmin(admin.ModelAdmin):
     '''Главные жанры'''
-    list_display = ('id', 'main',) 
+    list_display = ('id', 'main',)
     
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
     '''Языки'''
-    list_display = ('id', 'name',)      
+    list_display = ('id', 'name',)
 
 @admin.register(Reviews)
 class ReviewsAdmin(admin.ModelAdmin):
     '''Отзывы'''
     list_display = ('id', 'email', 'name', 'surname', 'text', 'book',)
-    
+
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     '''Книга'''
-    list_display = ('title', 'author', 'description', 'languages', 'year', 'rating', 'owner', 'created_at', 'image',)
+    list_display = ('title', 'author', 'description', 'languages', 'year', 'rating', 'owner', 'bookmarker', 'created_at', 'control', 'time', 'image',)
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):

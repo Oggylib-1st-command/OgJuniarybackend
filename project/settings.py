@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+from django_crontab import *
 
 # Application definition
 
@@ -37,12 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'corsheaders',
     'rest_framework',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django_crontab',
     'app',
 ]
 
 AUTH_USER_MODEL = 'app.User'
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +83,10 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+
+CRONJOBS = [
+    ('*/1 * * * *', 'app.cron.my_scheduled_job')
+]
 
 TEMPLATES = [
     {
