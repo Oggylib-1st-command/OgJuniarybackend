@@ -197,9 +197,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'   
         
+    def search_users(search_text, search_text1):
+        """Поиск по имени и фамилии пользователя"""
+        names = User.objects.filter(Q(name__icontains=search_text))
+        surnames = User.objects.filter(Q(surname__icontains=search_text1))
+        return names, surnames
+
     def get_full_name(self):
         return self.name
-    
+
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
-    
