@@ -5,14 +5,9 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
+from collections import Counter
 import random
 import datetime
-
-class Test(models.Model):
-    name = models.CharField(max_length=4, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
 
 class MainGenre(models.Model):
     """Главные жанры"""
@@ -97,7 +92,7 @@ class Book(models.Model):
     author = models.CharField("Автор", max_length=100, blank=True)
     image = models.CharField("Изображение", max_length=10000000, null=True, blank=True) 
     description = models.TextField("Описание", null=True, blank=True)
-    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', null=True, blank=True)
+    genres = models.ManyToManyField('Genre', verbose_name="Поджанры", related_name='genres', blank=True)
     languages = models.ForeignKey('Language', on_delete = models.CASCADE, verbose_name="Языки", related_name='languages', max_length=30, null=True, blank=True)
     year = models.CharField("Год издания", max_length=10, null=True, blank=True)
     rating = models.FloatField(default=0.0, blank=True)
@@ -106,7 +101,7 @@ class Book(models.Model):
     created_at = models.DateTimeField("Время добавления", auto_now_add=True, null=True, blank=True)
     control = models.IntegerField("Состояние брони", default=0, null=True, blank=True)
     time = models.DateTimeField("Время брони", null=True, blank=True)
-    
+
     def save(self, *args, **kwargs):
         current_book = None if self.pk is None else Book.objects.get(pk=self.pk)
         if self.bookmarker is not None:
@@ -123,6 +118,7 @@ class Book(models.Model):
             if current_book is None or current_book.owner != self.owner:
                 user.bookid.add(self)
                 user.bookid_history.add(self)
+                user.update_selection_genres()
                 self.time = timezone.now()
                 self.control = 1
                 
@@ -173,7 +169,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь"""
     bookid = models.ManyToManyField('Book', verbose_name="Взятые книги", related_name='bookid', blank=True)
     bookid_history = models.ManyToManyField('Book', verbose_name="История бронированных книг", related_name='bookid_history', default=None, max_length=1000, blank=True)
-    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites_users', max_length=700, blank=True, null=True) 
+    bookid_favorites = models.ManyToManyField('Book', verbose_name="Избранные книги", related_name='bookid_favorites_users', max_length=700, blank=True) 
+    selection_genres = models.ManyToManyField('Genre', verbose_name="Отобранные жанры", related_name='selected_genres', blank=True)
     
     email = models.EmailField(blank=True, default='', unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
@@ -196,6 +193,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'   
+
+    def update_selection_genres(self):
+        booked_books = self.bookid_history.all()
+        all_genres = []
+        for book in booked_books:
+            all_genres.extend(book.genres.all())
+        genre_counts = Counter(all_genres)
+        most_common_genres = genre_counts.most_common(5)
+        self.selection_genres.clear()
+        for genre, count in most_common_genres:
+            self.selection_genres.add(genre)
+        self.save()
         
     def search_users(search_text, search_text1):
         """Поиск по имени и фамилии пользователя"""

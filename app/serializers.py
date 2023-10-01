@@ -7,13 +7,13 @@ from project import settings
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'email', 'image', 'bookid', 'bookid_history', 'bookid_favorites',)
-    
+        fields = ('id', 'name', 'surname', 'email', 'image', 'selection_genres', 'bookid', 'bookid_history', 'bookid_favorites',)
+
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = ('__all__')    
-        
+
 class MainGenreSerializer(serializers.ModelSerializer):
     name = GenreSerializer(many=True)
     
@@ -32,9 +32,9 @@ class ReviewsSerializer(serializers.ModelSerializer):
         fields = ('__all__')
         
 class BookSerializer(serializers.ModelSerializer):
-    genres = serializers.StringRelatedField(many=True)
+    genres = GenreSerializer(many=True, required=False)
     languages = serializers.StringRelatedField()
 
     class Meta:
         model = Book
-        fields = ('__all__')
+        fields = '__all__'
