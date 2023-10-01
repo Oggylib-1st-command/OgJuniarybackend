@@ -1,23 +1,25 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.db.models.functions import Lower
-from django.db.models import Case, CharField, Value, When  
+from django.db.models import Case, CharField, Value, When
+from django.contrib.auth import authenticate
+from django.http import JsonResponse
+from django.db.models import Q
+from django.http import Http404
 from rest_framework import serializers, mixins, viewsets, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
+from rest_framework.viewsets import ModelViewSet
 from .models import Genre, Book, User, Language, Reviews, MainGenre
-from .serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, ReviewsSerializer, MainGenreSerializer
+from .serializers import GenreSerializer, BookSerializer, UserSerializer, LanguageSerializer, ReviewsSerializer, MainGenreSerializer, AdminLoginSerializer
 from typing import List
 from six import text_type
 from functools import cmp_to_key
 import functools
 import math
 import datetime
-from rest_framework.viewsets import ModelViewSet
-from django.http import JsonResponse
-from django.db.models import Q
-from django.http import Http404
+
 
 class GenreView(viewsets.ModelViewSet):
     serializer_class = GenreSerializer
@@ -162,3 +164,18 @@ class FilterGenre(viewsets.ModelViewSet):
         genre_id = self.kwargs.get('genre_id')
         queryset = Book.objects.filter(genres__id=genre_id)
         return queryset
+
+class AdminLoginCheck(APIView):
+    """Проверка админа"""
+    serializer_class = AdminLoginSerializer
+     
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = authenticate(request, email=email, password=password)
+        
+        if user is not None and user.is_superuser:
+            return Response({'authenticated': True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'authenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
