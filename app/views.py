@@ -179,3 +179,17 @@ class AdminLoginCheck(APIView):
             return Response({'authenticated': True}, status=status.HTTP_200_OK)
         else:
             return Response({'authenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
+        
+class BookOwner(viewsets.ViewSet):
+    serializer_class = BookSerializer
+
+    def list(self, request, book_pk):
+        book = Book.objects.get(id=book_pk)
+        
+        if book.owner is not None:
+            user = User.objects.get(id=book.owner.id)
+            data = {
+                'name': user.name,
+                'surname': user.surname
+            }
+            return Response(data)
