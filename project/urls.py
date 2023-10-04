@@ -19,6 +19,7 @@ router.register(r'slider/time', views.SliderCreated, 'time-list-slider')
 router.register(r'search/books', views.BookSearchView, 'book-search')
 router.register(r'search/users', views.UserSearchView, 'user-search')
 router.register(r'filter/(?P<genre_id>\d+)', views.FilterGenre, 'filter-genre')
+router.register(r'books/(?P<book_pk>\d+)/owner', views.BookOwner, 'book-owner')
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
