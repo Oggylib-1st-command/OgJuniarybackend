@@ -8,6 +8,7 @@ from django.db.models import Avg
 from collections import Counter
 import random
 import datetime
+from datetime import timedelta
 
 class MainGenre(models.Model):
     """Главные жанры"""
@@ -101,6 +102,7 @@ class Book(models.Model):
     created_at = models.DateTimeField("Время добавления", auto_now_add=True, null=True, blank=True)
     control = models.IntegerField("Состояние брони", default=0, null=True, blank=True)
     time = models.DateTimeField("Время брони", null=True, blank=True)
+    end_at = models.DateTimeField("Время окончания брони", null=True, blank=True)
 
     def save(self, *args, **kwargs):
         current_book = None if self.pk is None else Book.objects.get(pk=self.pk)
@@ -120,12 +122,14 @@ class Book(models.Model):
                 user.bookid_history.add(self)
                 user.update_selection_genres()
                 self.time = timezone.now()
+                self.end_at = self.time + timedelta(minutes=2)
                 self.control = 1
                 
         if self.owner is None and current_book is not None and current_book.owner is not None:
             user_to_remove_owner = User.objects.get(id=current_book.owner.id)
             user_to_remove_owner.bookid.remove(self)
             self.time = None
+            self.end_at = None
             self.control = 0
 
         super(Book, self).save(*args, **kwargs)
